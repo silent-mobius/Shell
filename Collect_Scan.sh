@@ -35,8 +35,25 @@ cleanStat(){
 }
 portKnock(){
 	python << EOF
-	from scapy import *
-	
+import sys
+import logging
+logging.getLogger("scapy.runtime").setLevel(logging.ERROR)
+from scapy.all import *
+ 
+dst_ip = sys.argv[0]
+src_port = RandShort()
+#dst_port=80
+dst_port=[1,20,21,22,23,25,37,42,53,57,67,68,80,81,82,88,111,113,118,119,135,137,138,139,143,161,162,280,311,443,445,465,530,543,544,546,547,631,636,646,660,666,691,750,751,752,753,754,760,808,843,860,989,990,992,993,1010,3306,8080,1194,5000,12975,17500]
+ 
+for i in dst_port:
+     stealth_scan_resp = sr1(IP(dst=dst_ip)/TCP(sport=src_port,dport=dst_port,flags="S"),timeout=10)
+     if(str(type(stealth_scan_resp))=="<type 'NoneType'>"):
+          print "Filtered"
+     elif(stealth_scan_resp.haslayer(TCP)):
+          if(stealth_scan_resp.getlayer(TCP).flags == 0x12):send_rst = sr(IP(dst=dst_ip)/TCP(sport=src_port,dport=dst_port,flags="R"),timeout=10)
+          print "Open"
+     else:
+           pass
 EOF
 	}
 ##Actions ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
