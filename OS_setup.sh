@@ -128,7 +128,7 @@ update_upgrade(){ # designed for 64 bit systems that need  32 bit support.
 }
 
 install_desk_tools(){ #installing desktop/documentation files.
-	$Install_mngr install lightdm mate-desktop-environment-extras firmware-realtek \
+	$INSTALL_MNGR install lightdm mate-desktop-environment-extras firmware-realtek \
 	firmware-linux firmware-linux-free firmware-linux-nonfree vlc \
 	u-boot-tools gparted abiword transmission guake mixxx \
 	culmus xfonts-efont-unicode xfonts-efont-unicode-ib xfonts-intl-european \
@@ -137,25 +137,25 @@ install_desk_tools(){ #installing desktop/documentation files.
 	}
 	
 install_server_tools(){ #installing  servers
-	apt-get install sqlite sqlite3 mysql-client mysql-server postgresql \
+	$INSTALL_MNGR install sqlite sqlite3 mysql-client mysql-server postgresql \
 	 apache2 nginx-full nfs-common samba-common redis-server sysv-rc-conf -y > /dev/null &
 	}
 
 install_net_tools(){ #installing some network tools
-	apt-get install wget curl nmap zenmap aircrack-ng dsniff ndiff nbtscan \
+	$INSTALL_MNGR install wget curl nmap zenmap aircrack-ng dsniff ndiff nbtscan \
 	wireshark tshark tcpdump  netcat macchanger -y > /dev/null &
 	}
 install_python_tools(){ #installing python devel files
-	apt-get install python-scapy python-pip python-networkx python-netaddr python-netifaces python-netfilter \
+	$INSTALL_MNGR install python-scapy python-pip python-networkx python-netaddr python-netifaces python-netfilter \
 	  python-gnuplot python-mako python-radix ipython  python-pycurl python-lxml python-libpcap \
 	  python-nmap python-flask python-scrapy -y  > /dev/null &
 	}
 install_perl_libs(){
-	apt-get install libpoe-component-pcap-perl libnet-pcap-perl perl-modules -y > /dev/null &	
+	$INSTALL_MNGR install libpoe-component-pcap-perl libnet-pcap-perl perl-modules -y > /dev/null &	
 	}
 	
 install_dev_tools (){ #istalling files needed for development
-        apt-get install geany linux-image-`uname -r` linux-headers-`uname -r `  build-essential debhelper \
+        $INSTALL_MNGR install geany linux-image-`uname -r` linux-headers-`uname -r `  build-essential debhelper \
            cmake bison flex libgtk2.0-dev libltdl3-dev libncurses-dev libusb-1.0-0-dev git-core \
            libncurses5-dev libnet1-dev libpcre3-dev libssl-dev libcurl4-openssl-dev ghostscript autoconf \
            python-software-properties debian-goodies freeglut3-dev libxmu-dev libpcap-dev \
