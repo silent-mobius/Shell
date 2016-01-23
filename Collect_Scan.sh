@@ -3,7 +3,7 @@
 #############################################################################
 #Purpose: 
 #       Adjust script running to the scan
-#created by : nr0k3ngl255
+#created by : br0k3ngl255
 ##############################################################################
 #Copyright (c) <2014-2016>, <LinuxSystems LTD>
 #All rights reserved.
