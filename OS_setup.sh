@@ -170,23 +170,7 @@ install_dev_tools (){ #istalling files needed for development
 
 set_services(){ #need to disable unneeded services for systems fast boot
 	echo "removing unNeeded ServIce5"
-	update-rc.d apache2 remove; update-rc.d mysql remove; update-rc.d arpwatch remove;update-rc.d irqbalance remove;
-	update-rc.d cron remove; update-rc.d cryptdisk remove; update-rc.d cryptdisk-early remove;
-	update-rc.d greenbone-security-assistant remove;update-rc.d openvas-manager remove;
-	update-rc.d lvm2 remove; update-rc.d kmod remove; update-rc.d openvas-scanner remove;
-	update-rc.d rsync remove;update-rc.d rc.local remove; update-rc.d speed-dispatcher remove;
-	update-rc.d thin remove;update-rc.d atd remove;update-rc.d kbd remove;
-	update-rc.d nfs-common remove;update-rc.d stunnel4 remove; update-rc.d bluetooth remove; 
-	update-rc.d saned remove;update-rc.d speech-dispatcher remove;
-	update-rc.d rpcbind remove;update-rc.d acpid remove;update-rc.d avahi-daemon remove;
-	update-rc.d cups remove;update-rc.d rsync remove;
-	update-rc.d ntop remove;update-rc.d saned remove;update-rc.d procps remove;update-rc.d saned remove;
-	update-rc.d acpi-fakekey remove;update-rc.d cpufrequtils remove;
-	update-rc.d binfmt-support remove;update-rc.d anacron remove;update-rc.d redis-server remove;
-	update-rc.d minissdpd remove;update-rc.d rcS remove;update-rc.d postgresql remove;
-	update-rc.d rc.local remove;update-rc.d umountroot remove;update-rc.d rsyslog remove;
-	update-rc.d kbd remove;update-rc.d nfs-common remove;
-	update-rc.d bluetooth remove;update-rc.d exim4 remove;update-rc.d cron remove;
+### needs to be fixed  - doesn't works on all os
 	}
 
 git_tool_install(){ #downloading some files
