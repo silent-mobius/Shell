@@ -34,7 +34,8 @@ cleanStat(){
     echo " " > $folder/$logFile
 }
 portKnock(){
-	python << EOF
+	PSS=$1
+	python -e $PSS << EOF
 import sys
 import logging
 logging.getLogger("scapy.runtime").setLevel(logging.ERROR)
@@ -79,5 +80,5 @@ fi
 
 nameCheck
 	osCheck;backupPlan
-	portKnock
+	portKnock $(cat /tmp/scan.txt)
 		
