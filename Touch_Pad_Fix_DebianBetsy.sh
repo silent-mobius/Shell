@@ -27,7 +27,9 @@
 #(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 #SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ######################################################################## 
-
+: '
+DISCLAIMER :  use this at your own risk
+'
 function create (){
 touch /etc/init.d/tabfix
 chmod +x /etc/init.d/tabfix
