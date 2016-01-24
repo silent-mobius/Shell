@@ -27,6 +27,9 @@
 #(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 #SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ########################################################################
+: '
+DISCLAIMER :  use this at your own risk
+'
 #!!!!!!!!!!!!!!!!!!!!!!!!!TODO --> add uspport for RPM systems!
 ####will change format with python later.
 	#Add support for servers : ssh,nfs,samba,ftp,web,sql,ldap,dovecot,postfix -->
