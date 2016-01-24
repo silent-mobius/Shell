@@ -28,6 +28,9 @@
 #SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ######################################################################## 
 # Defining my databse first table
+: '
+DISCLAIMER :  use this at your own risk
+'
 STRUCTURE="CREATE TABLE data (id INTEGER PRIMARY KEY,name TEXT,value TEXT);";
  
 # Creating an Empty db file and filling it with my structure
