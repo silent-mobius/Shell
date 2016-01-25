@@ -31,6 +31,10 @@
 : '
 DISCLAIMER :  use this at your own risk
 '
+: '
+TODO ==> need to verify that details are inserted
+TODO ==>
+'
 STRUCTURE="CREATE TABLE data (id INTEGER PRIMARY KEY,name TEXT,value TEXT);";
  
 # Creating an Empty db file and filling it with my structure
