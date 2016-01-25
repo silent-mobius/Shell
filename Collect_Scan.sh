@@ -32,16 +32,19 @@
 : '
 DISCLAIMER :  use this at your own risk
 '
-##Vars_ - _ - _ - _ - _ -_- _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ -
+##Vars+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 logFile="scan.txt"
 folder="/tmp"
-##funcs+ + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
-help(){
+
+##Funcs/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+
+help(){ #help function to be exacuted if no parameter is used
 	printf "Welcome to Collect Scan"
 	printf "Please use -i for interface , -p for specific ip and -f for folder to store data" 
-	
+	exit 1
 }
-verify_tools(){
+
+verify_tools(){ # tool verification for script to work
 	check_tool=$(ls /usr/bin|grep $t > /dev/null ;echo $?)
 	tools=('nmap' 'xprobe2' 'nbtscan')
 	for t in $tools;do
@@ -53,22 +56,22 @@ verify_tools(){
 				done
 	}
 	
-osCheck(){
+osCheck(){ # guess the OS
 xprobe2  $ip |grep "Running OS"|head -1|awk {'print  "OS[" $6 $7 "\t" $8"]"'} >> $folder/$logFile &
 }
 
-nameCheck(){
+nameCheck(){ # check if any network name exist
 nbtscan -r $ip|tail -1|awk {'print "PC_name[" $2 "]" '} >> $folder/$logFile &
 }
 
-backupPlan(){
+backupPlan(){ # for future use
     nmap -O $ip|grep MAC|awk {'print "Manufactorer ["$4 "\t" $5 "\t" $6"]"'} >> $folder/$logFile &
 }
 
-cleanStat(){
+cleanStat(){ #save gathered data
     echo " " > $folder/$logFile
 }
-portKnock(){
+portKnock(){ #embedded port checking - faster and better then nmap
 	PSS=$1
 	python -e $PSS << EOF
 import sys
@@ -79,7 +82,11 @@ from scapy.all import *
 dst_ip = sys.argv[0]
 src_port = RandShort()
 #dst_port=80
-dst_port=[1,20,21,22,23,25,37,42,53,57,67,68,80,81,82,88,111,113,118,119,135,137,138,139,143,161,162,280,311,443,445,465,530,543,544,546,547,631,636,646,660,666,691,750,751,752,753,754,760,808,843,860,989,990,992,993,1010,3306,8080,1194,5000,12975,17500]
+dst_port=[1,20,21,22,23,25,37,42,53,57,67,68,80,81,82,88\
+,111,113,118,119,135,137,138,139,143,161,162,280,311,443\
+,445,465,530,543,544,546,547,631,636,646,660,666,691,750,\
+751,752,753,754,760,808,843,860,989,990,992,993,1010,3306,\
+8080,1194,5000,12975,17500]
  
 for i in dst_port:
      stealth_scan_resp = sr1(IP(dst=dst_ip)/TCP(sport=src_port,dport=dst_port,flags="S"),timeout=10)
@@ -92,14 +99,16 @@ for i in dst_port:
            pass
 EOF
 	}
-##Actions ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
+###
+#Main - _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _
+###
 while getopts "i:f:p:" OPTIONS;do #use these paramaeters to tun the script
      case ${OPTIONS} in
           i ) interface=$OPTARG;;
           f ) folder=$OPTARG;;
           p ) ip=$OPTARG;;
-          * ) echo "Unknown option";;
+          * ) help ;; # echo "Unknown option";;
      esac
 done
 
