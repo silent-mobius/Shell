@@ -32,6 +32,12 @@
 : '
 DISCLAIMER :  use this at your own risk
 '
+
+: '
+TODO ==>> verifiction function  - array of tools or multiple nested verification?
+TODO ==>> port knocking needs to be re -embedded
+TODO ==>> backupPlan functions needs to be in the same structure
+'
 ##Vars+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 logFile="scan.txt"
 folder="/tmp"
