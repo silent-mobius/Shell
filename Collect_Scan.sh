@@ -36,6 +36,7 @@ DISCLAIMER :  use this at your own risk
 logFile="scan.txt"
 folder="/tmp"
 ##funcs+ + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
+
 verify_tools(){
 	check_tool=$(ls /usr/bin|grep $t > /dev/null ;echo $?)
 	tools=('nmap' 'xprobe2' 'nbtscan')
@@ -47,9 +48,11 @@ verify_tools(){
 		fi
 				done
 	}
+	
 osCheck(){
 xprobe2  $ip |grep "Running OS"|head -1|awk {'print  "OS[" $6 $7 "\t" $8"]"'} >> $folder/$logFile &
 }
+
 nameCheck(){
 nbtscan -r $ip|tail -1|awk {'print "PC_name[" $2 "]" '} >> $folder/$logFile &
 }
@@ -57,6 +60,7 @@ nbtscan -r $ip|tail -1|awk {'print "PC_name[" $2 "]" '} >> $folder/$logFile &
 backupPlan(){
     nmap -O $ip|grep MAC|awk {'print "Manufactorer ["$4 "\t" $5 "\t" $6"]"'} >> $folder/$logFile &
 }
+
 cleanStat(){
     echo " " > $folder/$logFile
 }
