@@ -32,15 +32,20 @@
 : '
 DISCLAIMER :  use this at your own risk
 '
-##Vars _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _  
+: '
+TODO ==>> choose scripts/areas to backup
+TODO ==>> expand the backup script with "rear" script
+'
+##Vars ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 logFolder='/var/log/'
 DATE=`date +%Y-%m-%d`
-##Funcs  + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
+##Funcs  /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 
-usage(){
+help(){
 	echo "Wrong use"
 	echo ": "
-	echo "uploadViaFTP.sh -I MyFTPServer.com -F destination server -U FTPuser -P FTPpassword"
+	echo "Data_FTP_Upload.sh -I MyFTPServer.com -F destination server -U FTPuser -P FTPpassword"
+	exit 1
 	}
 	
 gatherLogs(){ #gather all the needed files in to array send them 
@@ -68,14 +73,14 @@ while getopts "I:F:U:P:h:H" OPTIONS; do
       U ) user=$OPTARG;;
       P ) password=$OPTARG ;;
       h|H) usage;;
-      * ) usage;;   # Default
+      * ) help;;   # Default
    esac
 done
 
 if [[ -z $ip ]] || [[ -z $user ]] || [[ -z $passwd ]];then
-	usage
-	exit
+	help
 fi 
+
 gatherLogs
 
 ftp -in <<EOF
