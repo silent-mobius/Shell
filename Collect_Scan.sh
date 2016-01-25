@@ -36,7 +36,11 @@ DISCLAIMER :  use this at your own risk
 logFile="scan.txt"
 folder="/tmp"
 ##funcs+ + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
-
+help(){
+	printf "Welcome to Collect Scan"
+	printf "Please use -i for interface , -p for specific ip and -f for folder to store data" 
+	
+}
 verify_tools(){
 	check_tool=$(ls /usr/bin|grep $t > /dev/null ;echo $?)
 	tools=('nmap' 'xprobe2' 'nbtscan')
