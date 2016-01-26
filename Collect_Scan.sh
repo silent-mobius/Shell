@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -x 
+#set -x 
 #############################################################################
 #Purpose: 
 #       Adjust script running to the scan
@@ -131,16 +131,20 @@ while getopts "i:f:p:" OPTIONS;do #use these paramaeters to tun the script
      esac
 done
 
-get_os_details
-verify_tools
+if  [ $"EUID" != "0" ];then
+	echo "get root"
+	exit
+else
+	get_os_details
+	verify_tools
 
-if [ ! -e /tmp/scan.txt ];then
-touch /tmp/scan.txt
-else 
-	cleanStat
-fi
-
+		if [ ! -e /tmp/scan.txt ];then
+			touch /tmp/scan.txt
+		else 
+			cleanStat
+		fi
 
 	nameCheck
 	osCheck; #backupPlan
 	portKnock $(cat /tmp/scan.txt)
+fi
