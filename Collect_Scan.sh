@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#set -x 
+set -x 
 #############################################################################
 #Purpose: 
 #       Adjust script running to the scan
@@ -32,54 +32,45 @@
 : '
 DISCLAIMER :  use this at your own risk
 '
-
-: '
-TODO ==>> verifiction function  - array of tools or multiple nested verification?
-TODO ==>> port knocking needs to be re -embedded
-TODO ==>> backupPlan functions needs to be in the same structure
-'
-##Vars+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+##Vars_ - _ - _ - _ - _ -_- _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ -
 logFile="scan.txt"
 folder="/tmp"
+##funcs+ + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
 
-##Funcs/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+help(){ #how to use this is script
+	echo "wrong use"		
+	
+	}
 
-help(){ #help function to be exacuted if no parameter is used
-	printf "Welcome to Collect Scan"
-	printf "Please use -i for interface , -p for specific ip and -f for folder to store data" 
-	exit 1
-}
+verify_tools(){ # verify all the tools needed for this script to work
 
-verify_tools(){ # tool verification for script to work
-	check_tool=$(ls /usr/bin|grep $t > /dev/null ;echo $?)
-	tools=('nmap' 'xprobe2' 'nbtscan')
-	for t in $tools;do
-		if [ check_tool == "0" ];then
-			True
-		else
-			echo "Please install $t"
-		fi
-				done
 	}
 	
-osCheck(){ # guess the OS
+osCheck(){ #checking on OS type
+	
 xprobe2  $ip |grep "Running OS"|head -1|awk {'print  "OS[" $6 $7 "\t" $8"]"'} >> $folder/$logFile &
+
 }
 
-nameCheck(){ # check if any network name exist
+nameCheck(){ #checking if the target/client has a name
+	
 nbtscan -r $ip|tail -1|awk {'print "PC_name[" $2 "]" '} >> $folder/$logFile &
+
 }
 
-backupPlan(){ # for future use
+backupPlan(){ #just in case one of the function won't work
+	
     nmap -O $ip|grep MAC|awk {'print "Manufactorer ["$4 "\t" $5 "\t" $6"]"'} >> $folder/$logFile &
+
 }
 
-cleanStat(){ #save gathered data
+cleanStat(){ # used to clean  temp file use for reading data about users
     echo " " > $folder/$logFile
 }
-portKnock(){ #embedded port checking - faster and better then nmap
+
+portKnock(){ #embedded script - does not works well - need to re-embedd it somehow
 	PSS=$1
-	python -e $PSS << EOF
+	python  $PSS << EOF
 import sys
 import logging
 logging.getLogger("scapy.runtime").setLevel(logging.ERROR)
@@ -88,11 +79,7 @@ from scapy.all import *
 dst_ip = sys.argv[0]
 src_port = RandShort()
 #dst_port=80
-dst_port=[1,20,21,22,23,25,37,42,53,57,67,68,80,81,82,88\
-,111,113,118,119,135,137,138,139,143,161,162,280,311,443\
-,445,465,530,543,544,546,547,631,636,646,660,666,691,750,\
-751,752,753,754,760,808,843,860,989,990,992,993,1010,3306,\
-8080,1194,5000,12975,17500]
+dst_port=[1,20,21,22,23,25,37,42,53,57,67,68,80,81,82,88,111,113,118,119,135,137,138,139,143,161,162,280,311,443,445,465,530,543,544,546,547,631,636,646,660,666,691,750,751,752,753,754,760,808,843,860,989,990,992,993,1010,3306,8080,1194,5000,12975,17500]
  
 for i in dst_port:
      stealth_scan_resp = sr1(IP(dst=dst_ip)/TCP(sport=src_port,dport=dst_port,flags="S"),timeout=10)
@@ -105,16 +92,14 @@ for i in dst_port:
            pass
 EOF
 	}
+##Actions ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-###
-#Main - _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _
-###
 while getopts "i:f:p:" OPTIONS;do #use these paramaeters to tun the script
      case ${OPTIONS} in
           i ) interface=$OPTARG;;
           f ) folder=$OPTARG;;
           p ) ip=$OPTARG;;
-          * ) help ;; # echo "Unknown option";;
+          * ) echo "Unknown option";;
      esac
 done
 
@@ -131,4 +116,3 @@ fi
 nameCheck
 	osCheck;backupPlan
 	portKnock $(cat /tmp/scan.txt)
-		
