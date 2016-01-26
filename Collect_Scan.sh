@@ -35,15 +35,43 @@ DISCLAIMER :  use this at your own risk
 ##Vars_ - _ - _ - _ - _ -_- _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ -
 logFile="scan.txt"
 folder="/tmp"
+os_type=$(lsb_release -si)
+install_mngr=""
 ##funcs+ + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
 
 help(){ #how to use this is script
 	echo "wrong use"		
+	echo "use -i for interface"
+	echo "use -p for IP"
+	echo "use -f for save folder (/tmp is default)"
+	echo "all options must be satisfied"
+	}
+
+get_os_details(){
+	if [ $os_type == 'Debian' ] || [ $os_type == 'Ubuntu'] || [ $os_type == 'Mint' ];then
+		install_mngr='apt-get'
+	elif [ $os_type == 'Redhat' ] ||[ $os_type == 'Centos' ] || [ $os_type == 'Fedora' ];then
+		install_mngr='yum'
+	else
+		echo "not supported"
+			exit 1
+	fi
 	
 	}
 
 verify_tools(){ # verify all the tools needed for this script to work
-
+		if [ ! $(which nbtscan) ];then
+			$install_mngr install nbtscan -y
+		fi
+		if [ ! $(which xprobe2) ];then
+			$install_mngr install xprobe2 -y
+		fi
+		if [ ! $(which nmap) ];then
+			$install_mngr install nmap -y
+		fi
+		if [ ! $(which scapy) ];then
+			$install_mngr install scapy -y
+		fi
 	}
 	
 osCheck(){ #checking on OS type
@@ -103,7 +131,7 @@ while getopts "i:f:p:" OPTIONS;do #use these paramaeters to tun the script
      esac
 done
 
-
+get_os_details
 verify_tools
 
 if [ ! -e /tmp/scan.txt ];then
@@ -113,6 +141,6 @@ else
 fi
 
 
-nameCheck
-	osCheck;backupPlan
+	nameCheck
+	osCheck; #backupPlan
 	portKnock $(cat /tmp/scan.txt)
