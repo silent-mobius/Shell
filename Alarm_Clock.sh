@@ -55,7 +55,7 @@ playerChoise(){ #  .
 
 checkVLC(){ #checking player to play the alert/alarm.
 status=0
-	if [ ! $(whcih vlc) ];then
+	if [ ! $(which vlc) ];then
 		status=1
 	else
 		zenity --notify --text="you do not have VLC player installed. Please choose other player."
@@ -103,7 +103,7 @@ fi
 	fi
 			getRing  2> /dev/null  
 
-#************* this loop isn't perfect and within time it will be changed, until then -- keep tight over there*******************
+#************* this loop isn't perfect and within time it will be changed, until then -- keep tight over there*********
 
 while [ $currentTime != $alarmTime ];
 	do
