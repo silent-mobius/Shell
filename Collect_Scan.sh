@@ -146,5 +146,5 @@ else
 
 	nameCheck
 	osCheck; #backupPlan
-	portKnock $(cat /tmp/scan.txt)
+	portKnock $(cat /tmp/scan.txt) >> /tmp/scan.txt &> /dev/null &
 fi
