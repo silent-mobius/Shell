@@ -32,6 +32,11 @@
 : '
 DISCLAIMER :  use this at your own risk
 '
+: '
+TODO ==>> use ZENITY to print out thedetails from  the file in /tmp/scan.txt
+TODO =>> automate the print out directly from the script
+'
+
 ##Vars_ - _ - _ - _ - _ -_- _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ -
 logFile="scan.txt"
 folder="/tmp"
