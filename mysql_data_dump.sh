@@ -10,7 +10,6 @@ set -x
  create a function to compare the last backup date and current date ( if not the same then back it up)
 '
 
-
 #Vars :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 BACK_UP_FOLDER="/opt/backup/mysql"
 BACKUP_LOG="sql.log"
@@ -36,7 +35,7 @@ dump_sql(){ #dumping sql database for backup
 }
 dump_backup() { # backup file system
     rsync -avh --progress --delete /etc/postfix /srv/www \ 
-    /home/naorhe/mysql naorhe@192.168.42.156:/Stls_MySql_Backup
+    /home/naorhe/mysql naorhe@192.168.42.156:/Stls_MySql_Backup &> &BACKUP
 }
 old_sys_remove() { # remove old MySQL database backups
     find $MYSQL_BACKUP_DIR -maxdepth 1 -type f -name *.sql.bz2 -mtime +30 -exec rm -Rf {} \; &> $BACKUP
