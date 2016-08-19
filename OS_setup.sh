@@ -120,11 +120,11 @@ update_upgrade(){ # designed for 64 bit systems that need  32 bit support.
         echo " Upgrading"
                 ps_status apt-get
         $INSTALL_MNGR update  > /dev/null 2> /dev/null &
-                 ps_status apt-get
+                 ps_status $INSTALL_MNGR 
         $INSTALL_MNGR upgrade -y  > /dev/null 2> /dev/null &
-                 ps_status apt-get
+                 ps_status $INSTALL_MNGR 
         $INSTALL_MNGR dist-upgrade -y > /dev/null 2> /dev/null &
-                 ps_status apt-get
+                 ps_status $INSTALL_MNGR 
 #       process_wait apt-get
 		if [ "`uname -m`" == "x86_64" ];then 
           echo " adding support 4 32Bit"
@@ -132,7 +132,7 @@ update_upgrade(){ # designed for 64 bit systems that need  32 bit support.
                  $INSTALL_MNGR update > /dev/null 2> /dev/null &
           #  ps_status apt-get  --> at the moment no us for multi lib on debian 8 
             #     $INSTALL intall ia32-libs  > /dev/null 2> /dev/null & 
-            ps_status apt-get
+            ps_status  $INSTALL_MNGR
          fi
             sleep 2
 }
