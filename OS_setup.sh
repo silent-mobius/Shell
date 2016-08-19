@@ -29,12 +29,13 @@
 ########################################################################
 : '
 DISCLAIMER :  use this at your own risk
-'
+
 #!!!!!!!!!!!!!!!!!!!!!!!!!TODO --> add uspport for RPM systems!
 ####will change format with python later.
 	#Add support for servers : ssh,nfs,samba,ftp,web,sql,ldap,dovecot,postfix -->
 			#add others if needed --> might need automation and embedded to create config files
 		#Add option for display management change --> lightdm with mate or any other.
+'
 		   
 ##vars : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : :
 REPO=""
@@ -46,6 +47,10 @@ ARCH=`uname -m`
 VERSION=`lsb_release -sr`
 INSTALL_MNGR=''
 #########Funcs +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+help(){
+	printf "\n"
+	}
 
 insert_repo(){ # case statement to choose between DEbian and KAli
 		###TODO - add ubuntu --> done 
@@ -69,7 +74,7 @@ deb ftp://ftp.$REPONAME.org/$REPONAME stable main contrib non-free
 deb http://http.$REPONAME.net/$REPONAME $KODENAME-backports main
 deb http://ftp.$REPONAME.org/$REPONAME/ $KODENAME-backports main non-free contrib
 " > /etc/apt/sources.list
-echo 'deb http://download.opensuse.org/repositories/isv:/ownCloud:/desktop/Debian_7.0/ /' >> /etc/apt/sources.list.d/owncloud-client.list
+echo 'deb http://download.opensuse.org/repositories/isv:/ownCloud:/desktop/Debian_7.0/ /' >> /etc/apt/sources.list
 echo "deb http://download.virtualbox.org/virtualbox/debian jessie contrib" >> /etc/apt/sources.list
 ;;
 		*) echo "Error getting Repo";exit 1 ;;
@@ -103,8 +108,7 @@ ps_sts=`ps aux |grep -v grep|grep $PSS > /dev/null ;echo $?`
                         elif [ $ps_sts != 0 ];then
                                 break
                         else
-                                echo "problem"
-                                exit 1
+                                echo "problem"; exit 1
                         fi
                 done
         }
@@ -181,17 +185,15 @@ git_tool_install(){ #downloading some files
 	if [ $git_tool_chk == 0  ];then 
 		if [ ! -e /opt/sunxi ];then
 			cd /opt
-			mkdir sunxi -m 775
-			cd sunxi
+			mkdir sunxi -m 775; cd sunxi
 			git clone https://github.com/linux-sunxi/sunxi-livesuite.git &> /tmp/log.txt &
 			git clone https://github.com/linux-sunxi/sunxi-tools &> /tmp/log.txt &
 			cd ../
-			if [ ! -e /opt/arm-tools/ ];then
-				mkdir /opt/arm-tools -m 775
-			cd /opt/arm-tools/
-				git clone https://github.com/offensive-security/gcc-arm-linux-gnueabihf-4.7.git &> /tmp/log.txt &
-				git clone https://github.com/offensive-security/kali-arm-build-scripts.git &> /tmp/log.txt &
-			fi
+		fi
+		if [ ! -e /opt/arm-tools/ ];then
+			mkdir /opt/arm-tools -m 775; cd /opt/arm-tools/
+			git clone https://github.com/offensive-security/gcc-arm-linux-gnueabihf-4.7.git &> /tmp/log.txt &
+			git clone https://github.com/offensive-security/kali-arm-build-scripts.git &> /tmp/log.txt &
 		fi
 	fi
 		
@@ -318,7 +320,7 @@ test_env(){ # checking what debian flavored distro this is  - if not known then 
 #
 #Main() -_ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ -
 #
-while getopts ":I:U:P" OPTIONS;do
+while getopts ":I:U:P:" OPTIONS;do
 		case  ${OPTIONS} in	
 				I) INSTALL_MNGR=$OPTARG;;
 				U) USER=$OPTATG;;
