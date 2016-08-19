@@ -49,7 +49,10 @@ INSTALL_MNGR=''
 #########Funcs +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 help(){
-	printf "\n"
+	printf " \n
+		usage : OS_setup.sh -I apt-get -U username -P password
+	\n
+	"
 	}
 
 insert_repo(){ # case statement to choose between DEbian and KAli
@@ -72,7 +75,7 @@ deb-src http://security.$REPONAME.org/ $KODENAME/updates main
 deb ftp://ftp.$REPONAME.org/$REPONAME stable main contrib non-free
 ###BackPort
 deb http://http.$REPONAME.net/$REPONAME $KODENAME-backports main
-deb http://ftp.$REPONAME.org/$REPONAME/ $KODENAME-backports main non-free contrib
+deb http://ftp.$REPONAME.org/$REPONAME/ $KODENAME-backports non-free contrib
 " > /etc/apt/sources.list
 echo 'deb http://download.opensuse.org/repositories/isv:/ownCloud:/desktop/Debian_7.0/ /' >> /etc/apt/sources.list
 echo "deb http://download.virtualbox.org/virtualbox/debian jessie contrib" >> /etc/apt/sources.list
@@ -328,6 +331,7 @@ while getopts ":I:U:P:" OPTIONS;do
 				*) echo "Unknown Option";exit;;
 		esac
 if [ $UID != 0 ];then
+	help
 	echo "Get r00T"
 	exit
 else
