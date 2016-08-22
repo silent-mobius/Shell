@@ -208,7 +208,7 @@ set_working_env(){ #user env setup
 #       echo $PASSWD|passwd $USER --stdin
         sed s/PS1/#PS1/ /etc/bash.bashrc
         ##creating aliases
-        echo "if [ $UID == "0" ];then
+        echo "if [ $UID == '0' ];then
                     PS1='\[\e[0;31m\]\u\[\e[m\] \[\e[1;34m\]\w\[\e[m\] \[\e[0;31m\]\$ \[\e[m\]\[\e[0;32m\]'
                else
                     PS1='\[\e[0;32m\]\u\[\e[m\] \[\e[1;34m\]\w\[\e[m\] \[\e[1;32m\]\$\[\e[m\] \[\e[1;37m\]'
@@ -218,8 +218,8 @@ set_working_env(){ #user env setup
         alias log='cd /var/log'; alias drop_caches='echo 3 > /proc/sys/vm/drop_caches';
         alias ip_forward='echo 1 > /proc/sys/net/ipv4/ip_forward';
         alias self_destruct='dd if=/dev/zero of=/dev/sda'
-        export PATH=$PATH:/opt/VirtualGL/bin:/usr/local/cuda-6.5/bin;
-        export CROSS_COMPILE=/opt/arm-tools/kernel/toolchains/gcc-arm-eabi-linaro-4.6.2/bin/arm-eabi-" >> /etc/bash.bashrc;
+        #export PATH=$PATH:/opt/VirtualGL/bin:/usr/local/cuda-6.5/bin;
+        #export CROSS_COMPILE=/opt/arm-tools/kernel/toolchains/gcc-arm-eabi-linaro-4.6.2/bin/arm-eabi-" >> /etc/bash.bashrc;
         source /etc/bash.bashrc
         #removing kali pics
 				if [ `uname -a|grep kali > /dev/null;echo $?` == "0" ];then
