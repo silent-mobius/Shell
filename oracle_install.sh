@@ -1,16 +1,18 @@
 #!/usr/bin/env bash
 ############################################################33
 #created by : br0k3ngl255
-#date : 
+#date :
 #Purpose : create env for oracle install
 ############################################################33
 
 ###Vars  ++++++++++++++++++++++++++++++++++++++++++++++++++++
-
+PASSWD="1"
 ###Funcs ::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 f_pack_install(){
-apt-get install  build-essential rpm libaio1 libaio-dev libmotif4 libtool expat alien ksh pdksh unixodbc unixodbc-dev sysstat elfutils libelf-dev lesstif libstd++5 binutils -y
+apt-get install  build-essential rpm libaio1 libaio-dev libmotif4 libtool expat \n
+ alien ksh pdksh unixodbc unixodbc-dev sysstat elfutils libelf-dev lesstif \n
+ 	libstd++5 binutils -y
 
 }
 
@@ -24,13 +26,14 @@ fi
 		do
 			ln -s  /usr/bin/$i /bin/$i
 		done
-	for j in libc_nonshared.a kibpthread_nonshared.a libstdc++.so.6 
+	for j in libc_nonshared.a kibpthread_nonshared.a libstdc++.so.6;
 		do
 			ln -s /usr/lib/x86_64-linux-gnu/$j /usr/lib64/$j
 		done
 ln -s /etc /etc/rc.d
 ln -s /lib/x86_64-linux-gnu/libgcc_s.so.1 /lib64/
 ln -s /usr/lib/x86_64-linux-gnu/libstdc++.so.6 /usr/lib64/
+
 }
 
 f_ora_user_setup(){
@@ -39,10 +42,34 @@ f_ora_user_setup(){
  else
 	addgroup oinstall; addgroup dba; addgroup nobody
 	usermod -g nobody nobody
-	useradd -g oinstall -G dba -p password -d /home/oracle -s /bin/bash oracle
-  if [  -d /home/oracle ];then
+	useradd -g oinstall -G dba -p `mkpasswd "$PASSWD"` -d /home/oracle -s /bin/bash oracle
+  if [  ! -d /home/oracle ];then
 		mkdir /home/oracle
 		chown -R oracle:dba /home/oracle
+			if [ -e /home/oracle/.bashrc ];then
+				echo "
+						export ORACLE_HOSTNAME=localhost
+						export ORACLE_OWNER=oracle
+						export ORACLE_BASE=/u01/app/oracle
+						export ORACLE_HOME=/u01/app/oracle/product/*/dbhome_1
+						export ORACLE_UNQNAME=orcl
+						export ORACLE_SID=orcl
+						export PATH=$PATH:$ORACLE_HOME/bin
+						export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/x86_64-linux-gnu:/bin/lib:/lib/x86_64-linux-gnu/:/usr/lib64
+				" > /home/oracle/.bashrc
+			else
+					touch /home/oracle/.bashrc
+					echo "
+							export ORACLE_HOSTNAME=localhost
+							export ORACLE_OWNER=oracle
+							export ORACLE_BASE=/u01/app/oracle
+							export ORACLE_HOME=/u01/app/oracle/product/*/dbhome_1
+							export ORACLE_UNQNAME=orcl
+							export ORACLE_SID=orcl
+							export PATH=$PATH:$ORACLE_HOME/bin
+							export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/x86_64-linux-gnu:/bin/lib:/lib/x86_64-linux-gnu/:/usr/lib64
+					" > /home/oracle/.bashrc
+			fi
   fi
 
 	if [ -d /u01 ];then
@@ -57,6 +84,7 @@ f_ora_user_setup(){
 		mkdir -p /u01/app/oracle
 		chown -R oracle:dba /u01
 	fi
+fi
 }
 
 f_ora_kernel_setup(){
@@ -90,13 +118,13 @@ oracle hard nofile 65536
 }
 
 ###
-#MAIN - _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- 
+#MAIN - _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _-
 ###
 
 if [ "$EUID" != "0" ];then
 	echo "Some of the functions of the script won't work plese get Root access"
 	sleep 5
-	
+
 	read -p "Would you still like to continue ?[Y/n]" ans
 		case $ans in
 		y|Y) f_pack_install;f_links;f_ora_kernel_setup;f_ora_user_setup ;;
@@ -112,7 +140,7 @@ if [ "$EUID" != "0" ];then
 "
 else
 
-	 f_pack_install;f_links;f_ora_kernel_setup;f_ora_user_setup 
+	 f_pack_install;f_links;f_ora_kernel_setup;f_ora_user_setup
 	echo -e "please download Oracle install files from : \n
 			http://www.oracle.com/technetwork/database/enterprise-edition/downloads/index.html \n
 			unzip it and run the install it by running :\n
@@ -122,4 +150,3 @@ else
 				./runinstaller -ignoreSysPrereqs  \n
 "
 fi
-
