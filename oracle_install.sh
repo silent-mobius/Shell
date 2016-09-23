@@ -43,34 +43,34 @@ f_ora_user_setup(){
 	addgroup oinstall; addgroup dba; addgroup nobody
 	usermod -g nobody nobody
 	useradd -g oinstall -G dba -p `mkpasswd "$PASSWD"` -d /home/oracle -s /bin/bash oracle
-  if [  ! -d /home/oracle ];then
-		mkdir /home/oracle
-		chown -R oracle:dba /home/oracle
-			if [ -e /home/oracle/.bashrc ];then
-				echo "
-						export ORACLE_HOSTNAME=localhost
-						export ORACLE_OWNER=oracle
-						export ORACLE_BASE=/u01/app/oracle
-						export ORACLE_HOME=/u01/app/oracle/product/*/dbhome_1
-						export ORACLE_UNQNAME=orcl
-						export ORACLE_SID=orcl
-						export PATH=$PATH:$ORACLE_HOME/bin
-						export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/x86_64-linux-gnu:/bin/lib:/lib/x86_64-linux-gnu/:/usr/lib64
-				" > /home/oracle/.bashrc; source /home/oracle/.bashrc
-			else
-					touch /home/oracle/.bashrc
-					echo "
-							export ORACLE_HOSTNAME=localhost
-							export ORACLE_OWNER=oracle
-							export ORACLE_BASE=/u01/app/oracle
-							export ORACLE_HOME=/u01/app/oracle/product/*/dbhome_1
-							export ORACLE_UNQNAME=orcl
-							export ORACLE_SID=orcl
-							export PATH=$PATH:$ORACLE_HOME/bin
-							export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/x86_64-linux-gnu:/bin/lib:/lib/x86_64-linux-gnu/:/usr/lib64
-					" > /home/oracle/.bashrc; source /home/oracle/.bashrc
-			fi
-  fi
+		  if [  ! -d /home/oracle ];then
+				mkdir /home/oracle
+				chown -R oracle:dba /home/oracle
+							if [ -e /home/oracle/.bashrc ];then
+								echo "
+										export ORACLE_HOSTNAME=localhost
+										export ORACLE_OWNER=oracle
+										export ORACLE_BASE=/u01/app/oracle
+										export ORACLE_HOME=/u01/app/oracle/product/*/dbhome_1
+										export ORACLE_UNQNAME=orcl
+										export ORACLE_SID=orcl
+										export PATH=$PATH:$ORACLE_HOME/bin
+										export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/x86_64-linux-gnu:/bin/lib:/lib/x86_64-linux-gnu/:/usr/lib64
+								" > /home/oracle/.bashrc; source /home/oracle/.bashrc
+							else
+									touch /home/oracle/.bashrc
+									echo "
+											export ORACLE_HOSTNAME=localhost
+											export ORACLE_OWNER=oracle
+											export ORACLE_BASE=/u01/app/oracle
+											export ORACLE_HOME=/u01/app/oracle/product/*/dbhome_1
+											export ORACLE_UNQNAME=orcl
+											export ORACLE_SID=orcl
+											export PATH=$PATH:$ORACLE_HOME/bin
+											export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/x86_64-linux-gnu:/bin/lib:/lib/x86_64-linux-gnu/:/usr/lib64
+									" > /home/oracle/.bashrc; source
+							fi
+		  fi
 
 	if [ -d /u01 ];then
 		if [ -d /u01/app ];then
