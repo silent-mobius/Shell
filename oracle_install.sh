@@ -56,7 +56,7 @@ f_ora_user_setup(){
 						export ORACLE_SID=orcl
 						export PATH=$PATH:$ORACLE_HOME/bin
 						export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/x86_64-linux-gnu:/bin/lib:/lib/x86_64-linux-gnu/:/usr/lib64
-				" > /home/oracle/.bashrc
+				" > /home/oracle/.bashrc; source /home/oracle/.bashrc
 			else
 					touch /home/oracle/.bashrc
 					echo "
@@ -68,7 +68,7 @@ f_ora_user_setup(){
 							export ORACLE_SID=orcl
 							export PATH=$PATH:$ORACLE_HOME/bin
 							export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/x86_64-linux-gnu:/bin/lib:/lib/x86_64-linux-gnu/:/usr/lib64
-					" > /home/oracle/.bashrc
+					" > /home/oracle/.bashrc; source /home/oracle/.bashrc
 			fi
   fi
 
@@ -103,7 +103,7 @@ net.core.wmem_default=262144
 net.core.wmem_max=1048586
 kernel.shmmax=1073741824
 
-" >> /etc/sysctl.conf
+" >> /etc/sysctl.d/oracle.conf; sysctl -p /etc/sysctl.d/oracle.conf
 
 echo "
 
