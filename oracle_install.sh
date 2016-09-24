@@ -40,12 +40,13 @@ f_ora_user_setup(){
  if [ $EUID != "0" ];then
 	echo "need root access"; exit
  else
-	addgroup oinstall; addgroup dba; addgroup nobody
-	usermod -g nobody nobody
-	useradd -g oinstall -G dba -p `mkpasswd "$PASSWD"` -d /home/oracle -s /bin/bash oracle
-		  if [  ! -d /home/oracle ];then
-				mkdir /home/oracle
-				chown -R oracle:dba /home/oracle
+   groupadd oinstall; groupadd dba; groupadd nobody # fixed addgroup to groupadd
+   usermod -g nobody nobody  #need to test the group creattion
+   useradd -g oinstall -G dba -p password -d /home/oracle -s /bin/bash oracle # also test if user and its groups are created and then run the creation
+   if [  -d /home/oracle ];then
+     mkdir /home/oracle
+     chown -R oracle:dba /home/oracle
+   fi
 							if [ -e /home/oracle/.bashrc ];then
 								echo "
 										export ORACLE_HOSTNAME=localhost
