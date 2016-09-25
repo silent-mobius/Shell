@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+#set -x
 
 ########################################################################
 #
@@ -10,9 +10,6 @@
 
 
 ###Vars ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-
-
-
 
 declare -a packages=( 'lightdm','mate-desktop-environment-extras', 'firmware-realtek', 'firmware-linux', 'firmware-linux-free',
 'firmware-linux-nonfree', 'vlc', 'gparted', 'abiword', 'transmission', 'guake', 'mixxx', 'culmus', 'xfonts-efont-unicode',
@@ -34,31 +31,90 @@ declare -a packages=( 'lightdm','mate-desktop-environment-extras', 'firmware-rea
 ###Funcs /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 help(){
 	echo -e '\n usage : OS_setup.sh -I apt-get -U username -P password \n'
-	
+
 	}
 netCheck(){
 	net_stat=`ping -c 1 vk.com > /dev/null 2> /dev/null ;echo $?`
-	if [ $net_stat == "1" ] || [ $net_stat == "2" ];then
-		echo "NO NETWORK - "
-		exit
-	fi
+			if [ $net_stat == "1" ] || [ $net_stat == "2" ];then
+				echo "NO NETWORK - "
+				exit
+			elif [ $net_stat == "0" ];then
+					echo "Network is UP";sleep 2;echo "starting app install";
+					pacInstall
+					echo "finished installing packages"
+			fi
 	}
 
 pacInstall(){
 	for i in "${packages[@]}";do
-		pacCheck=`dpkg -l $i > /dev/null;echo $?`	
-		if [ "$pacCheck" == "0" ];then
-			True
-		else
-			apt-get install $i
-		fi
+		pacCheck=`dpkg -l $i > /dev/null;echo $?`
+			if [ "$pacCheck" == "0" ];then
+				True
+			else
+				apt-get install $i
+			fi
 	done
 	}
 
+
+	set_working_env(){ #user env setup
+
+	        useradd -m -p `mkpasswd "$PASSWD"` -s /bin/bash -G adm,sudo,www-data,root $USER
+	#       echo $PASSWD|passwd $USER --stdin
+	        sed s/PS1/#PS1/ /etc/bash.bashrc
+	        ##creating aliases
+	        echo "if [ $UID == '0' ];then
+	                    PS1='\[\e[0;31m\]\u\[\e[m\] \[\e[1;34m\]\w\[\e[m\] \[\e[0;31m\]\$ \[\e[m\]\[\e[0;32m\]'
+	               else
+	                    PS1='\[\e[0;32m\]\u\[\e[m\] \[\e[1;34m\]\w\[\e[m\] \[\e[1;32m\]\$\[\e[m\] \[\e[1;37m\]'
+	                fi" >> /etc/bash.bashrc
+	        echo "alias l=ls; alias ll='ls -l'; alias la='ls -la';alias lh='ls -lh'
+	        alias more=less; alias vi=vim; alias cl=clear; alias mv='mv -v'; alias cp='cp -v';
+	        alias log='cd /var/log'; alias drop_caches='echo 3 > /proc/sys/vm/drop_caches';
+	        alias ip_forward='echo 1 > /proc/sys/net/ipv4/ip_forward';
+	        alias self_destruct='dd if=/dev/zero of=/dev/sda'
+	        #export PATH=$PATH:/opt/VirtualGL/bin:/usr/local/cuda-6.5/bin;
+	        #export CROSS_COMPILE=/opt/arm-tools/kernel/toolchains/gcc-arm-eabi-linaro-4.6.2/bin/arm-eabi-" >> /etc/bash.bashrc;
+	        source /etc/bash.bashrc
+	      :'  #removing kali pics
+					if [ `uname -a|grep kali > /dev/null;echo $?` == "0" ];then
+						updatedb;locate kali |grep png > pics.txt
+							while read line;do rm -rf $line;done  < pics.txt
+					fi
+	        #arainging numbers for editor
+	        echo "set number" >> /etc/vim/vimrc
+					rm -rf /usr/share/kali-defaults/bookmarks.html
+					rm -rf /usr/share/kali-defaults/web
+					rm -rf /usr/share/kali-defaults/localstore.rdf
+	        sed -i -e 's/TIMEOUT=5/TIMEOUT=0/' /etc/default/grub
+	        sed -i -e 's/GRUB_CMDLINE_LINUX_DEFAULT="quiet"/GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"/' /etc/default/grub;update-grub;update-initramfs -u
+	        if [ -e /etc/gdm3/greeter.gsettings ];then
+							sed -i -e 's/kali-dragon.png/ /g'   /etc/gdm3/greeter.gsettings
+							sed -i -e 's/kali-dragon.png/ /g'   /etc/gdm3/greeter.gsettings.dpkg-new
+				  else
+							true
+	        fi
+	        if [ -e /usr/share/gdm/dconf/10-desktop-base-settings ];then
+							sed -i -e 's/kali-dragon.png/ /g'   /usr/share/gdm/dconf/10-desktop-base-settings
+							sed -i -e 's/login-background.png/ /g' /usr/share/gdm/dconf/10-desktop-base-settings
+				  else
+							true
+					fi'
+
+	        }
 ####
 #Main - _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _
 ####
-
-if [ "$EUID" == "0" ];then
+while getopts ":i:u:p" options;do
+		i)	;;
+		u)	;;
+		p)	;;
+if [ "$EUID" != "0" ];then
+		echo "Please get Root priviledges"
+		help;sleep 2;exit
+else
 
 fi
+
+
+done
