@@ -105,10 +105,15 @@ pacInstall(){
 ####
 #Main - _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _
 ####
-while getopts ":i:u:p" options;do
-		i)	;;
-		u)	;;
-		p)	;;
+while getopts ":i:u:p:" options;do
+	case $options in
+
+		i)	$OPTARG;;
+		u)	$OPTARG;;
+		p)	$OPTARG;;
+		*) echo "error";;
+
+	esac
 if [ "$EUID" != "0" ];then
 		echo "Please get Root priviledges"
 		help;sleep 2;exit
