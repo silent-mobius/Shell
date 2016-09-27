@@ -85,7 +85,7 @@ f_ora_user_setup(){
       		mkdir -p /u01/app/oracle
       		chown -R oracle:dba /u01
       	fi
-fi
+#fi
 }
 
 f_ora_kernel_setup(){
