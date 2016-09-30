@@ -6,14 +6,14 @@
 ############################################################33
 
 ###Vars  ++++++++++++++++++++++++++++++++++++++++++++++++++++
+USER=""
 PASSWD="1"
 ###Funcs ::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 f_pack_install(){
 apt-get install  build-essential rpm libaio1 libaio-dev libmotif4 libtool expat \n
  alien ksh pdksh unixodbc unixodbc-dev sysstat elfutils libelf-dev lesstif \n
- 	libstd++5 binutils -y
-
+ 	libstd++5 binutils python-devel -y
 }
 
 f_links(){
@@ -37,12 +37,27 @@ ln -s /usr/lib/x86_64-linux-gnu/libstdc++.so.6 /usr/lib64/
 }
 
 f_ora_user_setup(){
- if [ $EUID != "0" ];then
+ if [ "$EUID" != "0" ];then
 	echo "need root access"; exit
  else
-   groupadd oinstall; groupadd dba; groupadd nobody # fixed addgroup to groupadd
-   usermod -g nobody nobody  #need to test the group creattion
-   useradd -g oinstall -G dba -p password -d /home/oracle -s /bin/bash oracle # also test if user and its groups are created and then run the creation
+   declare -a Groups=("dba", "nobody", "oinstall")
+   for i in ${Groups[@]};
+   do
+      group_exist=`cat /etc/group|grep fibo &> /dev/null ;echo $?`
+     if [ "$group_exist" == "0" ];then
+        groupadd $i;
+      else true
+    fi
+#    oinstall; groupadd dba; groupadd nobody # fixed addgroup to groupadd
+#   usermod -g nobody nobody  #need to test the group creattion
+  user_exits=`cat /etc/passwd|grep $USER &> /dev/null;echo $?`
+      if [ "$user_exits" == "0" ];then
+          true;
+      else
+          useradd -g dba -G oinstall -p $PASSWD -d /home/$USER -s /bin/bash $USER;
+      fi
+
+  # useradd -g oinstall -G dba -p password -d /home/oracle -s /bin/bash oracle # also test if user and its groups are created and then run the creation
    if [  -d /home/oracle ];then
      mkdir /home/oracle
      chown -R oracle:dba /home/oracle
