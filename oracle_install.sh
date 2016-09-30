@@ -40,14 +40,15 @@ f_ora_user_setup(){
  if [ "$EUID" != "0" ];then
 	echo "need root access"; exit
  else
-   declare -a Groups=("dba", "nobody", "oinstall")
+   declare -a Groups=('dba', 'nobody', 'oinstall')
    for i in ${Groups[@]};
    do
       group_exist=`cat /etc/group|grep fibo &> /dev/null ;echo $?`
-     if [ "$group_exist" == "0" ];then
-        groupadd $i;
-      else true
-    fi
+         if [ "$group_exist" == "0" ];then
+            groupadd $i;
+          else true
+         fi
+    done
 #    oinstall; groupadd dba; groupadd nobody # fixed addgroup to groupadd
 #   usermod -g nobody nobody  #need to test the group creattion
   user_exits=`cat /etc/passwd|grep $USER &> /dev/null;echo $?`
@@ -72,9 +73,9 @@ f_ora_user_setup(){
 								export ORACLE_SID=orcl
 								export PATH=$PATH:$ORACLE_HOME/bin
 								export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/x86_64-linux-gnu:/bin/lib:/lib/x86_64-linux-gnu/:/usr/lib64
-						" > /home/oracle/.bash_profile; source /home/oracle/.bash_profile
+						" >> /home/oracle/.bash_profile; source /home/oracle/.bash_profile
 					else
-							touch /home/oracle/.bashrc
+							touch /home/oracle/.bash_profile
 							echo "
 									export ORACLE_HOSTNAME=localhost
 									export ORACLE_OWNER=oracle
@@ -84,7 +85,7 @@ f_ora_user_setup(){
 									export ORACLE_SID=orcl
 									export PATH=$PATH:$ORACLE_HOME/bin
 									export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/x86_64-linux-gnu:/bin/lib:/lib/x86_64-linux-gnu/:/usr/lib64
-							" > /home/oracle/.bash_profile; source  /home/oracle/.bash_profile
+							" >> /home/oracle/.bash_profile; source  /home/oracle/.bash_profile
 					fi
 		  fi
 
