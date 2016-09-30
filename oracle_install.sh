@@ -6,7 +6,7 @@
 ############################################################33
 
 ###Vars  ++++++++++++++++++++++++++++++++++++++++++++++++++++
-USER=""
+USER="oracle"
 PASSWD="1"
 ###Funcs ::::::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -67,24 +67,24 @@ f_ora_user_setup(){
 								export ORACLE_HOSTNAME=localhost
 								export ORACLE_OWNER=oracle
 								export ORACLE_BASE=/u01/app/oracle
-								export ORACLE_HOME=/u01/app/oracle/product/*/dbhome_1
+								export ORACLE_HOME=/u01/app/oracle/product/11.2.0/dbhome_1
 								export ORACLE_UNQNAME=orcl
 								export ORACLE_SID=orcl
 								export PATH=$PATH:$ORACLE_HOME/bin
 								export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/x86_64-linux-gnu:/bin/lib:/lib/x86_64-linux-gnu/:/usr/lib64
-						" > /home/oracle/.bashrc; source /home/oracle/.bashrc
+						" > /home/oracle/.bash_profile; source /home/oracle/.bash_profile
 					else
 							touch /home/oracle/.bashrc
 							echo "
 									export ORACLE_HOSTNAME=localhost
 									export ORACLE_OWNER=oracle
 									export ORACLE_BASE=/u01/app/oracle
-									export ORACLE_HOME=/u01/app/oracle/product/*/dbhome_1
+									export ORACLE_HOME=/u01/app/oracle/product/11.2.0/dbhome_1
 									export ORACLE_UNQNAME=orcl
 									export ORACLE_SID=orcl
 									export PATH=$PATH:$ORACLE_HOME/bin
 									export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/x86_64-linux-gnu:/bin/lib:/lib/x86_64-linux-gnu/:/usr/lib64
-							" > /home/oracle/.bashrc; source
+							" > /home/oracle/.bash_profile; source  /home/oracle/.bash_profile
 					fi
 		  fi
 
