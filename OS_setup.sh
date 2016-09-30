@@ -185,7 +185,7 @@ set_services(){ #need to disable unneeded services for systems fast boot
 
 git_tool_install(){ #downloading some files
 	git_tool_chk=`dpkg -l |grep git|grep 'distributed revision control' > /dev/null ;echo $?`
-	if [ $git_tool_chk == 0  ];then
+	if [ "$git_tool_chk" == "0"  ];then
 		if [ ! -e /opt/sunxi ];then
 			cd /opt
 			mkdir sunxi -m 775; cd sunxi
