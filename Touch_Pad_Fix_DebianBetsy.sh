@@ -1,4 +1,4 @@
-#!/usr/bin/env bash 
+#!/usr/bin/env bash
 #set -x
 ########################################################################
 #Purpose : connect/create sqlite db for script data use.
@@ -26,7 +26,7 @@
 #ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 #(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 #SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-######################################################################## 
+########################################################################
 : '
 DISCLAIMER :  use this at your own risk
 '
@@ -73,11 +73,11 @@ cmd=`lsb_release -a|awk {'print $2'}|grep -E "Debian|Ubuntu|Mint|Peppermint" &> 
 	else
 		echo "NOT Supported yet"
 		exit
-	fi 
+	fi
 }
 
 #-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
- if [ $EUID == "0" ];then
+ if [ $EUID == "0" ];then  # needs to adjusting to systemd
 	create
 		checkOS
 			$botMngr /etc/init.d/tabfix
