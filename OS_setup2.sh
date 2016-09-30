@@ -10,6 +10,9 @@
 
 
 ###Vars ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+logFolder="/tmp"
+log="install_log.txt"
+logFile="$logFile/$log"
 
 declare -a packages=( 'lightdm','mate-desktop-environment-extras', 'firmware-realtek', 'firmware-linux', 'firmware-linux-free',
 'firmware-linux-nonfree', 'vlc', 'gparted', 'abiword', 'transmission', 'guake', 'mixxx', 'culmus', 'xfonts-efont-unicode',
@@ -102,6 +105,21 @@ pacInstall(){
 					fi'
 
 	        }
+
+link_install(){
+declare -a LINKS=(
+'http://download.teamviewer.com/download/teamviewer_amd64.deb',
+'https://geany-vibrant-ink-theme.googlecode.com/files/vibrant_ink_geany_filedefs_20111207.zip',
+'https://download.jetbrains.com/python/pycharm-professional-2016.2.3.tar.gz'
+
+)
+for i in ${LINKS[@]}
+	do
+			wget $i &> $logFile $
+	done
+
+
+}
 ####
 #Main - _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _
 ####
@@ -118,7 +136,7 @@ if [ "$EUID" != "0" ];then
 		echo "Please get Root priviledges"
 		help;sleep 2;exit
 else
-		set_working_env; netCheck
+		set_working_env; netCheck;
 fi
 
 
