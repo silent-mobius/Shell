@@ -76,7 +76,7 @@ pacInstall(){
 	        #export PATH=$PATH:/opt/VirtualGL/bin:/usr/local/cuda-6.5/bin;
 	        #export CROSS_COMPILE=/opt/arm-tools/kernel/toolchains/gcc-arm-eabi-linaro-4.6.2/bin/arm-eabi-" >> /etc/bash.bashrc;
 	        source /etc/bash.bashrc
-	      :'  #removing kali pics
+	      : '  #removing kali pics
 					if [ `uname -a|grep kali > /dev/null;echo $?` == "0" ];then
 						updatedb;locate kali |grep png > pics.txt
 							while read line;do rm -rf $line;done  < pics.txt
@@ -86,17 +86,17 @@ pacInstall(){
 					rm -rf /usr/share/kali-defaults/bookmarks.html
 					rm -rf /usr/share/kali-defaults/web
 					rm -rf /usr/share/kali-defaults/localstore.rdf
-	        sed -i -e 's/TIMEOUT=5/TIMEOUT=0/' /etc/default/grub
-	        sed -i -e 's/GRUB_CMDLINE_LINUX_DEFAULT="quiet"/GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"/' /etc/default/grub;update-grub;update-initramfs -u
+	        sed -i -e s/TIMEOUT=5/TIMEOUT=0/ /etc/default/grub
+	        sed -i -e s/GRUB_CMDLINE_LINUX_DEFAULT="quiet"/GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"/ /etc/default/grub;update-grub;update-initramfs -u
 	        if [ -e /etc/gdm3/greeter.gsettings ];then
-							sed -i -e 's/kali-dragon.png/ /g'   /etc/gdm3/greeter.gsettings
-							sed -i -e 's/kali-dragon.png/ /g'   /etc/gdm3/greeter.gsettings.dpkg-new
+							sed -i -e s/kali-dragon.png/ /g   /etc/gdm3/greeter.gsettings
+							sed -i -e s/kali-dragon.png/ /g   /etc/gdm3/greeter.gsettings.dpkg-new
 				  else
 							true
 	        fi
 	        if [ -e /usr/share/gdm/dconf/10-desktop-base-settings ];then
-							sed -i -e 's/kali-dragon.png/ /g'   /usr/share/gdm/dconf/10-desktop-base-settings
-							sed -i -e 's/login-background.png/ /g' /usr/share/gdm/dconf/10-desktop-base-settings
+							sed -i -e s/kali-dragon.png/ /g   /usr/share/gdm/dconf/10-desktop-base-settings
+							sed -i -e s/login-background.png/ /g /usr/share/gdm/dconf/10-desktop-base-settings
 				  else
 							true
 					fi'
@@ -108,9 +108,9 @@ pacInstall(){
 while getopts ":i:u:p:" options;do
 	case $options in
 
-		i)	$OPTARG;;
-		u)	$OPTARG;;
-		p)	$OPTARG;;
+		i)	INSTALL_MNGR=$OPTARG;;
+		u)	USER=$OPTARG;;
+		p)	PASSWD=$OPTARG;;
 		*) echo "error";;
 
 	esac
@@ -118,7 +118,7 @@ if [ "$EUID" != "0" ];then
 		echo "Please get Root priviledges"
 		help;sleep 2;exit
 else
-
+		set_working_env; netCheck
 fi
 
 
