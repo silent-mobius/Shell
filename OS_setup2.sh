@@ -139,12 +139,11 @@ pacInstall(){
 
 link_install(){
 declare -a LINKS=(
-'http://download.teamviewer.com/download/teamviewer_amd64.deb',
-'https://geany-vibrant-ink-theme.googlecode.com/files/vibrant_ink_geany_filedefs_20111207.zip',
-'https://download.jetbrains.com/python/pycharm-professional-2016.2.3.tar.gz',
-'',
-''
-
+'http://download.teamviewer.com/download/teamviewer_amd64.deb'
+'https://geany-vibrant-ink-theme.googlecode.com/files/vibrant_ink_geany_filedefs_20111207.zip'
+'https://download.jetbrains.com/python/pycharm-professional-2016.2.3.tar.gz'
+'https://atom.io/download/deb'
+'http://kdl.cc.ksosoft.com/wps-community/download/a21/wps-office_10.1.0.5672~a21_amd64.deb' 
 )
 for i in ${LINKS[@]}
 	do
