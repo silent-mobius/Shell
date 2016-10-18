@@ -91,7 +91,7 @@ pacInstall(){
 			if [ "$pacCheck" == "0" ];then
 				True
 			else
-				apt-get install $i
+				apt-get install -y $i
 			fi
 	done
 	}
