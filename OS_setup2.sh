@@ -46,22 +46,22 @@ help(){
 		case $op in
 
 			$REPONAME)	echo "
-	##MAIN
-	deb http://http.$REPONAME.net/$REPONAME $KODENAME main
-	deb-src http://http.$REPONAME.net/$REPONAME $KODENAME main
+##MAIN
+deb http://http.$REPONAME.net/$REPONAME $KODENAME main
+deb-src http://http.$REPONAME.net/$REPONAME $KODENAME main
 
-	deb http://http.$REPONAME.net/$REPONAME $KODENAME-updates main
-	deb-src http://http.$REPONAME.net/$REPONAME $KODENAME-updates main
+deb http://http.$REPONAME.net/$REPONAME $KODENAME-updates main
+deb-src http://http.$REPONAME.net/$REPONAME $KODENAME-updates main
 
-	deb http://security.$REPONAME.org/ $KODENAME/updates main
-	deb-src http://security.$REPONAME.org/ $KODENAME/updates main
+deb http://security.$REPONAME.org/ $KODENAME/updates main
+deb-src http://security.$REPONAME.org/ $KODENAME/updates main
 
-	deb ftp://ftp.$REPONAME.org/$REPONAME stable main contrib non-free
-	###BackPort
-	deb http://http.$REPONAME.net/$REPONAME $KODENAME-backports main
-	deb http://ftp.$REPONAME.org/$REPONAME/ $KODENAME-backports non-free contrib
+deb ftp://ftp.$REPONAME.org/$REPONAME stable main contrib non-free
+###BackPort
+deb http://http.$REPONAME.net/$REPONAME $KODENAME-backports main
+deb http://ftp.$REPONAME.org/$REPONAME/ $KODENAME-backports non-free contrib
 	" > /etc/apt/sources.list
-	echo 'deb http://download.opensuse.org/repositories/isv:/ownCloud:/desktop/Debian_7.0/ /' >> /etc/apt/sources.list
+	echo "deb http://download.opensuse.org/repositories/isv:/ownCloud:/desktop/Debian_7.0/ /" >> /etc/apt/sources.list
 	echo "deb http://download.virtualbox.org/virtualbox/debian jessie contrib" >> /etc/apt/sources.list
 	;;
 			*) echo "Error getting Repo";exit 1 ;;
@@ -82,6 +82,7 @@ netCheck(){
 	}
 
 pacInstall(){
+	apt-get update;
 	for i in "${packages[@]}";do
 		pacCheck=`dpkg -l $i > /dev/null;echo $?`
 			if [ "$pacCheck" == "0" ];then
@@ -99,7 +100,7 @@ pacInstall(){
 	  sed s/PS1/#PS1/ /etc/bash.bashrc
 	  ##creating aliases
 	  echo "if [ $UID == '0' ];then
-	              PS1='\[\e[0;31m\]\u\[\e[m\] \[\e[1;34m\]\w\[\e[m\] \[\e[0;31m\]\$ \[\e[m\]\[\e[0;32m\]'
+	              PS1='\[\e[0;31m\]\u\[\e[m\] \[\e[1;34m\]\w\[\e[m\] \[\e[0;31m\]\# \[\e[m\]\[\e[0;32m\]'
 	         else
 	              PS1='\[\e[0;32m\]\u\[\e[m\] \[\e[1;34m\]\w\[\e[m\] \[\e[1;32m\]\$\[\e[m\] \[\e[1;37m\]'
 	          fi" >> /etc/bash.bashrc
