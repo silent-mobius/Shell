@@ -19,7 +19,9 @@ KODENAME="jessie"
 REPONAME="debian"
 declare -a packages=( 'lightdm' 'mate-desktop-environment-extras' 'firmware-realtek' 'firmware-linux' 'firmware-linux-free'
 'firmware-linux-nonfree' 'vlc' 'gparted' 'abiword' 'transmission' 'guake' 'mixxx' 'culmus' 'xfonts-efont-unicode'
-'xfonts-efont-unicode-ib' 'xfonts-intl-european' 'ttf-mscorefonts-installer' 'sqlite' 'sqlite3' 'mysql-client' 'mysql-server'
+'xfonts-efont-unicode-ib' 'xfonts-intl-european' 'guake' 'zenmap' 'nmapsi4'  'ettercap-graphical'  'bluedevil' 'bluemon'
+'bluez-firmware' 'bluez-tools' 'bluez-hcidump'  'bluez-obexd' 'blueproximity' 'glances' 'atop' 'unrar' 'p7zip' 'vim-gtk' 
+'sqlitebrowser' 'ttf-mscorefonts-installer' 'sqlite' 'sqlite3' 'mysql-client' 'mysql-server'
 'postgresql' 'apache2' 'nginx-full' 'nfs-common' 'samba-common' 'redis-server' 'sysv-rc-conf' 'wget' 'curl' 'nmap'
 'zenmap' 'aircrack-ng' 'dsniff' 'ndiff' 'nbtscan' 'wireshark' 'tcpreplay' 'graphviz' 'python-gnuplot' 'python-pyx' 'ebtables'
 'python-visual' 'sox' 'xpdf' 'gv' 'hexer' 'librsvg2-bin' 'python-pcapy' 'tshark' 'tcpdump' 'netcat' 'macchanger' 'python-scapy'
