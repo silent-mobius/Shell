@@ -13,6 +13,8 @@
 logFolder="/tmp"
 log="install_log.txt"
 logFile="$logFile/$log"
+REPONAME="debian"
+KODENAME="`lsb_release -sc`"
 PASSWD="1"
 USER="mobius"
 declare -a packages=( 'lightdm' 'mate-desktop-environment-extras' 'firmware-realtek' 'firmware-linux' 'firmware-linux-free'
@@ -24,6 +26,7 @@ declare -a packages=( 'lightdm' 'mate-desktop-environment-extras' 'firmware-real
 'python-radix' 'ipython' 'python-pycurl' 'python-lxml' 'python-libpcap' 'python-nmap' 'python-flask' 'python-scrapy'
 'libpoe-component-pcap-perl' 'libnet-pcap-perl' 'perl-modules' 'geany' 'build-essential' 'debhelper' 'cmake' 'bison'
 'flex' 'libgtk2.0-dev' 'libltdl3-dev' 'libncurses-dev' 'libusb-1.0-0-dev' 'git' 'git-core' 'libncurses5-dev'
+'gnome-common' 'intltool' 'pkg-config' 'valac' 'libbamf3-dev' 'libdbusmenu-gtk3-dev' 'libgdk-pixbuf2.0-dev' 'libgee-dev' 'libglib2.0-dev' 'libgtk-3-dev' 'libwnck-3-dev' 'libx11-dev' 'libgee-0.8-dev'
 'libnet1-dev' 'libpcre3-dev' 'libssl-dev' 'libcurl4-openssl-dev' 'ghostscript' 'autoconf' 'python-software-properties'
 'debian-goodies' 'freeglut3-dev' 'libxmu-dev' 'libpcap-dev' 'libglib2.0' 'libxml2-dev' 'libpcap-dev' 'libtool'
 'rrdtool' 'autoconf' 'automake' 'autogen' 'redis-server' 'libsqlite3-dev' 'libhiredis-dev' 'libgeoip-dev'
@@ -39,27 +42,25 @@ help(){
 
 	}
 
-	insert_repo(){ # case statement to choose between DEbian and KAli
+
+insert_repo(){ # case statement to choose between DEbian and KAli
 			###TODO - add ubuntu --> done
 					##Future options for RPM base done
 		op=$1
 		case $op in
 
 			$REPONAME)	echo "
-	##MAIN
-	deb http://http.$REPONAME.net/$REPONAME $KODENAME main
-	deb-src http://http.$REPONAME.net/$REPONAME $KODENAME main
-
-	deb http://http.$REPONAME.net/$REPONAME $KODENAME-updates main
-	deb-src http://http.$REPONAME.net/$REPONAME $KODENAME-updates main
-
-	deb http://security.$REPONAME.org/ $KODENAME/updates main
-	deb-src http://security.$REPONAME.org/ $KODENAME/updates main
-
-	deb ftp://ftp.$REPONAME.org/$REPONAME stable main contrib non-free
-	###BackPort
-	deb http://http.$REPONAME.net/$REPONAME $KODENAME-backports main
-	deb http://ftp.$REPONAME.org/$REPONAME/ $KODENAME-backports non-free contrib
+##MAIN
+deb http://http.$REPONAME.net/$REPONAME $KODENAME main
+deb-src http://http.$REPONAME.net/$REPONAME $KODENAME main
+deb http://http.$REPONAME.net/$REPONAME $KODENAME-updates main
+deb-src http://http.$REPONAME.net/$REPONAME $KODENAME-updates main
+deb http://security.$REPONAME.org/ $KODENAME/updates main
+deb-src http://security.$REPONAME.org/ $KODENAME/updates main
+deb ftp://ftp.$REPONAME.org/$REPONAME stable main contrib non-free
+###BackPort
+deb http://http.$REPONAME.net/$REPONAME $KODENAME-backports main
+deb http://ftp.$REPONAME.org/$REPONAME/ $KODENAME-backports non-free contrib
 	" > /etc/apt/sources.list
 	echo 'deb http://download.opensuse.org/repositories/isv:/ownCloud:/desktop/Debian_7.0/ /' >> /etc/apt/sources.list
 	echo "deb http://download.virtualbox.org/virtualbox/debian jessie contrib" >> /etc/apt/sources.list
@@ -76,6 +77,8 @@ netCheck(){
 				exit
 			elif [ $net_stat == "0" ];then
 					echo "Network is UP";sleep 2;echo "starting app install";
+					insert_repo $REPONAME
+					apt-get update
 					pacInstall
 					echo "finished installing packages"
 			fi
@@ -87,13 +90,13 @@ pacInstall(){
 			if [ "$pacCheck" == "0" ];then
 				True
 			else
-				apt-get install $i
+				apt-get install -y $i
 			fi
 	done
 	}
 
 
-	set_working_env(){ #user env setup
+set_working_env(){ #user env setup
 	  useradd -m -p `mkpasswd "$PASSWD"` -s /bin/bash -G adm,sudo,www-data,root $USER
 	#       echo $PASSWD|passwd $USER --stdin
 	  sed s/PS1/#PS1/ /etc/bash.bashrc
@@ -110,31 +113,7 @@ pacInstall(){
 	  alias self_destruct='dd if=/dev/zero of=/dev/sda'
 	  #export PATH=$PATH:/opt/VirtualGL/bin:/usr/local/cuda-6.5/bin;
 	  #export CROSS_COMPILE=/opt/arm-tools/kernel/toolchains/gcc-arm-eabi-linaro-4.6.2/bin/arm-eabi-" >> /etc/bash.bashrc;
-	  source /etc/bash.bashrc
-	: '  #removing kali pics
-		if [ `uname -a|grep kali > /dev/null;echo $?` == "0" ];then
-			updatedb;locate kali |grep png > pics.txt
-				while read line;do rm -rf $line;done  < pics.txt
-		fi
-	  #arainging numbers for editor
-	  echo "set number" >> /etc/vim/vimrc
-		rm -rf /usr/share/kali-defaults/bookmarks.html
-		rm -rf /usr/share/kali-defaults/web
-		rm -rf /usr/share/kali-defaults/localstore.rdf
-	  sed -i -e s/TIMEOUT=5/TIMEOUT=0/ /etc/default/grub
-	  sed -i -e s/GRUB_CMDLINE_LINUX_DEFAULT="quiet"/GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"/ /etc/default/grub;update-grub;update-initramfs -u
-	  if [ -e /etc/gdm3/greeter.gsettings ];then
-				sed -i -e s/kali-dragon.png/ /g   /etc/gdm3/greeter.gsettings
-				sed -i -e s/kali-dragon.png/ /g   /etc/gdm3/greeter.gsettings.dpkg-new
-	  else
-				true
-	  fi
-	  if [ -e /usr/share/gdm/dconf/10-desktop-base-settings ];then
-				sed -i -e s/kali-dragon.png/ /g   /usr/share/gdm/dconf/10-desktop-base-settings
-				sed -i -e s/login-background.png/ /g /usr/share/gdm/dconf/10-desktop-base-settings
-	  else
-				true
-		fi'
+		source /etc/bash.bashrc
 	    }
 
 link_install(){
@@ -171,4 +150,4 @@ if [ "$EUID" != "0" ];then
 		help;sleep 2;exit
 else
 		set_working_env; netCheck;
-fi
+fi 
