@@ -34,7 +34,7 @@ declare -a packages=( 'lightdm' 'mate-desktop-environment-extras' 'firmware-real
 'libesd0-dev' 'zip' 'curl' 'libncurses5-dev' 'zlib1g-dev' 'gcc-multilib' 'g++-multilib' 'libusb-1.0-0' 'icedove' 'thunderbird'
 'libusb-1.0-0-dev' 'fakeroot' 'kernel-package' 'zlib1g-dev' 'devscripts' 'pbuilder' 'dh-make' 'mingw32'
 'mingw32-binutils' 'guake' 'nasm' 'genisoimage' 'bochs' 'bochs-sdl' 'unrar' 'p7zip' 'gns3' 'vim' 'vim-gtk' 'guake' 'plank'
-'ninja-ide' 'codeblocks' 'htop' 'hexedit' )
+'ninja-ide' 'codeblocks' 'htop' 'hexedit' 'vim' 'vim-gtk')
 
 ###Funcs /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 help(){
