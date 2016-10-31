@@ -13,7 +13,7 @@
 logFolder="/tmp"
 log="install_log.txt"
 logFile="$logFile/$log"
-REPONAME="debian"
+REPONAME="`lsb_release -si|awk {'print tolower ($0)'}`"
 KODENAME="`lsb_release -sc`"
 PASSWD="1"
 USER="mobius"
@@ -90,7 +90,7 @@ pacInstall(){
 			if [ "$pacCheck" == "0" ];then
 				True
 			else
-				apt-get install -y $i
+				apt-get install -y $i &> $logFile
 			fi
 	done
 	}
@@ -126,10 +126,16 @@ declare -a LINKS=(
 )
 for i in ${LINKS[@]}
 	do
-			wget $i &> $logFile $
-	done
-
-
+     #  cmd=`which $i &> $logFile;echo $? `
+      #      if [ "$cmd" != "0" ];then
+        		wget $i &> $logFile $
+       #     else
+        #        true
+         #   fi
+    done
+}
+clones(){
+    
 }
 ####
 #Main - _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _
