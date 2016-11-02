@@ -102,7 +102,7 @@ set_working_env(){ #user env setup
 	  sed s/PS1/#PS1/ /etc/bash.bashrc
 	  ##creating aliases
 	  echo "if [ $UID == '0' ];then
-	              PS1='\[\e[0;31m\]\u\[\e[m\] \[\e[1;34m\]\w\[\e[m\] \[\e[0;31m\]\$ \[\e[m\]\[\e[0;32m\]'
+	              PS1='\[\e[0;31m\]\u\[\e[m\] \[\e[1;34m\]\w\[\e[m\] \[\e[0;31m\]\# \[\e[m\]\[\e[0;32m\]'
 	         else
 	              PS1='\[\e[0;32m\]\u\[\e[m\] \[\e[1;34m\]\w\[\e[m\] \[\e[1;32m\]\$\[\e[m\] \[\e[1;37m\]'
 	          fi" >> /etc/bash.bashrc
