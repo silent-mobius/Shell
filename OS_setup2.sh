@@ -83,7 +83,11 @@ netCheck(){
 					echo "finished installing packages"
 			fi
 	}
-
+repoCerts(){
+wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- |  apt-key add -
+wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- |  apt-key add -
+wget -q  http://download.opensuse.org/repositories/isv:/ownCloud:/desktop/Debian_7.0/Release.key -O- |apt-key add -
+}
 pacInstall(){
 	for i in "${packages[@]}";do
 		pacCheck=`dpkg -l $i > /dev/null;echo $?`
