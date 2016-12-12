@@ -92,7 +92,7 @@ pacInstall(){
 	for i in "${packages[@]}";do
 		pacCheck=`dpkg -l $i > /dev/null;echo $?`
 			if [ "$pacCheck" == "0" ];then
-				True
+				true
 			else
 				apt-get install -y $i &> $logFile
 			fi
@@ -128,19 +128,19 @@ declare -a LINKS=(
 'https://atom.io/download/deb'
 'http://kdl.cc.ksosoft.com/wps-community/download/a21/wps-office_10.1.0.5672~a21_amd64.deb' 
 )
-for i in ${LINKS[@]}
-	do
+#for i in ${LINKS[@]}
+#	do
      #  cmd=`which $i &> $logFile;echo $? `
       #      if [ "$cmd" != "0" ];then
         		wget $i &> $logFile $
        #     else
         #        true
          #   fi
-    done
-}
-clones(){
+ #   done
+#}
+#clones(){
     
-}
+#} 
 ####
 #Main - _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _
 ####
