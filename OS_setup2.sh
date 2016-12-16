@@ -160,5 +160,5 @@ if [ "$EUID" != "0" ];then
 		echo "Please get Root priviledges"
 		help;sleep 2;exit
 else
-		set_working_env; netCheck;
+		set_working_env; repoCerts;netCheck;
 fi 
