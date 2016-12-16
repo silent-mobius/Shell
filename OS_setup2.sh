@@ -17,24 +17,25 @@ REPONAME="`lsb_release -si|awk {'print tolower ($0)'}`"
 KODENAME="`lsb_release -sc`"
 PASSWD="1"
 USER="mobius"
-declare -a packages=( 'lightdm' 'mate-desktop-environment-extras' 'firmware-realtek' 'firmware-linux' 'firmware-linux-free'
-'firmware-linux-nonfree' 'vlc' 'gparted' 'abiword' 'transmission' 'guake' 'mixxx' 'culmus' 'xfonts-efont-unicode'
+declare -a packages=(  'lightdm' 'mate-desktop-environment-extras' 'firmware-realtek' 'firmware-linux' 'firmware-linux-free'
+'firmware-linux-nonfree' 'vlc' 'gparted' 'abiword' 'transmission' 'guake' 'mixxx' 'culmus' 'xfonts-efont-unicode' 
 'xfonts-efont-unicode-ib' 'xfonts-intl-european' 'ttf-mscorefonts-installer' 'sqlite' 'sqlite3' 'mysql-client' 'mysql-server'
-'postgresql' 'apache2' 'nginx-full' 'nfs-common' 'samba-common' 'redis-server' 'sysv-rc-conf' 'wget' 'curl' 'nmap'
-'zenmap' 'aircrack-ng' 'dsniff' 'ndiff' 'nbtscan' 'wireshark' 'tshark' 'tcpdump' 'netcat' 'macchanger' 'python-scapy'
-'python-pip' 'python-networkx' 'python-netaddr' 'python-netifaces' 'python-netfilter' 'python-gnuplot' 'python-mako'
-'python-radix' 'ipython' 'python-pycurl' 'python-lxml' 'python-libpcap' 'python-nmap' 'python-flask' 'python-scrapy'
-'libpoe-component-pcap-perl' 'libnet-pcap-perl' 'perl-modules' 'geany' 'build-essential' 'debhelper' 'cmake' 'bison'
-'flex' 'libgtk2.0-dev' 'libltdl3-dev' 'libncurses-dev' 'libusb-1.0-0-dev' 'git' 'git-core' 'libncurses5-dev'
-'gnome-common' 'intltool' 'pkg-config' 'valac' 'libbamf3-dev' 'libdbusmenu-gtk3-dev' 'libgdk-pixbuf2.0-dev' 'libgee-dev' 'libglib2.0-dev' 'libgtk-3-dev' 'libwnck-3-dev' 'libx11-dev' 'libgee-0.8-dev'
-'libnet1-dev' 'libpcre3-dev' 'libssl-dev' 'libcurl4-openssl-dev' 'ghostscript' 'autoconf' 'python-software-properties'
-'debian-goodies' 'freeglut3-dev' 'libxmu-dev' 'libpcap-dev' 'libglib2.0' 'libxml2-dev' 'libpcap-dev' 'libtool'
-'rrdtool' 'autoconf' 'automake' 'autogen' 'redis-server' 'libsqlite3-dev' 'libhiredis-dev' 'firmware-iwlwifi' 'libgeoip-dev'
-'debootstrap' 'qemu-user-static' 'device-tree-compiler' 'lzma' 'lzop' 'pixz' 'dkms' 'gnupg' 'flex' 'bison' 'gperf'
-'libesd0-dev' 'zip' 'curl' 'libncurses5-dev' 'zlib1g-dev' 'gcc-multilib' 'g++-multilib' 'libusb-1.0-0' 'icedove' 'thunderbird'
-'libusb-1.0-0-dev' 'fakeroot' 'kernel-package' 'zlib1g-dev' 'devscripts' 'pbuilder' 'dh-make' 'mingw32'
-'mingw32-binutils' 'guake' 'nasm' 'genisoimage' 'bochs' 'bochs-sdl' 'unrar' 'p7zip' 'gns3' 'vim' 'vim-gtk' 'guake' 'plank'
-'ninja-ide' 'codeblocks' 'htop' 'hexedit' 'vim' 'vim-gtk')
+'postgresql' 'apache2' 'nginx-full' 'nfs-common' 'samba-common' 'redis-server' 'sysv-rc-conf' 'wget' 'curl' 'nmap' 'zenmap'
+'aircrack-ng' 'dsniff' 'ndiff' 'nbtscan' 'wireshark' 'tshark' 'tcpdump' 'netcat' 'macchanger' 'python-scapy' 'python-pip' 
+'python-networkx' 'python-netaddr' 'python-netifaces' 'python-netfilter' 'python-gnuplot' 'python-mako' 'python-radix'
+'ipython' 'python-pycurl' 'python-lxml' 'python-libpcap' 'python-nmap' 'python-flask' 'python-scrapy' 
+'libpoe-component-pcap-perl' 'libnet-pcap-perl' 'perl-modules' 'geany' 'build-essential' 'debhelper' 'cmake' 'bison' 'flex'
+'libgtk2.0-dev' 'libltdl3-dev' 'libncurses-dev' 'libusb-1.0-0-dev' 'git' 'git-core' 'libncurses5-dev' 'gnome-common' 'intltool'
+'pkg-config' 'valac' 'libbamf3-dev' 'libdbusmenu-gtk3-dev' 'libgdk-pixbuf2.0-dev' 'libgee-dev' 'libglib2.0-dev' 'libgtk-3-dev'
+'libwnck-3-dev' 'libx11-dev' 'libgee-0.8-dev' 'libnet1-dev' 'libpcre3-dev' 'libssl-dev' 'libcurl4-openssl-dev' 'ghostscript'
+'autoconf' 'python-software-properties' 'debian-goodies' 'freeglut3-dev' 'libxmu-dev' 'libpcap-dev' 'libglib2.0' 'libxml2-dev'
+'libpcap-dev' 'libtool' 'rrdtool' 'autoconf' 'automake' 'autogen' 'redis-server' 'libsqlite3-dev' 'libhiredis-dev' 
+'firmware-iwlwifi' 'libgeoip-dev' 'debootstrap' 'qemu-user-static' 'device-tree-compiler' 'lzma' 'lzop' 'pixz' 'dkms' 'gnupg'
+'flex' 'bison' 'gperf' 'libesd0-dev' 'zip' 'curl' 'libncurses5-dev' 'zlib1g-dev' 'gcc-multilib' 'g++-multilib' 'libusb-1.0-0'
+'icedove' 'thunderbird' 'libusb-1.0-0-dev' 'fakeroot' 'kernel-package' 'zlib1g-dev' 'devscripts' 'pbuilder' 'dh-make' 'mingw32' 
+'mingw32-binutils' 'guake' 'nasm' 'genisoimage' 'bochs' 'bochs-sdl' 'unrar' 'p7zip' 'gns3' 'vim' 'vim-gtk' 'guake' 'plank' 
+'ninja-ide' 'codeblocks' 'htop' 'hexedit' 'vim' 'vim-gtk' 'icedove' 'vagrant' 'virtualbox-4.3' 'debian-keyring' 'g++-multilib'
+'g++-4.9-multilib' 'libstdc++6-4.9-dbg' 'python-dev' 'python-cryptography-vectors' 'geany-plugins-scope')
 
 ###Funcs /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 help(){
