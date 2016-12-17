@@ -13,6 +13,7 @@ set -x
 #Vars :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 BACK_UP_FOLDER="/opt/backup/mysql"
 BACKUP_LOG="sql.log"
+BACKUPMAIN="br0k3ngl255@vaiolabs.com"
 BACKUP=$BACK_UP_FOLDER/$BACKUP_LOG
 DATE=`date +"%Y-%m-%d %H:%M"`
 # bash script to backup mysql
@@ -44,7 +45,8 @@ old_sys_remove() { # remove old MySQL database backups
 #date +"%Y-%m-%d %X" > $BACKUP_LOG
 
 notify() { # send email
-    mailx -s "Micro: sql log" PUTYOURMAIL@HERE.COM < $BACKUP  #!!!!PUT YOUR MAIL HERE
+# mailx -s "Micro: sql log" PUTYOURMAIL@HERE.COM < $BACKUP  #!!!!PUT YOUR MAIL HERE
+mailx -s "Micro: sql log:" $BACKUPMAIL <BACKUP
 }
 
 
