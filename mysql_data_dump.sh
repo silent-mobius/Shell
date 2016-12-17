@@ -44,7 +44,7 @@ old_sys_remove() { # remove old MySQL database backups
 #date +"%Y-%m-%d %X" > $BACKUP_LOG
 
 notify() { # send email
-    mailx -s "Micro: sql log" ist@siklu.com < $BACKUP
+    mailx -s "Micro: sql log" PUTYOURMAIL@HERE.COM < $BACKUP  #!!!!PUT YOUR MAIL HERE
 }
 
 
