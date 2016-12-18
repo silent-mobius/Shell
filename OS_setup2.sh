@@ -2,9 +2,8 @@
 #set -x
 
 ########################################################################
-#
-#
-#
+#created by br0k3ngl255
+#purpose: not to do any after install manually
 #
 ########################################################################
 
@@ -35,7 +34,8 @@ declare -a packages=(  'lightdm' 'mate-desktop-environment-extras' 'firmware-rea
 'icedove' 'thunderbird' 'libusb-1.0-0-dev' 'fakeroot' 'kernel-package' 'zlib1g-dev' 'devscripts' 'pbuilder' 'dh-make' 'mingw32' 
 'mingw32-binutils' 'guake' 'nasm' 'genisoimage' 'bochs' 'bochs-sdl' 'unrar' 'p7zip' 'gns3' 'vim' 'vim-gtk' 'guake' 'plank' 
 'ninja-ide' 'codeblocks' 'htop' 'hexedit' 'vim' 'vim-gtk' 'icedove' 'vagrant' 'virtualbox-4.3' 'debian-keyring' 'g++-multilib'
-'g++-4.9-multilib' 'libstdc++6-4.9-dbg' 'python-dev' 'python-cryptography-vectors' 'geany-plugin-scope' 'sunxi-tools' 'monodevelop')
+'g++-4.9-multilib' 'libstdc++6-4.9-dbg' 'python-dev' 'python-cryptography-vectors' 'geany-plugin-scope' 'sunxi-tools'
+ 'monodevelop' 'bash-completion')
 
 ###Funcs /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 help(){
@@ -80,6 +80,7 @@ netCheck(){
 					echo "Network is UP";sleep 2;echo "starting app install";
 					insert_repo $REPONAME
 					apt-get update
+					repoCerts
 					pacInstall
 					echo "finished installing packages"
 			fi
@@ -111,6 +112,13 @@ set_working_env(){ #user env setup
 	         else
 	              PS1='\[\e[0;32m\]\u\[\e[m\] \[\e[1;34m\]\w\[\e[m\] \[\e[1;32m\]\$\[\e[m\] \[\e[1;37m\]'
 	          fi" >> /etc/bash.bashrc
+	  echo -e "\n if ! shopt -oq posix; then  
+			if [ -f /usr/share/bash-completion/bash_completion ]; then
+				. /usr/share/bash-completion/bash_completion
+			elif [ -f /etc/bash_completion ]; then
+				. /etc/bash_completion
+			fi  
+		fi" >> /etc/bash.bashrc;    #although inserting into the file but, it could be nice to implement sed or awk to filter already existing configuration
 	  echo "alias l=ls; alias ll='ls -l'; alias la='ls -la';alias lh='ls -lh'
 	  alias more=less; alias vi=vim; alias cl=clear; alias mv='mv -v'; alias cp='cp -v';
 	  alias log='cd /var/log'; alias drop_caches='echo 3 > /proc/sys/vm/drop_caches';
@@ -139,8 +147,9 @@ declare -a LINKS=(
          #   fi
  #   done
 #}
-#clones(){
-    
+#clones(){ # need to setup clone folder with all the files on active development
+    #git clone https://github.com/silent-mobius/Shell.git
+    #git clone https://github.com/silent-mobius/Python.git
 #} 
 ####
 #Main - _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _
@@ -160,5 +169,6 @@ if [ "$EUID" != "0" ];then
 		echo "Please get Root priviledges"
 		help;sleep 2;exit
 else
-		set_working_env; repoCerts;netCheck;
+		if [ netCheck]
+		set_working_env;netCheck;
 fi 
