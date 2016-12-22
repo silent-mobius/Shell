@@ -129,19 +129,19 @@ set_working_env(){ #user env setup
 		source /etc/bash.bashrc
 	    }
 
-link_install(){
+: 'link_install(){
 declare -a LINKS=(
-'http://download.teamviewer.com/download/teamviewer_amd64.deb'
-'https://geany-vibrant-ink-theme.googlecode.com/files/vibrant_ink_geany_filedefs_20111207.zip'
-'https://download.jetbrains.com/python/pycharm-professional-2016.2.3.tar.gz'
-'https://atom.io/download/deb'
-'http://kdl.cc.ksosoft.com/wps-community/download/a21/wps-office_10.1.0.5672~a21_amd64.deb' 
+"http://download.teamviewer.com/download/teamviewer_amd64.deb"
+"https://geany-vibrant-ink-theme.googlecode.com/files/vibrant_ink_geany_filedefs_20111207.zip"
+"https://download.jetbrains.com/python/pycharm-professional-2016.2.3.tar.gz"
+"https://atom.io/download/deb"
+"http://kdl.cc.ksosoft.com/wps-community/download/a21/wps-office_10.1.0.5672~a21_amd64.deb" 
 )
 #for i in ${LINKS[@]}
 #	do
      #  cmd=`which $i &> $logFile;echo $? `
       #      if [ "$cmd" != "0" ];then
-        		wget $i &> $logFile $
+ #       		wget $i &> $logFile $
        #     else
         #        true
          #   fi
@@ -151,6 +151,7 @@ declare -a LINKS=(
     #git clone https://github.com/silent-mobius/Shell.git
     #git clone https://github.com/silent-mobius/Python.git
 #} 
+'
 ####
 #Main - _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _
 ####
