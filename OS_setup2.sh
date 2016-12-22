@@ -142,7 +142,7 @@ declare -a LINKS=(
      #  cmd=`which $i &> $logFile;echo $? `
       #      if [ "$cmd" != "0" ];then
  #       		wget $i &> $logFile $
-       #     else
+       #     else	
         #        true
          #   fi
  #   done
