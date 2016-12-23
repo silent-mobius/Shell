@@ -16,6 +16,7 @@ REPONAME="`lsb_release -si|awk {'print tolower ($0)'}`"
 KODENAME="`lsb_release -sc`"
 PASSWD="1"
 USER="mobius"
+export DEBIAN_FRONTEND=noninteractive
 declare -a packages=(  'lightdm' 'mate-desktop-environment-extras' 'firmware-realtek' 'firmware-linux' 'firmware-linux-free'
 'firmware-linux-nonfree' 'vlc' 'gparted' 'abiword' 'transmission' 'guake' 'mixxx' 'culmus' 'xfonts-efont-unicode' 
 'xfonts-efont-unicode-ib' 'xfonts-intl-european' 'ttf-mscorefonts-installer' 'sqlite' 'sqlite3' 'mysql-client' 'mysql-server'
