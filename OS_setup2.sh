@@ -128,6 +128,12 @@ set_working_env(){ #user env setup
 	  #export PATH=$PATH:/opt/VirtualGL/bin:/usr/local/cuda-6.5/bin;
 	  #export CROSS_COMPILE=/opt/arm-tools/kernel/toolchains/gcc-arm-eabi-linaro-4.6.2/bin/arm-eabi-" >> /etc/bash.bashrc;
 		source /etc/bash.bashrc
+	file_check=$(ls /usr/share/backgrounds/cosmos/comet.jpg >> /dev/null;echo $?)
+	if [ "$file_check" == "0" ];then
+		gsettings set org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/cosmos/comet.jpg'
+	else
+		true
+	fi
 	    }
 
 : 'link_install(){
