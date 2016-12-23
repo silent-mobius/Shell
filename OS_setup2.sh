@@ -40,7 +40,7 @@ declare -a packages=(  'lightdm' 'mate-desktop-environment-extras' 'firmware-rea
 
 ###Funcs /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 help(){
-	echo -e '\n usage : OS_setup.sh -I apt-get -U username -P password \n'
+	echo -e "\n usage : OS_setup.sh -I apt-get -U username -P password \n"
 
 	}
 
@@ -64,7 +64,7 @@ deb ftp://ftp.$REPONAME.org/$REPONAME stable main contrib non-free
 deb http://http.$REPONAME.net/$REPONAME $KODENAME-backports main
 deb http://ftp.$REPONAME.org/$REPONAME/ $KODENAME-backports non-free contrib
 	" > /etc/apt/sources.list
-	echo 'deb http://download.opensuse.org/repositories/isv:/ownCloud:/desktop/Debian_7.0/ /' >> /etc/apt/sources.list
+	echo "deb http://download.opensuse.org/repositories/isv:/ownCloud:/desktop/Debian_7.0/ /"g >> /etc/apt/sources.list
 	echo "deb http://download.virtualbox.org/virtualbox/debian jessie contrib" >> /etc/apt/sources.list
 	;;
 			*) echo "Error getting Repo";exit 1 ;;
@@ -93,7 +93,7 @@ wget -q  http://download.opensuse.org/repositories/isv:/ownCloud:/desktop/Debian
 }
 pacInstall(){
 	for i in "${packages[@]}";do
-		pacCheck=`dpkg -l $i > /dev/null;echo $?`
+		pacCheck=$(dpkg -l $i > /dev/null;echo $?)
 			if [ "$pacCheck" == "0" ];then
 				true
 			else
@@ -162,8 +162,8 @@ declare -a LINKS=(
 ####
 #Main - _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _
 ####
-while getopts ":i:u:p:" options;do
-	case $options in
+while getopts ":i:u:p:" opt;do
+	case $opt in
 
 		i)	INSTALL_MNGR=$OPTARG;;
 		u)	USER=$OPTARG;;
@@ -177,6 +177,6 @@ if [ "$EUID" != "0" ];then
 		echo "Please get Root priviledges"
 		help;sleep 2;exit
 else
-		if [ netCheck]
+		netCheck
 		set_working_env;netCheck;
 fi 
