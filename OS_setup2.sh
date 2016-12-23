@@ -81,9 +81,7 @@ netCheck(){
 					echo "Network is UP";sleep 2;echo "starting app install";
 					insert_repo $REPONAME
 					apt-get update
-					repoCerts
-					pacInstall
-					echo "finished installing packages"
+					echo "finished updating repo cache"
 			fi
 	}
 repoCerts(){
@@ -134,6 +132,7 @@ set_working_env(){ #user env setup
 	else
 		true
 	fi
+		repoCerts;pacInstall
 	    }
 
 : 'link_install(){
@@ -177,6 +176,6 @@ if [ "$EUID" != "0" ];then
 		echo "Please get Root priviledges"
 		help;sleep 2;exit
 else
-		netCheck
-		set_working_env;netCheck;
+				netCheck
+		set_working_env;
 fi 
