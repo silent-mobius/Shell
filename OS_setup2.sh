@@ -93,7 +93,7 @@ wget -q  http://download.opensuse.org/repositories/isv:/ownCloud:/desktop/Debian
 
 pacInstall(){
 	for i in "${packages[@]}";do
-		pacCheck=$(dpkg -l $i > /dev/null;echo $?)
+		pacCheck=$(dpkg -l $i &> $logFile;echo $?)
 			if [ "$pacCheck" == "0" ];then
 				true
 			else
@@ -161,15 +161,16 @@ set_working_env(){ #user env setup
 					echo 'GRUB_BACKGROUND="/usr/share/backgrounds/cosmos/comet.jpg"' >> /etc/default/grub;
 						grub-mkconfig -o /boot/grub/grub.cfg
 				fi
-		repoCerts;linkInstall;pacInstall
+			#runnfing functions	
+			repoCerts;linkInstall;getClones;pacInstall
 	    }
 
 
 
-#clones(){ # need to setup clone folder with all the files on active development
-    #git clone https://github.com/silent-mobius/Shell.git
-    #git clone https://github.com/silent-mobius/Python.git
-#} 
+getClones(){ # need to setup clone folder with all the files on active development
+		git clone https://github.com/silent-mobius/Shell.git
+		git clone https://github.com/silent-mobius/Python.git
+} 
 
 ####
 #Main - _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _
