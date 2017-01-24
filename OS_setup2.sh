@@ -85,7 +85,7 @@ netCheck(){
 			fi
 	}
 	
-repoCerts(){
+repoCerts(){ #TODO - save all in /tmp
 wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- |  apt-key add - ;
 wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- |  apt-key add - ;
 wget -q  http://download.opensuse.org/repositories/isv:/ownCloud:/desktop/Debian_7.0/Release.key -O- |apt-key add - ;
@@ -102,7 +102,7 @@ pacInstall(){
 	done
 	}
 
-linkInstall(){
+linkInstall(){ #TODO -> save all in /opt and install them from there
 declare -a LINKS=(
 					"http://download.teamviewer.com/download/teamviewer_amd64.deb"
 					"https://geany-vibrant-ink-theme.googlecode.com/files/vibrant_ink_geany_filedefs_20111207.zip"
@@ -112,7 +112,7 @@ declare -a LINKS=(
 				)
 for i in ${LINKS[@]}
 	do
-       cmd=`which $i &> $logFile;echo $? `
+       cmd=$(which $i &> $logFile;echo $?)
             if [ "$cmd" != "0" ];then
         		wget $i &> $logFile $
             else	
@@ -167,7 +167,7 @@ set_working_env(){ #user env setup
 
 
 
-getClones(){ # need to setup clone folder with all the files on active development
+getClones(){ # TODO -> clone in /opt and soft link them to  Desktop
 		git clone https://github.com/silent-mobius/Shell.git
 		git clone https://github.com/silent-mobius/Python.git
 } 
