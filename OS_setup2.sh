@@ -126,33 +126,42 @@ set_working_env(){ #user env setup
 	  #export PATH=$PATH:/opt/VirtualGL/bin:/usr/local/cuda-6.5/bin;
 	  #export CROSS_COMPILE=/opt/arm-tools/kernel/toolchains/gcc-arm-eabi-linaro-4.6.2/bin/arm-eabi-" >> /etc/bash.bashrc;
 		source /etc/bash.bashrc
-	file_check=$(ls /usr/share/backgrounds/cosmos/comet.jpg >> /dev/null;echo $?)
-	if [ "$file_check" == "0" ];then
-		gsettings set org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/cosmos/comet.jpg'
-	else
-		true
-	fi
+		file_check=$(ls /usr/share/backgrounds/cosmos/comet.jpg >> /dev/null;echo $?)
+				if [ "$file_check" == "0" ];then
+					#gsettings set org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/cosmos/comet.jpg'
+					sed -i 's/background=\/usr\/share\/images\/desktop-base\/login-background\.svg/background=\/usr\/share\/backgrounds\/cosmos\/comet\.jpg/' /etc/lightdm/lightdm-gtk-greeter.conf
+				else
+					true
+				fi
+		bg_check=$(cat  /etc/default/grub |grep -i grub_background &> /dev/null;echo $?)
+				if [ "$bg_check" == "0" ];then
+					true
+				else
+					echo 'GRUB_BACKGROUND="/usr/share/backgrounds/cosmos/comet.jpg"' >> /etc/default/grub;
+						grub-mkconfig -o /boot/grub/grub.cfg
+				fi
 		repoCerts;pacInstall
 	    }
 
-: 'link_install(){
+link_install(){
 declare -a LINKS=(
-"http://download.teamviewer.com/download/teamviewer_amd64.deb"
-"https://geany-vibrant-ink-theme.googlecode.com/files/vibrant_ink_geany_filedefs_20111207.zip"
-"https://download.jetbrains.com/python/pycharm-professional-2016.2.3.tar.gz"
-"https://atom.io/download/deb"
-"http://kdl.cc.ksosoft.com/wps-community/download/a21/wps-office_10.1.0.5672~a21_amd64.deb" 
-)
-#for i in ${LINKS[@]}
-#	do
-     #  cmd=`which $i &> $logFile;echo $? `
-      #      if [ "$cmd" != "0" ];then
- #       		wget $i &> $logFile $
-       #     else	
-        #        true
-         #   fi
- #   done
-#}
+					"http://download.teamviewer.com/download/teamviewer_amd64.deb"
+					"https://geany-vibrant-ink-theme.googlecode.com/files/vibrant_ink_geany_filedefs_20111207.zip"
+					"https://download.jetbrains.com/python/pycharm-professional-2016.2.3.tar.gz"
+					"https://atom.io/download/deb"
+					"http://kdl.cc.ksosoft.com/wps-community/download/a21/wps-office_10.1.0.5672~a21_amd64.deb" 
+				)
+for i in ${LINKS[@]}
+	do
+       cmd=`which $i &> $logFile;echo $? `
+            if [ "$cmd" != "0" ];then
+        		wget $i &> $logFile $
+            else	
+                true
+            fi
+    done
+}
+
 #clones(){ # need to setup clone folder with all the files on active development
     #git clone https://github.com/silent-mobius/Shell.git
     #git clone https://github.com/silent-mobius/Python.git
