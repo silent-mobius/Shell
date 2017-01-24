@@ -45,7 +45,7 @@ help(){
 	}
 
 
-insert_repo(){ # case statement to choose between DEbian and KAli
+insertRepo(){ # case statement to choose between DEbian and KAli
 			###TODO - add ubuntu --> done
 					##Future options for RPM base done
 		op=$1
@@ -79,16 +79,18 @@ netCheck(){
 				exit
 			elif [ $net_stat == "0" ];then
 					echo "Network is UP";sleep 2;echo "starting app install";
-					insert_repo $REPONAME
+					insertRepo $REPONAME
 					apt-get update
 					echo "finished updating repo cache"
 			fi
 	}
+	
 repoCerts(){
-wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- |  apt-key add -
-wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- |  apt-key add -
-wget -q  http://download.opensuse.org/repositories/isv:/ownCloud:/desktop/Debian_7.0/Release.key -O- |apt-key add -
+wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- |  apt-key add - ;
+wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- |  apt-key add - ;
+wget -q  http://download.opensuse.org/repositories/isv:/ownCloud:/desktop/Debian_7.0/Release.key -O- |apt-key add - ;
 }
+
 pacInstall(){
 	for i in "${packages[@]}";do
 		pacCheck=$(dpkg -l $i > /dev/null;echo $?)
@@ -100,50 +102,7 @@ pacInstall(){
 	done
 	}
 
-
-set_working_env(){ #user env setup
-	  useradd -m -p `mkpasswd "$PASSWD"` -s /bin/bash -G adm,sudo,www-data,root $USER
-	#       echo $PASSWD|passwd $USER --stdin
-	  sed s/PS1/#PS1/ /etc/bash.bashrc
-	  ##creating aliases
-	  echo "if [ $UID == '0' ];then
-	              PS1='\[\e[0;31m\]\u\[\e[m\] \[\e[1;34m\]\w\[\e[m\] \[\e[0;31m\]\# \[\e[m\]\[\e[0;32m\]'
-	         else
-	              PS1='\[\e[0;32m\]\u\[\e[m\] \[\e[1;34m\]\w\[\e[m\] \[\e[1;32m\]\$\[\e[m\] \[\e[1;37m\]'
-	          fi" >> /etc/bash.bashrc
-	  echo -e "\n if ! shopt -oq posix; then  
-			if [ -f /usr/share/bash-completion/bash_completion ]; then
-				. /usr/share/bash-completion/bash_completion
-			elif [ -f /etc/bash_completion ]; then
-				. /etc/bash_completion
-			fi  
-		fi" >> /etc/bash.bashrc;    #although inserting into the file but, it could be nice to implement sed or awk to filter already existing configuration
-	  echo "alias l=ls; alias ll='ls -l'; alias la='ls -la';alias lh='ls -lh'
-	  alias more=less; alias vi=vim; alias cl=clear; alias mv='mv -v'; alias cp='cp -v';
-	  alias log='cd /var/log'; alias drop_caches='echo 3 > /proc/sys/vm/drop_caches';
-	  alias ip_forward='echo 1 > /proc/sys/net/ipv4/ip_forward';
-	  alias self_destruct='dd if=/dev/zero of=/dev/sda'
-	  #export PATH=$PATH:/opt/VirtualGL/bin:/usr/local/cuda-6.5/bin;
-	  #export CROSS_COMPILE=/opt/arm-tools/kernel/toolchains/gcc-arm-eabi-linaro-4.6.2/bin/arm-eabi-" >> /etc/bash.bashrc;
-		source /etc/bash.bashrc
-		file_check=$(ls /usr/share/backgrounds/cosmos/comet.jpg >> /dev/null;echo $?)
-				if [ "$file_check" == "0" ];then
-					#gsettings set org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/cosmos/comet.jpg'
-					sed -i 's/background=\/usr\/share\/images\/desktop-base\/login-background\.svg/background=\/usr\/share\/backgrounds\/cosmos\/comet\.jpg/' /etc/lightdm/lightdm-gtk-greeter.conf
-				else
-					true
-				fi
-		bg_check=$(cat  /etc/default/grub |grep -i grub_background &> /dev/null;echo $?)
-				if [ "$bg_check" == "0" ];then
-					true
-				else
-					echo 'GRUB_BACKGROUND="/usr/share/backgrounds/cosmos/comet.jpg"' >> /etc/default/grub;
-						grub-mkconfig -o /boot/grub/grub.cfg
-				fi
-		repoCerts;pacInstall
-	    }
-
-link_install(){
+linkInstall(){
 declare -a LINKS=(
 					"http://download.teamviewer.com/download/teamviewer_amd64.deb"
 					"https://geany-vibrant-ink-theme.googlecode.com/files/vibrant_ink_geany_filedefs_20111207.zip"
@@ -162,11 +121,56 @@ for i in ${LINKS[@]}
     done
 }
 
+
+set_working_env(){ #user env setup
+	  useradd -m -p `mkpasswd "$PASSWD"` -s /bin/bash -G adm,sudo,www-data,root $USER
+	#       echo $PASSWD|passwd $USER --stdin
+	  sed s/PS1/#PS1/ /etc/bash.bashrc
+	  ##creating aliases
+	  echo "if [ $UID == '0' ];then
+	              PS1='\[\e[0;31m\]\u\[\e[m\] \[\e[1;34m\]\w\[\e[m\] \[\e[0;31m\]\# \[\e[m\]\[\e[0;32m\]'
+	         else
+	              PS1='\[\e[0;32m\]\u\[\e[m\] \[\e[1;34m\]\w\[\e[m\] \[\e[1;32m\]\$\[\e[m\] \[\e[1;37m\]'
+	          fi" >> /etc/bash.bashrc
+	  echo -e "\n if ! shopt -oq posix; then  
+						if [ -f /usr/share/bash-completion/bash_completion ]; then
+							. /usr/share/bash-completion/bash_completion
+						elif [ -f /etc/bash_completion ]; then
+							. /etc/bash_completion
+						fi  
+				  fi" >> /etc/bash.bashrc;    #although inserting into the file but, it could be nice to implement sed or awk to filter already existing configuration
+	  echo "  alias l=ls; alias ll='ls -l'; alias la='ls -la';alias lh='ls -lh'
+			  alias more=less; alias vi=vim; alias cl=clear; alias mv='mv -v'; alias cp='cp -v';
+			  alias log='cd /var/log'; alias drop_caches='echo 3 > /proc/sys/vm/drop_caches';
+			  alias ip_forward='echo 1 > /proc/sys/net/ipv4/ip_forward';
+			  alias self_destruct='dd if=/dev/zero of=/dev/sda'
+			  #export PATH=$PATH:/opt/VirtualGL/bin:/usr/local/cuda-6.5/bin;
+			  #export CROSS_COMPILE=/opt/arm-tools/kernel/toolchains/gcc-arm-eabi-linaro-4.6.2/bin/arm-eabi-" >> /etc/bash.bashrc;
+		source /etc/bash.bashrc
+		file_check=$(ls /usr/share/backgrounds/cosmos/comet.jpg >> /dev/null;echo $?)
+				if [ "$file_check" == "0" ];then
+					#gsettings set org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/cosmos/comet.jpg'
+					sed -i 's/background=\/usr\/share\/images\/desktop-base\/login-background\.svg/background=\/usr\/share\/backgrounds\/cosmos\/comet\.jpg/' /etc/lightdm/lightdm-gtk-greeter.conf
+				else
+					true
+				fi
+		bg_check=$(cat  /etc/default/grub |grep -i grub_background &> /dev/null;echo $?)
+				if [ "$bg_check" == "0" ];then
+					true
+				else
+					echo 'GRUB_BACKGROUND="/usr/share/backgrounds/cosmos/comet.jpg"' >> /etc/default/grub;
+						grub-mkconfig -o /boot/grub/grub.cfg
+				fi
+		repoCerts;linkInstall;pacInstall
+	    }
+
+
+
 #clones(){ # need to setup clone folder with all the files on active development
     #git clone https://github.com/silent-mobius/Shell.git
     #git clone https://github.com/silent-mobius/Python.git
 #} 
-'
+
 ####
 #Main - _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _
 ####
@@ -176,7 +180,7 @@ while getopts ":i:u:p:" opt;do
 		i)	INSTALL_MNGR=$OPTARG;;
 		u)	USER=$OPTARG;;
 		p)	PASSWD=$OPTARG;;
-		*) echo "error";;
+		*)  echo "error";;
 
 	esac
 done
@@ -185,6 +189,6 @@ if [ "$EUID" != "0" ];then
 		echo "Please get Root priviledges"
 		help;sleep 2;exit
 else
-				netCheck
+		netCheck
 		set_working_env;
 fi 
