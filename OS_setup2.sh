@@ -91,7 +91,7 @@ wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- |  apt-key add -
 wget -q  http://download.opensuse.org/repositories/isv:/ownCloud:/desktop/Debian_7.0/Release.key -O- |apt-key add - ;
 }
 
-pacInstall(){
+pacInstall(){ #TODO - make it more general --> use installManager variable captured by initial run	
 	for i in "${packages[@]}";do
 		pacCheck=$(dpkg -l $i &> $logFile;echo $?)
 			if [ "$pacCheck" == "0" ];then
@@ -110,19 +110,18 @@ declare -a LINKS=(
 					"https://atom.io/download/deb"
 					"http://kdl.cc.ksosoft.com/wps-community/download/a21/wps-office_10.1.0.5672~a21_amd64.deb" 
 				)
-for i in ${LINKS[@]}
-	do
-       cmd=$(which $i &> $logFile;echo $?)
-            if [ "$cmd" != "0" ];then
-        		wget $i &> $logFile $
-            else	
-                true
-            fi
-    done
+for i in "${LINKS[@]}";do
+						   cmd=$(which $i &> $logFile;echo $?)
+								if [ "$cmd" != "0" ];then
+									wget $i &> $logFile 
+								else	
+									true
+								fi
+						done
 }
 
 
-set_working_env(){ #user env setup
+setWorkingEnv(){ #user env setup
 	  useradd -m -p `mkpasswd "$PASSWD"` -s /bin/bash -G adm,sudo,www-data,root $USER
 	#       echo $PASSWD|passwd $USER --stdin
 	  sed s/PS1/#PS1/ /etc/bash.bashrc
@@ -162,6 +161,8 @@ set_working_env(){ #user env setup
 						grub-mkconfig -o /boot/grub/grub.cfg
 				fi
 			#runnfing functions	
+			#!!!!LOGICAL ERROR!!!
+			# if network check fails nothing will be set.
 			repoCerts;linkInstall;getClones;pacInstall
 	    }
 
@@ -190,6 +191,6 @@ if [ "$EUID" != "0" ];then
 		echo "Please get Root priviledges"
 		help;sleep 2;exit
 else
-		netCheck
-		set_working_env;
+		netCheck;
+		setWorkingEnv;
 fi 
