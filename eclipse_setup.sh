@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 ########################################################################
-#
-#
+#created by br0k3ngl255
+#license: GPLv3
 #
 ########################################################################
 
@@ -32,7 +32,7 @@ tar xvzf $TMP/$FILE -C $INST_DIR
 
 eclipse_setup(){
 
-cat <<EOF >> /usr/share/applications/eclipse.desktop
+cat <<EOF >> /usr/share/applications/$NAME.desktop
 [Desktop Entry]
 Type=Application
 Version=
@@ -45,7 +45,7 @@ StartupNotify=true
 
 EOF
 
-cat << EOF >> /usr/bin/eclipse
+cat << EOF >> /usr/bin/$NAME
 #!/usr/bin/env bash
 
 BIN="/opt/eclipse"
@@ -54,7 +54,7 @@ BIN="/opt/eclipse"
 
 EOF
 
-chmod +x /usr/bin/eclipse
+chmod +x /usr/bin/$NAME
 
 	}
 
@@ -74,6 +74,7 @@ permission_setup(){
 
 if (($EUID == 0));then
 	net_check;
+		
 	if [ -e $INST_DIR/$NAME ];then
 		true
 	elif [ ! -e $INST_DIR/$NAME ];then
