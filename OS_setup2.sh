@@ -64,7 +64,7 @@ deb ftp://ftp.$REPONAME.org/$REPONAME stable main contrib non-free
 deb http://http.$REPONAME.net/$REPONAME $KODENAME-backports main
 deb http://ftp.$REPONAME.org/$REPONAME/ $KODENAME-backports non-free contrib
 	" > /etc/apt/sources.list
-	echo "deb http://download.opensuse.org/repositories/isv:/ownCloud:/desktop/Debian_7.0/ /"g >> /etc/apt/sources.list
+	echo "deb http://download.opensuse.org/repositories/isv:/ownCloud:/desktop/Debian_7.0/ /" >> /etc/apt/sources.list
 	echo "deb http://download.virtualbox.org/virtualbox/debian jessie contrib" >> /etc/apt/sources.list
 	;;
 			*) echo "Error getting Repo";exit 1 ;;
