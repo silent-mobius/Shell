@@ -32,10 +32,10 @@ calc_simulate(){ # generates random "calculation" time between 1-30 sec
 	}
 	
 rate_chk(){ #provides random number of 10 and if 8 or higher fails
-	cmd=$(	echo $(( (RANDOM %10) +1 )) )
-		if (($cmd<=7));then
+	cmd="$(( (RANDOM %10) +1 ))"
+		if [ "$cmd" -le 7 ];then
 			echo "success"
-		elif(($cmd>=8));then
+		elif [ "$cmd" -ge 8 ];then
 			echo "fail"
 		fi
 	}
@@ -49,18 +49,20 @@ else
 	if [ -z $1 ] && [ -z $2 ];then 
 		help
 	else
-		if  (($2>=999999));then
+		if  [ $2 -ge 9999 ];then
 			echo "calculating";calc_simulate;
 			if [[ "$(rate_chk)" == "success" ]];then
 				mkdir -p $1; touch $1/$2
-			fi
-			if [[ "$(rate_chk)" == "fail" ]];then
+			elif [[ "$(rate_chk)" == "fail" ]];then
 				echo "fail error";
 			fi
-		elif (($2<=999999));then
-			echo "2nd argument not long enough" 
-		elif (($2<= ));then
-			echo "2nd argument not provided" 
-		fi			
+		else
+			if (($2<=999999));then
+			echo "2nd argument not long enough"
+			fi
+			if [ "$2" <= " " ];then
+				echo "2nd argument not provided" 
+			fi	
+		fi		
 	fi
 fi
