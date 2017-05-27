@@ -22,18 +22,25 @@ The framework continues running in a loop on the ids in ids_file until the file 
 #####################################################################
 
 ###Vars ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-source ./CalcID.sh
+./CalcID.sh
 
 
 ###Funcs /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 
 help(){
 	echo "Incorrect script use."
-	echo "usage: CalcID.sh FOLDER_NAME ID's_file  NUMBER OF INSTANCES"
+	echo "usage: CalcID.sh FOLDER_NAME ID's_file  NUMBER_OF_INSTANCES"
 	
 	}
-
-
+read_from_file(){
+	file=$1
+	var=$2
+	cat  $file|head -n +$var|tail -n +$var
+	
+	}
+run_process(){
+	./CalcID.sh $1 $2
+	}
 ###
 #Main - _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _
 ###
@@ -41,11 +48,17 @@ help(){
 if [ "$EUID" == "0" ];then
 	echo "please run with regular user";exit 1
 else
-	if [ -z $1 ] && [ -z $2 ] && [ -z $3 ];then 
+	if [ -z $1 ] || [ -z $2 ] || [ -z $3 ];then 
 		help
 	else
-		while true; do  #should i use paralel?	
-						
-		
-		
-					done	
+	var=$3
+		while (($var>0)); 
+			do  #should i use paralel?
+				tmp=$(	cat  numbers|head -n +$var|tail -n +$var)
+				#run_process $1 $tmp
+				./CalcID.sh $1 $tmp $$ &
+				echo $(( var-- )) >> /dev/null
+			done
+	
+	fi
+fi
