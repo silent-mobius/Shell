@@ -51,16 +51,19 @@ else
 	else
 		if  [ $2 -ge 9999 ];then
 			echo "calculating";calc_simulate;
-			if [[ "$(rate_chk)" == "success" ]];then
+				tmp=$(rate_chk)
+			if [[ "$tmp" == "success" ]];then
+				echo "creating $1 and $2 ";sleep 1
 				mkdir -p $1; touch $1/$2
-			elif [[ "$(rate_chk)" == "fail" ]];then
+				echo $$
+			elif [[ "$tmp" == "fail" ]];then
 				echo "fail error";
 			fi
 		else
-			if (($2<=999999));then
+			if [ $2 -le 9999 ];then
 			echo "2nd argument not long enough"
 			fi
-			if [ "$2" <= " " ];then
+			if [ "$2" -eq 0 ];then
 				echo "2nd argument not provided" 
 			fi	
 		fi		
