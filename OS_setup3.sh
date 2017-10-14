@@ -12,6 +12,7 @@ logFolder="/tmp"
 log="install_log.txt"
 logFile="$logFile/$log"
 REPONAME="$(lsb_release -si|awk {'print tolower ($0)'})"
+REPONAME_BETA=
 KODENAME="$(lsb_release -sc)"
 PASSWD="1"
 USER="mobius"
@@ -70,7 +71,7 @@ net_check(){
 				return 1000
 			elif [ $net_stat == "0" ];then
 					printf "Network is UP\n";sleep 2;printf "starting app install\n";
-					insertRepo $REPONAME
+					#insertRepo $REPONAME
 					apt-get update
 					printf "finished updating repo cache"
 					return 0
@@ -107,7 +108,7 @@ multi_pac_install(){
 				true
 			else
 				  printf "preparing to install $i \t"
-				apt-get install -y $i &> $logFile
+				apt-get install -y $i &>> $logFile
 				printf "installed  \n"
 			fi
 		done
@@ -119,7 +120,7 @@ multi_pac_install(){
 				true
 			else
 				  printf "preparing to install $i \t"
-				apt-get install -y $i &> $logFile
+				apt-get install -y $i &>> $logFile
 				printf "installed  \n"
 			fi
 		done
@@ -130,7 +131,7 @@ multi_pac_install(){
 				true
 			else
 				  printf "preparing to install $i \t"
-				apt-get install -y $i &> $logFile
+				apt-get install -y $i &>> $logFile
 				printf "installed  \n"
 			fi
 		done
@@ -141,7 +142,7 @@ multi_pac_install(){
 				true
 			else
 				  printf "preparing to install $i \t"
-				apt-get install -y $i &> $logFile
+				apt-get install -y $i &>> $logFile
 				printf "installed  \n"
 			fi
 		done
@@ -178,13 +179,13 @@ set_bash_completion(){
 }
 
 set_working_env(){ #user env setup
-	  sed s/PS1/#PS1/ /etc/bash.bashrc
+	  sed -i s/PS1/#PS1/ /etc/bash.bashrc &>> $logFile
           printf "alias l=ls; alias ll='ls -l'; alias la='ls -la';alias lh='ls -lh' \n
                   alias more=less; alias vi=vim; alias cl=clear; alias mv='mv -v'; alias cp='cp -v'; \n
                   alias log='cd /var/log'; alias drop_caches='echo 3 > /proc/sys/vm/drop_caches'; \n
                   alias ip_forward='echo 1 > /proc/sys/net/ipv4/ip_forward'; \n
                   alias self_destruct='dd if=/dev/zero of=/dev/sda' \n
-                  " >> $BASHRC;
+                  " >> $BASHRC &>> $logFile;
                 source $BASHRC
                 file_check=$(ls /usr/share/backgrounds/cosmos/comet.jpg >> /dev/null;printf "$?\n")
                         if [ "$file_check" == "0" ];then
@@ -241,21 +242,21 @@ set_docker_ce(){
 ###
 
 if [[ $EUID == "0" ]];then
-			while getopts ":i:u:p:I:U:P:" opt;
-				do
-					case $opt in
-						I|i) 
-							INSTALLER="$OPTARG"
-								;;
-						U|u) 
-							USER="$OPTARG"
-								;;
-						P|p) 
-								PASSWD="$OPTARG"
-								;;
-						*)  help; exit 1 ;;
-					esac
-				done
+		while getopts ":i:u:p:I:U:P:" opt;
+			do
+				case $opt in
+					I|i) 
+						INSTALLER="$OPTARG"
+							;;
+					U|u) 
+						USER="$OPTARG"
+							;;
+					P|p) 
+							PASSWD="$OPTARG"
+							;;
+					*)  help; exit 1 ;;
+				esac
+			done
 					printf "\nsetting up general user\n"
 						set_general_user
 					printf "\nsetting up general user is complete\n"
@@ -278,5 +279,7 @@ if [[ $EUID == "0" ]];then
 						multi_pac_install
 						set_docker_ce
 					fi
-				
+else
+	printf "\nPlease get root privileges\n";exit;
+			
 fi
