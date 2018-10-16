@@ -65,11 +65,27 @@ log_check(){
 	fi
 	}
 
-cron_job_setup(){
-	
+cron_time_setup(){ #Need to config function for time management to cron
+	 Time=$1
+	 if [ $Time == "" ];then
+		usage
+		exit 1
+	else
+			
+	 fi
 	}
 
-
+cron_job_setup(){ #Need to config function for job management to cron
+	 Job=$1
+		 if [ $Job == "" ];then
+		usage
+		exit 1
+	else
+			
+	 fi
+	}
+	
+	
 ###
 #Main - _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _
 ###
@@ -79,12 +95,18 @@ if [ $EUID != "0" ];then
 else
 	while getopts ":j:J:t:T:h:H" opt;
 		do
-			case $opt in
+			case ${opt} in
 			
-				j|J) ;;
-				t|T) ;;
-				h|H) help ;;
-				*) printf "${alert_color} Invalid Option ${NC}\n" ; usage;help;;
+				j|J) cron_job_setup  $OPTARG
+					;;
+				t|T) cron_time_setup $OPTARG
+					;;
+				h|H) help 
+					;;
+				*) printf "${alert_color} Invalid Option ${NC}\n" ;
+						usage;
+							help;
+					;;
 			
 			esac
 		done
