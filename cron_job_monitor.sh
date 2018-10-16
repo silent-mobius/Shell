@@ -74,5 +74,18 @@ cron_job_setup(){
 #Main - _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _
 ###
 
-if [ $EUID == "0" ];then
+if [ $EUID != "0" ];then
 	echo "Invalid User -- Please get Root Privileges"
+else
+	while getopts ":j:J:t:T:h:H" opt;
+		do
+			case $opt in
+			
+				j|J) ;;
+				t|T) ;;
+				h|H) help ;;
+				*) printf "${alert_color} Invalid Option ${NC}\n" ; usage;help;;
+			
+			esac
+		done
+			
