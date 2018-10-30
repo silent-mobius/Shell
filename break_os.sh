@@ -9,13 +9,16 @@
 #set -xe # debug
 
 #vars :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-line="==============================================================="
-warn_msg="This script will destroy your OS - Its your job to fix it ! ! !"
+
 agree="Do you agree with terms?"
 agree_ans="n"
-exit_msg="Ok got it  - youre a Chiken, good luck with MCSA exams"
 comm_msg="GREAT - Remember to try your best to research everything"
+exit_msg="Ok got it  - youre a Chiken, good luck with MCSA exams"
+grub_config="/etc/default/grub"
+grub_bin_config="/boot/grub2/grub.cfg"
+line="==============================================================="
 NULL="/dev/null"
+warn_msg="This script will destroy your OS - Its your job to fix it ! ! !"
 
 #Funcs /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 
@@ -67,13 +70,16 @@ os_check(){
 }
 
 #"Damage to be done" functions
-: '
+
 break_grub(){
+sed -i 's/GRUB_CMDLINE/#GRUB_CMDLINE/g' $grub_config
+grub2-mkconfig -o $grub_bin_config &> $NULL
 
 }
-'
+
 break_ls(){
 mv /bin/ls /bin/ls_hidden
+chmod -x /bin/ls_hidden
 }
 
 break_home_dir(){
@@ -91,10 +97,11 @@ break_net(){
 }
 
 break_client_dns(){
-num=100000
+num=1000000
 while [[ $num >= 0 ]]
 	do
 		echo " nameserver 0.0.0.$num" >> /etc/resolv.conf
+		num=$(($num-1));
 	done
 
 }
@@ -178,6 +185,7 @@ break_php_again_n_again(){
 ###Lab Level functions
 
 begginer_lab(){
+#ooh you are in for a surprise
 #break_ls
 #break_home_dir
 true
