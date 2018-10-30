@@ -10,32 +10,33 @@
 
 #vars :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 line="==============================================================="
-warn_msg="This script will destroy your OS - Its your job to fix it!!!"
+warn_msg="This script will destroy your OS - Its your job to fix it ! ! !"
 agree="Do you agree with terms?"
 agree_ans="n"
 exit_msg="Ok got it  - youre a Chiken, good luck with MCSA exams"
 comm_msg="GREAT - Remember to try your best to research everything"
+NULL="/dev/null"
 
 #Funcs /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 
 help(){
 printf "%s\n" "$line"
 printf "%s\n" "Usage: break_os.sh -b -i -a -p"
-printf "%s" "$line"
+printf "%s\n" "$line"
 }
 
 last_warning(){ #should run in case user does not undestands what is ahead of him
 printf "%s\n" "$line"
 for warn in ${warn_msg[@]}
 	do
-		printf "%s\t" "${warn}";sleep 0,5
+		printf "%s " "${warn}";sleep 0.5
 	done
 
-printf "%s\n" "$line"
+printf "\n%s\n" "$line"
 
 for a in ${agree[@]}
 	do
-		printf "%s\t" "${a}";sleep 0,5
+		printf "%s " "${a}";sleep 0.5
 	done
 read -p "(y/N)" agree_ans
 
@@ -44,13 +45,28 @@ if [[ $agree_ans == "n" ]] || [[ $agree_ans == "N" ]] || [[ $agree_ans == "" ]];
 fi
 
 if [[ $agree_ans == "y" ]] || [[ $agree_ans == "Y" ]];then
-	printf "%s\n" "$comm_msg"
+	for com in ${comm_msg[@]}
+		do
+			printf "%s " "$com"
+			sleep 0.5
+		done
 fi
-printf "%s" "$line"
+printf "\n%s\n" "$line"
 
 }
 
-#Damage to be done functions
+os_check(){
+	_os_check=$(cat /etc/*-release|grep -E '^ID'|awk -F= '{print $2}')
+	if  [ "$_os_check" == "fedora"] || [ "$_os_check" == "redhat"] || [ "$_os_check" == "centos"];then
+		network_path="/etc/sysconfig/network-scripts"
+	fi
+	if  [ "$_os_check" == "debian"] || [ "$_os_check" == "ubuntu"];then
+		network_path="/etc/network/interfaces"
+	fi
+
+}
+
+#"Damage to be done" functions
 : '
 break_grub(){
 
@@ -68,16 +84,21 @@ fi
 usermod -d /tmp/${user} ${user}
 }
 
-: '
-break_net(){
 
+break_net(){
+	printf "%s " "starting to break client network"
+	tar cvzf "$network_path.tgz" $network_path &> $NULL
 }
 
 break_client_dns(){
-
+num=100000
+while [[ $num >= 0 ]]
+	do
+		echo " nameserver 0.0.0.$num" >> /etc/resolv.conf
+	done
 
 }
-
+: '
 break_client_dhcp(){
 
 
@@ -153,45 +174,73 @@ break_php_again(){
 break_php_again_n_again(){
 
 }
-
+'
 ###Lab Level functions
 
 begginer_lab(){
 #break_ls
 #break_home_dir
-
+true
 }
 
 intermediate_lab(){
-
+true
 }
 
 advance_lab(){
-
+true
 }
 
 pro_lab(){
+true
 }
-'
+
 ###
 #Main - _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _
 ###
 
-if [[ $EUID != "0" ]];then
+if [ $EUID != "0" ];then
 	printf "%s\n" "$line"
 	printf "%s\n" "Please get a  Root Privileges"
 	printf "%s\n" "$line"
 else
 
-while getopt ":b:B:i:I:a:A:p:P:" opt;
+while getopts ":bBiIaApP" opt
 	do
-		case ${opt} in
-			a|A) echo "advance lab chosen";     sleep 3;echo "starting lab";last_warning;sleep 3; advance_lab;;
-			b|B) echo "begginer lab chosen";    sleep 3;echo "starting lab";last_warning;sleep 3; begginer_lab;;
-			i|I) echo "intermediate lab chosen";sleep 3;echo "starting lab";last_warning;sleep 3; advance_lab;;
-			p|P) echo "Pro lab chosen";         sleep 3;echo "starting lab";last_warning;sleep 3; advance_lab;;
+		case $opt in
+			a|A) clear ; echo "advance lab chosen"
+					sleep 3
+					echo "starting lab"
+					last_warning
+					sleep 3
+					advance_lab
+					;;
+			b|B) clear ; echo "begginer lab chosen"
+					sleep 3
+					echo "starting lab"
+					last_warning
+					sleep 3
+					begginer_lab
+					;;
+			i|I) clear ; echo "intermediate lab chosen"
+					sleep 3
+					echo "starting lab"
+					last_warning
+					sleep 3
+					intermediate_lab
+					;;
+			p|P) clear ; echo "Pro lab chosen"
+					sleep 3
+					echo "starting lab"
+					last_warning
+					sleep 3
+					advance_lab
+					;;
 			# *) help ;-$OPTARG" >&2 ;;
-			\?)echo "Invalid Option: -$OPTARG" 1>&2; exit 1;;
+			\?) clear ; echo "Invalid Option:"
+					help
+					exit 1
+					;;
 		esac
 	done
 
