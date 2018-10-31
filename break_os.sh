@@ -4,6 +4,11 @@
 #created by: br0k3ngl255
 #date: unknow
 #version: 0.0.1
+#purpose: script that shall destroy system so that the pupil could practice debug skills
+####################################################################3
+#
+#!!!   This piece of software is created and posted with GPLv2 lisence    !!!
+#!!!   Please go over the lisence before you'll  start using the software !!!
 #
 ####################################################################3
 #set -xe # debug
@@ -92,13 +97,14 @@ usermod -d /tmp/${user} ${user}
 
 
 break_net(){
-	printf "%s " "starting to break client network"
+	printf "%s " "starting to break client network";sleep 3
 	tar cvzf "$network_path.tgz" $network_path &> $NULL
+	rm -rf $network_path/* &> $NULL
 }
 
 break_client_dns(){
-num=1000000
-while [[ $num >= 0 ]]
+local num=1000000
+while [[ $num>=0 ]]
 	do
 		echo " nameserver 0.0.0.$num" >> /etc/resolv.conf
 		num=$(($num-1));
