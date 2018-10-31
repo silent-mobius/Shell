@@ -33,6 +33,11 @@ printf "%s\n" "Usage: break_os.sh -b -i -a -p"
 printf "%s\n" "$line"
 }
 
+get_ifaces(){
+iface_list=($(nmcli device show |grep GENERAL.DEVICE|awk '{print $2}'|grep -v -E 'lo|vir'))
+
+}
+
 last_warning(){ #should run in case user does not undestands what is ahead of him
 printf "%s\n" "$line"
 for warn in ${warn_msg[@]}
@@ -100,6 +105,12 @@ break_net(){
 	printf "%s " "starting to break client network";sleep 3
 	tar cvzf "$network_path.tgz" $network_path &> $NULL
 	rm -rf $network_path/* &> $NULL
+	get_ifaces; if [[ -z $iface_list ];then
+			get_ifaces
+		    else
+			true
+		    fi
+
 }
 
 break_client_dns(){
