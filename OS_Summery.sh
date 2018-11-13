@@ -3,8 +3,8 @@
 ##################################################################
 #created by : br0k3ngl255
 #date 		: 22.10.2018
-#purpose	: get data from Linux/Unix systems
-#ver		: 1.2.32
+#purpose	: get constructed data from Linux/Unix systems and write them either stdout or to csv file.
+#ver		: 1.4.32
 ##################################################################
 
 Debug="set -x"
@@ -98,14 +98,12 @@ if [[ $var == "centos" ]] || [[ $var == "redhat" ]] || [[ $var == "fedora" ]];th
 	#$cmd2+=($installedAppArray)
 	#installedAppArray=$cmd2
 fi
-
 if [[ $var == "debian" ]] || [[ $var == "ubuntu" ]] ;then
 	#installer="dpkg"
 	installedAppArray=$(dpkg -l |awk -F. '{print $1}'|uniq|sort)
 	#$cmd2+=($installedAppArray)
 	#installedAppArray=$cmd2
 fi
-
 }
 '
 hw_ls(){
@@ -204,11 +202,11 @@ if [ $EUID != "0" ];then
 	exit 1
 
 else
-	while getopts ":xcf" opt
+	while getopts ":xof" opt
 		do 
 			case ${opt} in
 					x) set -xe;;
-					c) print_out_to_csv > file.csv;;
+					o) print_out_to_csv > file.csv;;
 					f) print_out_to_csv
 			esac
 		done
