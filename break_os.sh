@@ -70,13 +70,13 @@ printf "\n%s\n" "$line"
 
 os_check(){
 	_os_check=$(cat /etc/*-release|grep -E '^ID'|awk -F= '{print $2}')
-	if  [ "$_os_check" == "fedora"] || [ "$_os_check" == "redhat"] || [ "$_os_check" == "centos"];then
+	if  [ "$_os_check" == "fedora" ] || [ "$_os_check" == "redhat" ] || [ "$_os_check" == "centos" ];then
 		network_path="/etc/sysconfig/network-scripts"
 	fi
-	if  [ "$_os_check" == "debian"] || [ "$_os_check" == "ubuntu"];then
+	if  [ "$_os_check" == "debian" ] || [ "$_os_check" == "ubuntu" ];then
 		network_path="/etc/network/interfaces"
 	fi
-
+	return $network_path
 }
 
 #"Damage to be done" functions

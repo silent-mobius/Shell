@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ##################################################################
-#created by : br0k3ngl255
+#created by     : br0k3ngl255
 #date 		: 22.10.2018
 #purpose	: get constructed data from Linux/Unix systems and write them either stdout or to csv file.
 #ver		: 1.4.32
@@ -89,23 +89,7 @@ cmd=$(echo $i|awk -F : '{print $3}')
 done <"$usersdb"
 
 }
-: '
-installedApps(){
-	local var=$1
-if [[ $var == "centos" ]] || [[ $var == "redhat" ]] || [[ $var == "fedora" ]];then
-	#installer="rpm"
-	installedAppArray=$(rpm -qa|uniq|sort|awk -F. '{print $1}')
-	#$cmd2+=($installedAppArray)
-	#installedAppArray=$cmd2
-fi
-if [[ $var == "debian" ]] || [[ $var == "ubuntu" ]] ;then
-	#installer="dpkg"
-	installedAppArray=$(dpkg -l |awk -F. '{print $1}'|uniq|sort)
-	#$cmd2+=($installedAppArray)
-	#installedAppArray=$cmd2
-fi
-}
-'
+
 hw_ls(){
 
 if  $(which lshw);then
@@ -137,15 +121,13 @@ printf "%s\n"  $line
 	printf "%s\n"  $line
 	printf "%s "  $stor_msg
 	printf "\n%s \n" $line
-	#printf "System Partions  :\n"	
+
 	printf "	  %s  %s  %s  %s \n" $disk
 	
 	printf "%s\n"  $line
 	printf "%s "  $net_msg
 	printf "\n%s \n"  $line
-	#printf "%-20s %-20s %-20s %-20s %-20s\n  
-	#		%-20s %-20s %-20s %-20s %-20s"  $NetIface  $NetIfaceMac $NetIfaceIp
-	
+
 	for i in ${net_addr_array[@]}
 		do
 				if [ "$i" == "inet" ];then 
@@ -160,7 +142,6 @@ printf "%s\n"  $line
 	printf "%s\n"  $line
 	printf "%s "  $mod_msg
 	printf "\n%s \n" $line
-	#printf "Drivers List     :"
 	printf "%s \n" $driver_list
 	
 	
@@ -173,7 +154,7 @@ printf "%s\n"  $line
 	printf "%s\n"  $line
 	printf "%s " $service_msg
 	printf "\n%s\t %s \n" $line
-	#printf "List of Services :"
+
 	printf "  %-50s         %-5s \n" $ListedServices
 	
 	printf "%s\n"  $line
