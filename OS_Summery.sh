@@ -3,7 +3,8 @@
 ##################################################################
 #created by     : br0k3ngl255
 #date 		: 22.10.2018
-#purpose	: get constructed data from Linux/Unix systems and write them either stdout or to csv file.
+#purpose	: get constructed data from Linux/Unix systems and
+#			write them either stdout or to csv file.
 #ver		: 1.4.32
 ##################################################################
 
