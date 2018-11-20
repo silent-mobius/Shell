@@ -7,7 +7,6 @@
 #ver		: 1.4.32
 ##################################################################
 
-Debug="set -x"
 clear
 #variables +++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -33,24 +32,20 @@ mod_msg="List of Kernel Modules"
 permission_msg="Please Get Root Access"
 
 #system variables
-MD_version=$(env|grep MD_Ver|awk -F= '{print $2}')
-MD_product=$(env|grep MD_Prod|awk -F= '{print $2}')
+md_version=$(env|grep MD_Ver|awk -F= '{print $2}')
+md_product=$(env|grep MD_Prod|awk -F= '{print $2}')
 
 
-OS=$(cat /etc/*-release|grep ID|awk -F= '{print $2}'|head -n1|sed 's/"//g')
-HostName=$(hostname)
-LocalUsersArray=""
-installedAppArray=""
+os=$(cat /etc/*-release|grep ID|awk -F= '{print $2}'|head -n1|sed 's/"//g')
+host_name=$(hostname)
+local_users_array=""
+installed_app_array=""
 
-#LocalUsers=$(while IFS= read -r i; do; cmd=$(echo $i|awk -F : '{print $3}'); if [ $cmd -ge 1000 -a $cmd -le 2000 ];then LocalUsersArray+=($i) ;fi ;done < /etc/passwd )
-LocalUsers=$(while IFS= read -r i;do echo $i|awk -F : '{print $1}'; done < /etc/passwd )
-KernelVersion=$(uname -r)
-SystemArch=$(uname -m)
-#NetIface=$(nmcli device show |grep -E "DEVICE"|awk -F: '{print $2}')
-#NetIfaceMac=$(nmcli device show |grep -E "HWADDR"|awk '{print $2}')
-#NetIfaceIp=$(nmcli device show |grep IP4.ADDRESS|awk -F: '{print $2}')
+local_users=$(while IFS= read -r i;do echo $i|awk -F : '{print $1}'; done < /etc/passwd )
+kernel_version=$(uname -r)
+system_arch=$(uname -m)
 net_addr_array=($(ip addr show | grep inet|grep -v inet6|grep -v "127.0.0.1"))
-ListedServices=$(systemctl list-unit-files|grep service|awk '{print $1,$2}')
+listed_services=$(systemctl list-unit-files|grep service|awk '{print $1,$2}')
 
 #HW info:
 ram=$(free -g|awk '{print $2}'|head -n2|tail -n1)
@@ -60,14 +55,14 @@ driver_list=$(lsmod|awk '{print $1}')
 
 #installedApplications - here is  what's problmatic here
 
-if [ $OS == "centos" ] || [ $OS == "redhat" ] || [ $OS == "fedora" ];then
-	installedAppArray=$(rpm -qa |awk -F. '{print $1}'|uniq|sort)
+if [ $os == "centos" ] || [ $os == "redhat" ] || [ $os == "fedora" ];then
+	installed_app_array=$(rpm -qa |awk -F. '{print $1}'|uniq|sort)
 else
 		true
 fi
 
-if [ $OS == "debian" ] || [ $OS == "ubuntu" ];then
-	installedAppsArray=$(dpkg -l|awk -F. '{print $1}'|uniq|sort)
+if [ $os == "debian" ] || [ $os == "ubuntu" ];then
+	installed_apps_array=$(dpkg -l|awk -F. '{print $1}'|uniq|sort)
 else
 		true
 fi
@@ -75,20 +70,13 @@ fi
 
 
 #Functions --------------------------------------------------------------------------------------------
-
-LocalUsers(){
-usersdb="/etc/passwd"
-while IFS=: read -r i
-
-do
-cmd=$(echo $i|awk -F : '{print $3}')
-		
-	if [ $cmd -ge 1000 -a $cmd -le 2000 ];then 
-		LocalUsersArray+=($i) 
-	fi 
-done <"$usersdb"
-
+usage(){
+note="os_summary.sh -x -f -o -h"
+printf "%s" $line
+	printf "%s" $note
+printf "%s" $line
 }
+
 
 hw_ls(){
 
@@ -105,9 +93,9 @@ print_out_to_csv(){
 printf "%s\n"  $line
 	printf "%s "  $sys_msg
 	printf "\n%s \n" $line
-	printf "System's MD Ver  : %s\n"    $MD_version
-	printf "System's MD prod : %s %s\n "     $MD_product
-	printf "System Arch      : %s  \n"  $SystemArch
+	printf "System's MD Ver  : %s\n"    $md_version
+	printf "System's MD prod : %s %s\n "     $md_product
+	printf "System Arch      : %s  \n"  $system_arch
 	printf "System Memory    : %s Gb\n" $ram
 
 	printf "%s\n"  $line
@@ -115,8 +103,8 @@ printf "%s\n"  $line
 	printf "\n%s\n"  $line
 	printf "System Path      : %s \n" $PATH
 	printf "Operation System : %s \n" $OS
-	printf "Hostname         : %s \n" $HostName 
-	printf "Kernal Version   : %s \n" $KernelVersion
+	printf "Hostname         : %s \n" $host_name 
+	printf "Kernal Version   : %s \n" $kernel_version
 	
 	printf "%s\n"  $line
 	printf "%s "  $stor_msg
@@ -149,20 +137,20 @@ printf "%s\n"  $line
 	printf "%s " $users_msg
 	printf "\n%s \n" $line
 	printf "System Users\n" 
-	printf "  %s \n" $LocalUsers
+	printf "  %s \n" $local_users
 	
 	printf "%s\n"  $line
 	printf "%s " $service_msg
 	printf "\n%s\t %s \n" $line
 
-	printf "  %-50s         %-5s \n" $ListedServices
+	printf "  %-50s         %-5s \n" $listed_services
 	
 	printf "%s\n"  $line
 	printf "%s " $app_msg
 	printf "\n%s \n" $line
 	printf "List of Apps     :"
-	printf "  %s  %s\n" $installedAppArray
-	printf "  %s \n" $installedAppsArray
+	printf "  %s  %s\n" $installed_app_array
+	printf "  %s \n" $installed_apps_array
 	
 
 
@@ -170,7 +158,7 @@ printf "%s\n"  $line
 
 
 
-LocalUsers
+localUsers
 
 
 #######
@@ -183,12 +171,14 @@ if [ $EUID != "0" ];then
 	exit 1
 
 else
-	while getopts ":xof" opt
+	while getopts ":xohf" opt
 		do 
 			case ${opt} in
 					x) set -xe;;
 					o) print_out_to_csv > file.csv;;
-					f) print_out_to_csv
+					h) usage;;
+					f) print_out_to_csv;;
+					\?) usage;;
 			esac
 		done
 
