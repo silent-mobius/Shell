@@ -171,7 +171,7 @@ if [ $EUID != "0" ];then
 	exit 1
 
 else
-	while getopts ":xof" opt
+	while getopts ":xohf" opt
 		do 
 			case ${opt} in
 					x) set -xe;;
