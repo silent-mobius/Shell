@@ -55,13 +55,13 @@ driver_list=$(lsmod|awk '{print $1}')
 
 #installedApplications - here is  what's problmatic here
 
-if [ $OS == "centos" ] || [ $OS == "redhat" ] || [ $OS == "fedora" ];then
+if [ $os == "centos" ] || [ $os == "redhat" ] || [ $os == "fedora" ];then
 	installed_app_array=$(rpm -qa |awk -F. '{print $1}'|uniq|sort)
 else
 		true
 fi
 
-if [ $OS == "debian" ] || [ $OS == "ubuntu" ];then
+if [ $os == "debian" ] || [ $os == "ubuntu" ];then
 	installed_apps_array=$(dpkg -l|awk -F. '{print $1}'|uniq|sort)
 else
 		true
@@ -70,20 +70,13 @@ fi
 
 
 #Functions --------------------------------------------------------------------------------------------
-
-localUsers(){
-usersdb="/etc/passwd"
-while IFS=: read -r i
-
-do
-cmd=$(echo $i|awk -F : '{print $3}')
-		
-	if [ $cmd -ge 1000 -a $cmd -le 2000 ];then 
-		Local_users_array+=($i) 
-	fi 
-done <"$usersdb"
-
+usage(){
+note="os_summary.sh -x -f -o -h"
+printf "%s" $line
+	printf "%s" $note
+printf "%s" $line
 }
+
 
 hw_ls(){
 
@@ -144,7 +137,7 @@ printf "%s\n"  $line
 	printf "%s " $users_msg
 	printf "\n%s \n" $line
 	printf "System Users\n" 
-	printf "  %s \n" $localUsers
+	printf "  %s \n" $local_users
 	
 	printf "%s\n"  $line
 	printf "%s " $service_msg
@@ -183,7 +176,9 @@ else
 			case ${opt} in
 					x) set -xe;;
 					o) print_out_to_csv > file.csv;;
-					f) print_out_to_csv
+					h) usage;;
+					f) print_out_to_csv;;
+					\?) usage;;
 			esac
 		done
 
