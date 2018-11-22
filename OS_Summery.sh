@@ -3,10 +3,10 @@
 ##################################################################
 #created by     : br0k3ngl255
 #date 		: 22.10.2018
-#purpose	: get constructed data from Linux/Unix systems and
-#			write them either stdout or to csv file.
-#ver		: 1.4.32
+#purpose	: get constructed data from Linux/Unix systems and write them either stdout or to csv file.
+#ver		: 1.5.19
 ##################################################################
+
 
 clear
 #variables +++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -39,8 +39,8 @@ md_product=$(env|grep MD_Prod|awk -F= '{print $2}')
 
 os=$(cat /etc/*-release|grep ID|awk -F= '{print $2}'|head -n1|sed 's/"//g')
 host_name=$(hostname)
-local_users_array=""
-installed_app_array=""
+local_users_arr=""
+installed_app_arr=""
 
 local_users=$(while IFS= read -r i;do echo $i|awk -F : '{print $1}'; done < /etc/passwd )
 kernel_version=$(uname -r)
@@ -51,19 +51,19 @@ listed_services=$(systemctl list-unit-files|grep service|awk '{print $1,$2}')
 #HW info:
 ram=$(free -g|awk '{print $2}'|head -n2|tail -n1)
 disk=$( df -hT|grep -v tmpfs|awk '{print $1,$2,$3,$7}')
-cpu_info=$(lshw -C cpu|grep -v capabilities)
+cpu_info=$(lshw  -quiet -C cpu|grep -v capabilities)
 driver_list=$(lsmod|awk '{print $1}')
 
 #installedApplications - here is  what's problmatic here
 
 if [ $os == "centos" ] || [ $os == "redhat" ] || [ $os == "fedora" ];then
-	installed_app_array=$(rpm -qa |awk -F. '{print $1}'|uniq|sort)
+	installed_apps_arr=$(rpm -qa |awk -F. '{print $1}'|uniq|sort)
 else
 		true
 fi
 
 if [ $os == "debian" ] || [ $os == "ubuntu" ];then
-	installed_apps_array=$(dpkg -l|awk -F. '{print $1}'|uniq|sort)
+	installed_apps_arr=$(dpkg -l|awk -F. '{print $1}'|uniq|sort)
 else
 		true
 fi
@@ -71,13 +71,34 @@ fi
 
 
 #Functions --------------------------------------------------------------------------------------------
+
 usage(){
-note="os_summary.sh -x -f -o -h"
-printf "%s" $line
-	printf "%s" $note
-printf "%s" $line
+	note="To use script type : $0 -x -f -h -o"
+	opt_msg=" -x : print the debug the output"
+	opt_msg2=" -f : print the system details to screen" 
+	opt_msg3=" -o : write system details to file.csv file "
+	opt_msg4=" -h : help message "
+	printf "%s " $note
+	printf "\n$opt_msg" 
+	printf "\n$opt_msg2"
+	printf "\n$opt_msg3"
+	printf "\n$opt_msg4\n"
+
 }
 
+Local_users(){
+usersdb="/etc/passwd"
+while IFS=: read -r i
+
+do
+cmd=$(echo $i|awk -F : '{print $3}')
+		
+	if [ $cmd -ge 1000 -a $cmd -le 2000 ];then 
+		local_users_arr+=($i) 
+	fi 
+done <"$usersdb"
+
+}
 
 hw_ls(){
 
@@ -91,32 +112,30 @@ fi
 
 
 print_out_to_csv(){
-printf "%s\n"  $line
+	printf "%s\n"  $line
 	printf "%s "  $sys_msg
 	printf "\n%s \n" $line
-	printf "System's MD Ver  : %s\n"    $md_version
-	printf "System's MD prod : %s %s\n "     $md_product
-	printf "System Arch      : %s  \n"  $system_arch
+	printf "System's MD Ver  : %s\n"       $md_version
+	printf "System's MD prod : %s %s\n "   $md_product
+	printf "System Arch      : %s  \n"  $SystemArch
 	printf "System Memory    : %s Gb\n" $ram
 
 	printf "%s\n"  $line
 	printf "%s " $hw_msg
 	printf "\n%s\n"  $line
 	printf "System Path      : %s \n" $PATH
-	printf "Operation System : %s \n" $OS
+	printf "Operation System : %s \n" $os
 	printf "Hostname         : %s \n" $host_name 
 	printf "Kernal Version   : %s \n" $kernel_version
 	
 	printf "%s\n"  $line
 	printf "%s "  $stor_msg
 	printf "\n%s \n" $line
-
 	printf "	  %s  %s  %s  %s \n" $disk
 	
 	printf "%s\n"  $line
 	printf "%s "  $net_msg
 	printf "\n%s \n"  $line
-
 	for i in ${net_addr_array[@]}
 		do
 				if [ "$i" == "inet" ];then 
@@ -143,23 +162,20 @@ printf "%s\n"  $line
 	printf "%s\n"  $line
 	printf "%s " $service_msg
 	printf "\n%s\t %s \n" $line
-
 	printf "  %-50s         %-5s \n" $listed_services
 	
 	printf "%s\n"  $line
 	printf "%s " $app_msg
 	printf "\n%s \n" $line
 	printf "List of Apps     :"
-	printf "  %s  %s\n" $installed_app_array
-	printf "  %s \n" $installed_apps_array
-	
+	printf "  %s \n" $installed_apps_arr	
 
 
 }
 
 
 
-localUsers
+Local_users
 
 
 #######
@@ -177,9 +193,9 @@ else
 			case ${opt} in
 					x) set -xe;;
 					o) print_out_to_csv > file.csv;;
+					f) print_out_to_csv ;;
 					h) usage;;
-					f) print_out_to_csv;;
-					\?) usage;;
+					\?) echo "invalid option"; usage;;
 			esac
 		done
 
