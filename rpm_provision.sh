@@ -138,12 +138,18 @@ else
 		printf "%s \n" $msg_start
 	printf "%s \n" $line
 	sleep $Time
+	
+	printf "%s \n" $line
+		printf "%s \n" $msg_note
+	printf "%s \n" $line
+			add_repo
+			sleep $Time
 
-	add_repo
-
-	sleep $Time
-
-	install_pkgs
+	printf "%s \n" $line
+		printf "%s \n" $msg_note
+	printf "%s \n" $line
+	
+			install_pkgs
 
 	printf "%s \n" $line
 		printf "%s \n" $msg_end
