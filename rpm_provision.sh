@@ -87,14 +87,23 @@ add_repo(){
 			for repo in ${c_external_repo_arr[@]}
 				do
 					$installer install $repo
+					sleep $Time
 				done
 	fi
 
 	if [ "$cmd" == "fedora" ];then
 		printf "%s \n" $msg_add_repo
+		
+			for repo in ${c_external_repo_arr[@]}
+				do
+					$installer install $repo
+					sleep $Time
+				done
+				
 			for repo in ${f_external_repo_arr[@]}
 				do
 					$installer install -y $repo
+					sleep $Time
 				done
 	fi
 
