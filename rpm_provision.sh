@@ -23,11 +23,12 @@ Time=1
 installer=""
 
 #arrays
-gui_pkg_arr=(gitg,gitk,geany,guake,plank, \
-	     remmina,falkon,gimp,vlc,\
-	     sqlitebrowser, pgadmin3,\
-	     gnome-builder,owncloud-client,\
-	     terminator, epel-release )
+gui_pkg_arr=(gitg,gitk,geany,guake,plank,
+	     remmina,falkon,gimp,vlc,
+	     sqlitebrowser,pgadmin3,
+	     gnome-builder,owncloud-client,
+	     terminator,epel-release )
+	     
 group_pkg_arr=("Administration Tools", "Ansible node",\
 	       "Authoring and Publishing Books and Guides",\
 	       "C Development Tools and Libraries",\
@@ -48,36 +49,33 @@ choose_installer(){
 	cmd=$(cat /etc/*-release|grep ID|head -n1|awk -F= '{print $2}'|sed 's/\"//g')
 	cmd_ver=$(cat /etc/*-release|grep VERSION_ID|head -n1|awk -F= '{print $2}'|sed 's/\"//g')
 	if [ "$cmd" == "fedora" ];then
-		if [ $cmd_ver -ge 22 ];then
+		if [ ! $cmd_ver -ge 22 ];then
 			printf "%s \n" $line
 				printf "%s \n" $msg_unsupported
 			printf "%s \n" $line
-		else
-			installer="dnf"
+			exit 1
 		fi
-
+		installer="dnf"
 	fi
 
 	if [ "$cmd" == "centos" ];then
-		if [ $cmd_ver != "7" ];then
+		if [ ! $cmd_ver -ge "7" ];then
 			printf "%s \n" $line
 				printf "%s \n" $msg_unsupported
 			printf "%s \n" $line
-		else
-			installer="yum"
+			exit 1
 		fi
-
+			installer="yum"
 	fi
 
 	if [ "$cmd" == "redhat" ];then
-		if [ $cmd_ver == "7" ];then
+		if [ ! $cmd_ver -ge "7" ];then
 			printf "%s \n" $line
 				printf "%s \n" $msg_unsupported
 			printf "%s \n" $line
-		else
-			installer="yum"
+			exit 1
 		fi
-
+		installer="yum"
 	fi
 	}
 
@@ -107,7 +105,7 @@ install_pkgs(){
 		printf "%s \n" $msg_start_install
 	printf "%s \n" $line
 	IFS=","
-	for pkg in ${gui_pkg_arr}
+	for pkg in ${gui_pkg_arr[@]}
 		do
 			$installer install -y $pkg; sleep $Time
 		done
