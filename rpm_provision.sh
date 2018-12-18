@@ -3,7 +3,7 @@
 # created by : br0k3ngl255
 # purpose	 : to provision rpm based laptops for development	
 # date		 :  14/12/2018
-# version	 : 0.2.3
+# version	 : 0.2.4
 ##############################################################################
 
 ##vars ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -13,7 +13,7 @@ msg_error="Something went wrong - try running in debug mode"
 msg_note="Notification "
 msg_start="Start OF Script"
 msg_end="End Of Script"
-msg_permission_="Please Get Root Access"
+msg_permission="Please Get Root Access"
 msg_unsupported="This OS is NOT supported"
 msg_start_install="starting installing packages and group packages"
 msg_add_repo="adding repo"
