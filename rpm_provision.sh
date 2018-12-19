@@ -162,13 +162,16 @@ else
 	printf "%s \n" $line
 	
 			install_pkgs
-	
+			sleep $Time
+			
 	printf "%s \n" $line
 		printf "%s \n" $msg_note
 	printf "%s \n" $line
 	
 			install_group_pkgs
-	
+			sleep $Time
+			
+			
 	printf "%s \n" $line
 		printf "%s \n" $msg_end
 	printf "%s \n" $line
