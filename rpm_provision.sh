@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
+
 ##############################################################################
 # created by : br0k3ngl255
 # purpose	 : to provision rpm based laptops for development	
 # date		 :  14/12/2018
-# version	 : 0.2.4
+# version	 : 0.2.6
 ##############################################################################
 
 ##vars ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -27,16 +28,16 @@ gui_pkg_arr=(gitg,gitk,geany,guake,plank,
 	     remmina,falkon,gimp,vlc,
 	     sqlitebrowser,pgadmin3,
 	     gnome-builder,owncloud-client,
-	     terminator,epel-release )
+	     terminator,epel-release,meld )
 	     
 group_pkg_arr=("Administration Tools", "Ansible node",\
-	       "Authoring and Publishing Books and Guides",\
-	       "C Development Tools and Libraries",\
-	       "Cloud Management Tools", "Container Management",\
- 	       "Development Tools", "Editors", "Headless Management",\
- 	       "LibreOffice", "Network Servers", "Python Classroom",\
- 	       "Python Science", "RPM Development Tools", "Fonts",\
- 	       "Hardware Support", "System Tools" )
+			   "Authoring and Publishing Books and Guides",\
+			   "C Development Tools and Libraries",\
+			   "Cloud Management Tools", "Container Management",\
+			   "Development Tools", "Editors", "Headless Management",\
+			   "LibreOffice", "Network Servers", "Python Classroom",\
+			   "Python Science", "RPM Development Tools", "Fonts",\
+			   "Hardware Support", "System Tools" )
 
 f_external_repo_arr=("https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm",
 		     "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm")
@@ -121,20 +122,22 @@ install_pkgs(){
 	IFS=" "
 }
 
-: '
+
 install_group_pkgs(){
 	if [ -z $installer ];then
 		choose_installer
 	else
 		true
 	fi
+	IFS=","
 	for repo in ${external_repo_arr[@]}
 		do
 			$installer install $repo
 		done
-
+	IFS=" "
 }
-'
+
+
 ####
 #Main - _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _
 ####
@@ -159,7 +162,13 @@ else
 	printf "%s \n" $line
 	
 			install_pkgs
-
+	
+	printf "%s \n" $line
+		printf "%s \n" $msg_note
+	printf "%s \n" $line
+	
+			install_group_pkgs
+	
 	printf "%s \n" $line
 		printf "%s \n" $msg_end
 	printf "%s \n" $line
