@@ -45,8 +45,16 @@ f_external_repo_arr=("https://download1.rpmfusion.org/free/fedora/rpmfusion-free
 c_external_repo_arr=("https://download1.rpmfusion.org/free/el/rpmfusion-free-release-7.noarch.rpm",
 		     "https://download1.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-7.noarch.rpm" )
 
-links=("http://kdl.cc.ksosoft.com/wps-community/download/6757/wps-office-10.1.0.6757-1.x86_64.rpm", 
-	   "https://atom.io/download/rpm", "https://downloads.slack-edge.com/linux_releases/slack-3.3.3-0.1.fc21.x86_64.rpm",
+links=(\ 
+	   "http://kdl.cc.ksosoft.com/wps-community/download/6757/wps-office-10.1.0.6757-1.x86_64.rpm",
+	   "https://atom.io/download/rpm",
+	   "https://downloads.slack-edge.com/linux_releases/slack-3.3.3-0.1.fc21.x86_64.rpm",
+	   "https://releases.hashicorp.com/terraform/0.11.11/terraform_0.11.11_linux_amd64.zip",
+	   "https://releases.hashicorp.com/vault/1.0.1/vault_1.0.1_linux_amd64.zip",
+	   "https://releases.hashicorp.com/nomad/0.8.6/nomad_0.8.6_linux_amd64.zip",
+	   "https://releases.hashicorp.com/consul/1.4.0/consul_1.4.0_linux_amd64.zip",
+	   "https://releases.hashicorp.com/vagrant/2.2.2/vagrant_2.2.2_x86_64.rpm",
+	   "https://releases.hashicorp.com/packer/1.3.3/packer_1.3.3_linux_amd64.zip",
 	   )
 ##funcs /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 choose_installer(){
@@ -135,12 +143,24 @@ install_group_pkgs(){
 	IFS=","
 	for repo in ${external_repo_arr[@]}
 		do
-			$installer install $repo
+			$installer groupinstall $repo
 		done
 	IFS=" "
 }
 
-
+manual_download(){
+	printf "%s \n" $line
+		printf "%s \n" $msg_note
+	printf "%s \n" $line
+	if [[ -x /usr/bin/wget ]];then
+	IFS="," 
+		for link in ${links[@]}
+			do
+				wget $link ;sleep 0.5
+			done;
+	IFS=" "
+	fi
+	}
 ####
 #Main - _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _
 ####
@@ -149,14 +169,17 @@ if [ $EUID != 0 ];then
 	printf "%s \n" $msg_permission;sleep $Time
 	exit 1
 else
+#TODO - need to add getops variables to make it with modular
 	printf "%s \n" $line
 		printf "%s \n" $msg_start
 	printf "%s \n" $line
-	sleep $Time
+			
+			sleep $Time
 
 	printf "%s \n" $line
 		printf "%s \n" $msg_note
 	printf "%s \n" $line
+		
 			add_repo
 			sleep $Time
 
