@@ -28,10 +28,6 @@ gui_pkg_arr=(gitg,gitk,geany,guake,plank,
 	     remmina,falkon,gimp,vlc,
 	     sqlitebrowser,pgadmin3,
 	     gnome-builder,owncloud-client,
-<<<<<<< HEAD
-	     terminator,epel-release )
-
-=======
 	     terminator,epel-release,meld )
 	     
 >>>>>>> c0bf02b27ee5351a7043a290673584810d5e285e
