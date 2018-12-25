@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 ##############################################################################
 # created by : br0k3ngl255
-# purpose	 : to provision rpm based laptops for development	
+# purpose	 : to provision rpm based laptops for development
 # date		 :  14/12/2018
 # version	 : 0.2.3
 ##############################################################################
@@ -28,7 +28,7 @@ gui_pkg_arr=(gitg,gitk,geany,guake,plank,
 	     sqlitebrowser,pgadmin3,
 	     gnome-builder,owncloud-client,
 	     terminator,epel-release )
-	     
+
 group_pkg_arr=("Administration Tools", "Ansible node",\
 	       "Authoring and Publishing Books and Guides",\
 	       "C Development Tools and Libraries",\
@@ -93,13 +93,13 @@ add_repo(){
 
 	if [ "$cmd" == "fedora" ];then
 		printf "%s \n" $msg_add_repo
-		
+
 			for repo in ${c_external_repo_arr[@]}
 				do
 					$installer install $repo
 					sleep $Time
 				done
-				
+
 			for repo in ${f_external_repo_arr[@]}
 				do
 					$installer install -y $repo
@@ -147,7 +147,7 @@ else
 		printf "%s \n" $msg_start
 	printf "%s \n" $line
 	sleep $Time
-	
+
 	printf "%s \n" $line
 		printf "%s \n" $msg_note
 	printf "%s \n" $line
@@ -157,7 +157,7 @@ else
 	printf "%s \n" $line
 		printf "%s \n" $msg_note
 	printf "%s \n" $line
-	
+
 			install_pkgs
 
 	printf "%s \n" $line
