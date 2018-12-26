@@ -147,7 +147,7 @@ install_group_pkgs(){
 		done
 	IFS=" "
 }
-: '
+<< EOL
 manual_download(){
 	printf "%s \n" $line
 		printf "%s \n" $msg_note
@@ -161,7 +161,8 @@ manual_download(){
 	IFS=" "
 	fi
 	}
-'
+EOL
+
 ####
 #Main - _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _
 ####
