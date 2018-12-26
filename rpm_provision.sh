@@ -147,7 +147,7 @@ install_group_pkgs(){
 		done
 	IFS=" "
 }
-
+<< EOL
 manual_download(){
 	printf "%s \n" $line
 		printf "%s \n" $msg_note
@@ -161,6 +161,8 @@ manual_download(){
 	IFS=" "
 	fi
 	}
+EOL
+
 ####
 #Main - _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _
 ####
@@ -169,7 +171,9 @@ if [ $EUID != 0 ];then
 	printf "%s \n" $msg_permission;sleep $Time
 	exit 1
 else
+############################################################
 #TODO - need to add getops variables to make it with modular
+############################################################
 	printf "%s \n" $line
 		printf "%s \n" $msg_start
 	printf "%s \n" $line
