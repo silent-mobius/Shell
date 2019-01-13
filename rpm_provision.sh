@@ -24,37 +24,37 @@ Time=1
 installer=""
 
 #arrays
-gui_pkg_arr=(gitg,gitk,geany,guake,plank,
-	     remmina,falkon,gimp,vlc,
-	     sqlitebrowser,pgadmin3,
-	     gnome-builder,owncloud-client,
-	     terminator,epel-release,meld,wget, )
+gui_pkg_arr=(gitg,gitk,geany,guake,plank,\
+	     remmina,falkon,gimp,vlc,\
+	     sqlitebrowser,pgadmin3,\
+	     gnome-builder,owncloud-client,\
+	     terminator,epel-release,meld,wget)
 	     
 	     
-group_pkg_arr=("Administration Tools", "Ansible node",
-			   "Authoring and Publishing Books and Guides",
-			   "C Development Tools and Libraries",
-			   "Cloud Management Tools", "Container Management",
-			   "Development Tools", "Editors", "Headless Management",
-			   "LibreOffice", "Network Servers", "Python Classroom",
-			   "Python Science", "RPM Development Tools", "Fonts",
+group_pkg_arr=("Administration Tools", "Ansible node",\
+			   "Authoring and Publishing Books and Guides",\
+			   "C Development Tools and Libraries",\
+			   "Cloud Management Tools", "Container Management",\
+			   "Development Tools", "Editors", "Headless Management",\
+			   "LibreOffice", "Network Servers", "Python Classroom",\
+			   "Python Science", "RPM Development Tools", "Fonts",\
 			   "Hardware Support", "System Tools" )
 
-f_external_repo_arr=("https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm",
+f_external_repo_arr=("https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm",\
 		     "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm")
-c_external_repo_arr=("https://download1.rpmfusion.org/free/el/rpmfusion-free-release-7.noarch.rpm",
+c_external_repo_arr=("https://download1.rpmfusion.org/free/el/rpmfusion-free-release-7.noarch.rpm",\
 		     "https://download1.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-7.noarch.rpm" )
 
 links=(\ 
-	   "http://kdl.cc.ksosoft.com/wps-community/download/6757/wps-office-10.1.0.6757-1.x86_64.rpm",
-	   "https://atom.io/download/rpm",
-	   "https://downloads.slack-edge.com/linux_releases/slack-3.3.3-0.1.fc21.x86_64.rpm",
-	   "https://releases.hashicorp.com/terraform/0.11.11/terraform_0.11.11_linux_amd64.zip",
-	   "https://releases.hashicorp.com/vault/1.0.1/vault_1.0.1_linux_amd64.zip",
-	   "https://releases.hashicorp.com/nomad/0.8.6/nomad_0.8.6_linux_amd64.zip",
-	   "https://releases.hashicorp.com/consul/1.4.0/consul_1.4.0_linux_amd64.zip",
-	   "https://releases.hashicorp.com/vagrant/2.2.2/vagrant_2.2.2_x86_64.rpm",
-	   "https://releases.hashicorp.com/packer/1.3.3/packer_1.3.3_linux_amd64.zip",
+	   "http://kdl.cc.ksosoft.com/wps-community/download/6757/wps-office-10.1.0.6757-1.x86_64.rpm",\
+	   "https://atom.io/download/rpm",\
+	   "https://downloads.slack-edge.com/linux_releases/slack-3.3.3-0.1.fc21.x86_64.rpm",\
+	   "https://releases.hashicorp.com/terraform/0.11.11/terraform_0.11.11_linux_amd64.zip",\
+	   "https://releases.hashicorp.com/vault/1.0.1/vault_1.0.1_linux_amd64.zip",\
+	   "https://releases.hashicorp.com/nomad/0.8.6/nomad_0.8.6_linux_amd64.zip",\
+	   "https://releases.hashicorp.com/consul/1.4.0/consul_1.4.0_linux_amd64.zip",\
+	   "https://releases.hashicorp.com/vagrant/2.2.2/vagrant_2.2.2_x86_64.rpm",\
+	   "https://releases.hashicorp.com/packer/1.3.3/packer_1.3.3_linux_amd64.zip"
 	   )
 ##funcs /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 choose_installer(){
