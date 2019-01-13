@@ -30,7 +30,7 @@ gui_pkg_arr=(gitg,gitk,geany,guake,plank,
 	     gnome-builder,owncloud-client,
 	     terminator,epel-release,meld,wget, )
 	     
->>>>>>> c0bf02b27ee5351a7043a290673584810d5e285e
+	     
 group_pkg_arr=("Administration Tools", "Ansible node",
 			   "Authoring and Publishing Books and Guides",
 			   "C Development Tools and Libraries",
