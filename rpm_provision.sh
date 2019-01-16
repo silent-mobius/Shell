@@ -171,8 +171,10 @@ manual_download(){
 #Main - _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _
 ####
 
-if [ $EUID != 0 ];then
-	printf '%s \n' "$msg_permission";sleep $Time
+if [[ $EUID != 0 ]];then
+	printf '%s\n' "$line"
+		printf '%s \n' "$msg_permission";sleep $Time
+	printf '%s\n' "$line"
 	exit 1
 else
 ############################################################
