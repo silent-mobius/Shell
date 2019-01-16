@@ -62,9 +62,9 @@ choose_installer(){
 	cmd_ver=$(cat /etc/*-release|grep VERSION_ID|head -n1|awk -F= '{print $2}'|sed 's/\"//g')
 	if [ "$cmd" == "fedora" ];then
 		if [ ! $cmd_ver -ge 22 ];then
-			printf "%s \n" $line
-				printf "%s \n" $msg_unsupported
-			printf "%s \n" $line
+			printf '%s\n' "$line"
+				printf '%s \n' "$msg_unsupported"
+			printf '%s\n' "$line"
 			exit 1
 		fi
 		installer="dnf"
@@ -72,9 +72,9 @@ choose_installer(){
 
 	if [ "$cmd" == "centos" ];then
 		if [ ! $cmd_ver -ge "7" ];then
-			printf "%s \n" $line
-				printf "%s \n" $msg_unsupported
-			printf "%s \n" $line
+			printf '%s\n' "$line"
+				printf '%s \n' "$msg_unsupported"
+			printf '%s\n' "$line"
 			exit 1
 		fi
 			installer="yum"
@@ -82,9 +82,9 @@ choose_installer(){
 
 	if [ "$cmd" == "redhat" ];then
 		if [ ! $cmd_ver -ge "7" ];then
-			printf "%s \n" $line
-				printf "%s \n" $msg_unsupported
-			printf "%s \n" $line
+			printf '%s\n' "$line"
+				printf '%s \n' "$msg_unsupported"
+			printf '%s\n' "$line"
 			exit 1
 		fi
 		installer="yum"
@@ -95,7 +95,7 @@ add_repo(){
 	choose_installer;sleep $Time
 	cmd=$(cat /etc/*-release|grep ID|head -n1|awk -F= '{print $2}'|sed 's/\"//g')
 	if [ "$cmd" == "redhat" ] || [ $cmd == "centos" ];then
-		printf "%s \n" $msg_add_repo
+		printf '%s \n' "$msg_add_repo"
 			IFS=","
 			for repo in ${c_external_repo_arr[@]}
 				do
@@ -106,7 +106,7 @@ add_repo(){
 	fi
 
 	if [ "$cmd" == "fedora" ];then
-		printf "%s \n" $msg_add_repo
+		printf '%s \n' "$msg_add_repo"
 			IFS=","
 			for repo in ${c_external_repo_arr[@]}
 				do
@@ -126,9 +126,9 @@ add_repo(){
 }
 
 install_pkgs(){
-	printf "%s \n" $line
-		printf "%s \n" $msg_start_install
-	printf "%s \n" $line
+	printf '%s\n' "$line"
+		printf '%s \n' "$msg_start_install"
+	printf '%s\n' "$line"
 	IFS=","
 	for pkg in ${gui_pkg_arr[@]}
 		do
@@ -153,9 +153,9 @@ install_group_pkgs(){
 }
 
 manual_download(){
-	printf "%s \n" $line
-		printf "%s \n" $msg_note
-	printf "%s \n" $line
+	printf '%s\n' "$line"
+		printf '%s \n' "$msg_note"
+	printf '%s\n' "$line"
 	if [[ -x /usr/bin/wget ]];then
 	IFS="," 
 		for link in ${links[@]}
@@ -172,7 +172,7 @@ manual_download(){
 ####
 
 if [ $EUID != 0 ];then
-	printf "%s \n" $msg_permission;sleep $Time
+	printf '%s \n' "$msg_permission";sleep $Time
 	exit 1
 else
 ############################################################
