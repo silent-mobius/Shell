@@ -6,7 +6,7 @@
 # date		 :  14/12/2018
 # version	 : 0.4.9
 ##############################################################################
-
+	
 ##vars ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 #msgs
@@ -54,7 +54,7 @@ links=(\
 	   "https://releases.hashicorp.com/nomad/0.8.6/nomad_0.8.6_linux_amd64.zip",\
 	   "https://releases.hashicorp.com/consul/1.4.0/consul_1.4.0_linux_amd64.zip",\
 	   "https://releases.hashicorp.com/vagrant/2.2.2/vagrant_2.2.2_x86_64.rpm",\
-	   "https://releases.hashicorp.com/packer/1.3.3/packer_1.3.3_linux_amd64.zip"
+	   "https://releases.hashicorp.com/packer/1.3.3/packer_1.3.3_linux_amd64.zip"\
 	   )
 ##funcs /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 choose_installer(){
@@ -96,27 +96,31 @@ add_repo(){
 	cmd=$(cat /etc/*-release|grep ID|head -n1|awk -F= '{print $2}'|sed 's/\"//g')
 	if [ "$cmd" == "redhat" ] || [ $cmd == "centos" ];then
 		printf "%s \n" $msg_add_repo
+			IFS=","
 			for repo in ${c_external_repo_arr[@]}
 				do
 					$installer install $repo
 					sleep $Time
 				done
+			IFS=" "
 	fi
 
 	if [ "$cmd" == "fedora" ];then
 		printf "%s \n" $msg_add_repo
-
+			IFS=","
 			for repo in ${c_external_repo_arr[@]}
 				do
 					$installer install $repo
 					sleep $Time
 				done
-
+			IFS=" " ;
+			IFS=","
 			for repo in ${f_external_repo_arr[@]}
 				do
 					$installer install -y $repo
 					sleep $Time
 				done
+			IFS=" "
 	fi
 
 }
@@ -147,7 +151,7 @@ install_group_pkgs(){
 		done
 	IFS=" "
 }
-<< EOL
+
 manual_download(){
 	printf "%s \n" $line
 		printf "%s \n" $msg_note
@@ -161,7 +165,7 @@ manual_download(){
 	IFS=" "
 	fi
 	}
-EOL
+
 
 ####
 #Main - _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _
@@ -174,36 +178,42 @@ else
 ############################################################
 #TODO - need to add getops variables to make it with modular
 ############################################################
-	printf "%s \n" $line
-		printf "%s \n" $msg_start
-	printf "%s \n" $line
+	printf '%s\n' "$line"
+		printf '%s ' "$msg_start"
+	printf '%s\n' "$line"
 			
 			sleep $Time
 
-	printf "%s \n" $line
-		printf "%s \n" $msg_note
-	printf "%s \n" $line
+	printf '%s\n' "$line"
+		printf '%s\n' "$msg_note"
+	printf '%s\n' "$line"
 		
 			add_repo
 			sleep $Time
 
-	printf "%s \n" $line
-		printf "%s \n" $msg_note
-	printf "%s \n" $line
+	printf '%s\n' "$line"
+		printf '%s\n' "$msg_note"
+	printf '%s\n' "$line"
 
 			install_pkgs
 			sleep $Time
 			
-	printf "%s \n" $line
-		printf "%s \n" $msg_note
-	printf "%s \n" $line
+	printf '%s\n' "$line"
+		printf '%s\n' "$msg_note"
+	printf '%s\n' "$line"
 	
 			install_group_pkgs
 			sleep $Time
 			
-			
-	printf "%s \n" $line
-		printf "%s \n" $msg_end
-	printf "%s \n" $line
+	printf '%s\n' "$line"
+		printf '%s\n' "$msg_note"
+	printf '%s\n' "$line"
+	
+			manual_download
+			sleep $Time	
+				
+	printf '%s\n' "$line"
+		printf '%s\n' "$msg_end"
+	printf '%s\n' "$line"
 
 fi
