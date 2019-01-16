@@ -179,7 +179,7 @@ else
 #TODO - need to add getops variables to make it with modular
 ############################################################
 	printf '%s\n' "$line"
-		printf '%s ' "$msg_start"
+		printf '%s\n' "$msg_start"
 	printf '%s\n' "$line"
 			
 			sleep $Time
