@@ -8,6 +8,8 @@
 ##############################################################################
 #set -x	
 ##vars ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#folders
+log_folder="/tmp"
 
 #msgs
 msg_error="Something went wrong - try running in debug mode"
@@ -18,10 +20,15 @@ msg_permission="Please Get Root Access"
 msg_unsupported="This OS is NOT supported"
 msg_start_install="starting installing packages and group packages"
 msg_add_repo="adding repo"
+
 #misc
 line="========================================================================"
 Time=1
 installer=""
+log_file="provision.log"
+
+#combo
+logf="$log_folder/$log_file"
 
 #arrays
 gui_pkg_arr=(gitg gitk geany guake plank \
@@ -99,7 +106,7 @@ add_repo(){
 			IFS=","
 			for repo in ${c_external_repo_arr[@]}
 				do
-					$installer install $repo
+					$installer install $repo &>> $logf
 					sleep $Time
 				done
 			IFS=" "
@@ -110,7 +117,7 @@ add_repo(){
 			IFS=","
 			for repo in ${f_external_repo_arr[@]}
 				do
-					$installer install -y $repo
+					$installer install -y $repo &>> $logf
 					sleep $Time
 				done
 			IFS=" "
@@ -125,7 +132,7 @@ install_pkgs(){
 	IFS=","
 	for pkg in ${gui_pkg_arr[@]}
 		do
-			$installer install -y $pkg; sleep $Time
+			$installer install -y $pkg &>> $logf; sleep $Time
 		done
 	IFS=" "
 }
@@ -140,7 +147,7 @@ install_group_pkgs(){
 	IFS=","
 	for repo in ${external_repo_arr[@]}
 		do
-			$installer groupinstall $repo
+			$installer groupinstall $repo &>> $logf
 		done
 	IFS=" "
 }
@@ -153,7 +160,7 @@ manual_download(){
 	IFS="," 
 		for link in ${links[@]}
 			do
-				wget $link ;sleep 0.5
+				wget $link  &>> $logf;sleep 0.5
 			done;
 	IFS=" "
 	fi
