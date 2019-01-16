@@ -6,7 +6,7 @@
 # date		 :  14/12/2018
 # version	 : 0.4.9
 ##############################################################################
-	
+#set -x	
 ##vars ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 #msgs
@@ -24,29 +24,29 @@ Time=1
 installer=""
 
 #arrays
-gui_pkg_arr=(gitg,gitk,geany,guake,plank,\
-	     remmina,falkon,gimp,vlc,\
-	     sqlitebrowser,pgadmin3,\
-	     gnome-builder,owncloud-client,\
-	     terminator,epel-release,meld,wget)
+gui_pkg_arr=(gitg gitk geany guake plank \
+	     remmina falkon gimp vlc \
+	     sqlitebrowser pgadmin3 \
+	     gnome-builder owncloud-client \
+	     terminator epel-release meld wget)
 	     
 	     
-group_pkg_arr=("Administration Tools", "Ansible node",\
-			   "Authoring and Publishing Books and Guides",\
-			   "C Development Tools and Libraries",\
-			   "Cloud Management Tools", "Container Management",\
-			   "Development Tools", "Editors", "Headless Management",\
-			   "LibreOffice", "Network Servers", "Python Classroom",\
-			   "Python Science", "RPM Development Tools", "Fonts",\
-			   "Hardware Support", "System Tools" )
+group_pkg_arr=("Administration Tools" "Ansible node" \
+			   "Authoring and Publishing Books and Guides" \
+			   "C Development Tools and Libraries" \
+			   "Cloud Management Tools" "Container Management" \
+			   "Development Tools" "Editors" "Headless Management" \
+			   "LibreOffice" "Network Servers" "Python Classroom" \
+			   "Python Science" "RPM Development Tools" "Fonts" \
+			   "Hardware Support" "System Tools" )
 
-f_external_repo_arr=("https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm",\
+f_external_repo_arr=("https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm" \
 		     "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm")
-c_external_repo_arr=("https://download1.rpmfusion.org/free/el/rpmfusion-free-release-7.noarch.rpm",\
+c_external_repo_arr=("https://download1.rpmfusion.org/free/el/rpmfusion-free-release-7.noarch.rpm" \
 		     "https://download1.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-7.noarch.rpm" )
 
 links=(\ 
-	   "http://kdl.cc.ksosoft.com/wps-community/download/6757/wps-office-10.1.0.6757-1.x86_64.rpm",\
+	   "http://kdl.cc.ksosoft.com/wps-community/download/6757/wps-office-10.1.0.6757-1.x86_64.rpm" \
 	   "https://atom.io/download/rpm",\
 	   "https://downloads.slack-edge.com/linux_releases/slack-3.3.3-0.1.fc21.x86_64.rpm",\
 	   "https://releases.hashicorp.com/terraform/0.11.11/terraform_0.11.11_linux_amd64.zip",\
@@ -107,13 +107,6 @@ add_repo(){
 
 	if [ "$cmd" == "fedora" ];then
 		printf '%s \n' "$msg_add_repo"
-			IFS=","
-			for repo in ${c_external_repo_arr[@]}
-				do
-					$installer install $repo
-					sleep $Time
-				done
-			IFS=" " ;
 			IFS=","
 			for repo in ${f_external_repo_arr[@]}
 				do
