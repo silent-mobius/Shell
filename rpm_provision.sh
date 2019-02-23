@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+#set -xe
 ##############################################################################
 # created by : br0k3ngl255
 # purpose	 : to provision rpm based laptops for development
