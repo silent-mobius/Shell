@@ -6,13 +6,15 @@
 #date		: 27.02.2019
 #version	: 0.2.19
 ########################################################################
-
+# task ahead:
+	#create a script that will print all the interfaces, with their IP 
+	#MAC addresses in a pretty table.
 
 ###variables ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 #messages
 msg_parameter_missing=" you have not provided one of the paramenters :"
 msg_unvalid_user="You are not allowed to recieve this type of information"
-
+msg_file_missing="you are missing bin file--> please install ifconfig"
 #misc
 line="================================================================="
 
@@ -29,7 +31,15 @@ line="================================================================="
 
 ###Functions /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
-
+check_bin(){
+	if [ -e /usr/bin/ifconfig ];then
+		true
+	else
+		printf "%s " $msg_file_missing
+		exit 1
+	fi
+	}
+	
 table_print(){
 
 	
@@ -60,5 +70,6 @@ if [ $valid_user != 0 ];then
 	echo $msg_unvalid_user
 	exit 1
 else	
-	table_print
+	check_bin
+		table_print
 fi
