@@ -67,7 +67,7 @@ links=(\
 choose_installer(){
 	cmd=$(cat /etc/*-release|grep ID|head -n1|awk -F= '{print $2}'|sed 's/\"//g')
 	cmd_ver=$(cat /etc/*-release|grep VERSION_ID|head -n1|awk -F= '{print $2}'|sed 's/\"//g')
-	if [ "$cmd" == "fedora" ];then
+: '  if [ "$cmd" == "fedora" ];then
 		if [ ! $cmd_ver -ge 22 ];then
 			printf '%s\n' "$line"
 				printf '%s \n' "$msg_unsupported"
@@ -96,6 +96,12 @@ choose_installer(){
 		fi
 		installer="yum"
 	fi
+'
+case $cmd in
+
+esac
+
+
 	}
 
 add_repo(){
