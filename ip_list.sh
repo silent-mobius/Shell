@@ -32,7 +32,7 @@ line="================================================================="
 ###Functions /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
 check_bin(){
-	if [ -e /usr/bin/ifconfig ];then
+	if [ -e $(which ifconfig) ];then
 		true
 	else
 		printf "%s " $msg_file_missing
