@@ -4,7 +4,7 @@
 # created by : br0k3ngl255
 # purpose	 : to provision rpm based laptops for development
 # date		 :  14/12/2018
-# version	 : 0.4.9
+# version	 : 0.7.12
 ##############################################################################
 #set -x	
 ##vars ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
