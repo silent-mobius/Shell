@@ -42,22 +42,27 @@ check_bin(){
 	
 table_print(){
 
+	local format=" %-16s %-16s %12s \n"
 	
+	INETS=$(ifconfig -a|grep flags|awk '{print $1}'|sed 's/\:/ /')
 
-	format=" %-16s %-10s %10s \n"
 	
 	printf "%s\n" "$line"
 		printf "$format"  "INET" "IP" "MAC"
 	printf "%s\n" "$line"
-		
 	
-	for i in $(ifconfig -a|grep flags|grep -v lo |awk '{print $1}'|sed 's/\:/ /')
-			do
-				printf "%s\t\t" $i
-				
-				printf "%s\t %s\t" $(ifconfig $i| grep -v 127|grep -v  inet6| egrep 'inet|ether'|awk '{print $2}')
-				
-			echo 
+	for inet in  $INETS
+		do
+			IP=$(ifconfig $inet|grep -v  inet6| egrep 'inet'|awk '{print $2}')
+			MAC=$(ifconfig $inet|grep -v  inet6| egrep 'ether'|awk '{print $2}')
+			if [[ $IP == "" ]];then
+				IP="#### NONE ####"
+			fi
+			if [[ $MAC == "" ]];then
+				MAC="#### NONE ####"
+			fi
+			
+			printf "$format" "$inet" "$IP" "$MAC"
 				
 		done
 	printf "%s\n" "$line"
@@ -66,6 +71,7 @@ table_print(){
 #Main - _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _
 ####
 valid_user=$(cat /etc/passwd|grep $UID &> /dev/null;echo $?)
+
 if [ $valid_user != 0 ];then
 	echo $msg_unvalid_user
 	exit 1
