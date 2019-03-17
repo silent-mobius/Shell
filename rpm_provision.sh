@@ -112,7 +112,7 @@ add_repo(){
 			IFS=","
 			for repo in ${c_external_repo_arr[@]}
 				do
-					$installer install $repo &>> $logf
+					$installer install -y $repo &>> $logf
 					sleep $Time
 				done
 			IFS=" "
@@ -166,7 +166,7 @@ manual_download(){
 	IFS="," 
 		for link in ${links[@]}
 			do
-				wget $link  &>> $logf;sleep 0.5
+				wget $link  &>> $logf &;sleep 0.5
 			done;
 	IFS=" "
 	fi
