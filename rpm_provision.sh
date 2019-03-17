@@ -166,7 +166,7 @@ manual_download(){
 	IFS="," 
 		for link in ${links[@]}
 			do
-				wget $link  &>> $logf &;sleep 0.5
+				wget $link --backgraound -P /home/$USER/Downloads &>> $logf ;sleep 0.5
 			done;
 	IFS=" "
 	fi
