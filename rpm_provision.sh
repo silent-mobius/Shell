@@ -20,7 +20,7 @@ msg_permission="Please Get Root Access"
 msg_unsupported="This OS is NOT supported"
 msg_start_install="starting installing packages and group packages"
 msg_add_repo="adding repo"
-
+msg_installer_set="finished setting up installer"
 #misc
 line="========================================================================"
 Time=1
@@ -98,7 +98,23 @@ choose_installer(){
 	fi
 '
 case $cmd in
-
+  centos|redhat|fedora) 
+					printf '%s\n' "$line";
+						installer="yum";
+					printf '%s\n' "$msg_installer_set";
+					printf '%s\n' "$line";
+							;;
+  debian|ubuntu|linuxmint) 
+					printf '%s\n' "$line";
+						installer="apt-get";
+					printf '%s\n' "$msg_installer_set";
+					printf '%s\n' "$line";
+							;;
+  *) 	printf '%s\n' "$line"; 
+			printf '%s \n' "$msg_unsupported"
+		printf '%s\n' "$line";
+			exit 1;
+			;;
 esac
 
 
@@ -200,24 +216,24 @@ else
 			sleep $Time
 
 	printf '%s\n' "$line"
-		printf '%s\n' "$msg_note"
+		printf '%s\n' "$msg_note: pkgs_arr install"
 	printf '%s\n' "$line"
 
 			install_pkgs
 			sleep $Time
 			
 	printf '%s\n' "$line"
-		printf '%s\n' "$msg_note"
+		printf '%s\n' "$msg_note: install_group_pkgs install"
 	printf '%s\n' "$line"
 	
 			install_group_pkgs
 			sleep $Time
 			
 	printf '%s\n' "$line"
-		printf '%s\n' "$msg_note"
+		printf '%s\n' "$msg_note: starting manual download"
 	printf '%s\n' "$line"
 	
-			manual_download
+			manual_download 
 			sleep $Time	
 				
 	printf '%s\n' "$line"
