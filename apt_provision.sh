@@ -108,12 +108,12 @@ install_pkgs(){
 
 install_group_pkgs(){
 	if [ -z $installer ];then
-		choose_installer
+		choose_installer  # neesds to be tasksel
 	else
 		true
 	fi
 	IFS=","
-	for repo in ${external_repo_arr[@]}
+	for repo in ${external_repo_arr[@]} ##added sgroups need checking.
 		do
 			$installer groupinstall $repo &>> $logf
 		done
@@ -126,7 +126,7 @@ manual_download(){
 	printf '%s\n' "$line"
 	if [[ -x /usr/bin/wget ]];then
 	IFS="," 
-		for link in ${links[@]}
+		for link in ${links[@]} #need to validate that is runs and drops logs to appropriate location.
 			do
 				wget $link --backgraound -P /home/$USER/Downloads &>> $logf ;sleep 0.5
 			done;
