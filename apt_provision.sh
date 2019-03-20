@@ -74,6 +74,21 @@ esac
 	}
 
 add_repo(){
+	choose_installer;sleep $Time
+	cmd=$(cat /etc/*-release|grep ID|head -n1|awk -F= '{print $2}'|sed 's/\"//g')
+	
+	case $cmd in 
+	
+		debian) true;;
+		ubuntu) true;;
+		linuxmint)true;;
+		*) 	printf '%s\n' "$line"; 
+			printf '%s \n' "$msg_unsupported"
+			printf '%s\n' "$line";
+			exit 1;
+			;;
+	
+	#echo "deb http://download.virtualbox.org/virtualbox/debian jessie contrib" >> /etc/apt/sources.list
 
 
 }
