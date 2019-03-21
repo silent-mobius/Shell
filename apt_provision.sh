@@ -80,37 +80,37 @@ add_repo(){
 	case $cmd in 
 	
 		debian) printf "%s \n" "##MAIN
-deb http://http.debian.net/debian jessie main
-deb-src http://http.debian.net/debian jessie main
+					deb http://http.debian.net/debian jessie main
+					deb-src http://http.debian.net/debian jessie main
 
-deb http://http.debian.net/debian jessie-updates main
-deb-src http://http.debian.net/debian jessie-updates main
+					deb http://http.debian.net/debian jessie-updates main
+					deb-src http://http.debian.net/debian jessie-updates main
 
-deb http://security.debian.org/ jessie/updates main
-deb-src http://security.debian.org/ jessie/updates main
+					deb http://security.debian.org/ jessie/updates main
+					deb-src http://security.debian.org/ jessie/updates main
 
-deb ftp://ftp.debian.org/debian stable main contrib non-free
-###BackPort
-deb http://http.debian.net/debian jessie-backports main
-deb http://ftp.debian.org/debian/ jessie-backports non-free contrib
-" >> /etc/apt/source.list.d/jessie.repo.list
-;;
+					deb ftp://ftp.debian.org/debian stable main contrib non-free
+					###BackPort
+					deb http://http.debian.net/debian jessie-backports main
+					deb http://ftp.debian.org/debian/ jessie-backports non-free contrib
+				" >> /etc/apt/source.list.d/jessie.repo.list
+				;;
 		ubuntu) printf "%s \n" "##MAIN
-deb http://http.ubuntu.net/ubuntu bionic main
-deb-src http://http.ubuntu.net/ubuntu bionic main
+					deb http://http.ubuntu.net/ubuntu bionic main
+					deb-src http://http.ubuntu.net/ubuntu bionic main
 
-deb http://http.ubuntu.net/ubuntu bionic-updates main
-deb-src http://http.ubuntu.net/ubuntu bionic-updates main
+					deb http://http.ubuntu.net/ubuntu bionic-updates main
+					deb-src http://http.ubuntu.net/ubuntu bionic-updates main
 
-deb http://security.ubuntu.org/ bionic/updates main
-deb-src http://security.ubuntu.org/ bionic/updates main
+					deb http://security.ubuntu.org/ bionic/updates main
+					deb-src http://security.ubuntu.org/ bionic/updates main
 
-deb ftp://ftp.ubuntu.org/ubuntu stable main contrib non-free
-###BackPort
-deb http://http.ubuntu.net/ubuntu bionic-backports main
-deb http://ftp.ubuntu.org/ubuntu/ bionic-backports non-free contrib
-" >> /etc/apt/source.list.d/jessie.repo.list
-;;
+					deb ftp://ftp.ubuntu.org/ubuntu stable main contrib non-free
+					###BackPort
+					deb http://http.ubuntu.net/ubuntu bionic-backports main
+					deb http://ftp.ubuntu.org/ubuntu/ bionic-backports non-free contrib
+				" >> /etc/apt/source.list.d/jessie.repo.list
+				;;
 		linuxmint)true;;
 		*) 	printf '%s\n' "$line"; 
 			printf '%s \n' "$msg_unsupported"
