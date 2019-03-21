@@ -95,7 +95,22 @@ deb http://http.debian.net/debian jessie-backports main
 deb http://ftp.debian.org/debian/ jessie-backports non-free contrib
 " >> /etc/apt/source.list.d/jessie.repo.list
 ;;
-		ubuntu) true;;
+		ubuntu) printf "%s \n" "##MAIN
+deb http://http.ubuntu.net/ubuntu bionic main
+deb-src http://http.ubuntu.net/ubuntu bionic main
+
+deb http://http.ubuntu.net/ubuntu bionic-updates main
+deb-src http://http.ubuntu.net/ubuntu bionic-updates main
+
+deb http://security.ubuntu.org/ bionic/updates main
+deb-src http://security.ubuntu.org/ bionic/updates main
+
+deb ftp://ftp.ubuntu.org/ubuntu stable main contrib non-free
+###BackPort
+deb http://http.ubuntu.net/ubuntu bionic-backports main
+deb http://ftp.ubuntu.org/ubuntu/ bionic-backports non-free contrib
+" >> /etc/apt/source.list.d/jessie.repo.list
+;;
 		linuxmint)true;;
 		*) 	printf '%s\n' "$line"; 
 			printf '%s \n' "$msg_unsupported"
