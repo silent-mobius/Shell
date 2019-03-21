@@ -79,7 +79,22 @@ add_repo(){
 	
 	case $cmd in 
 	
-		debian) true;;
+		debian) printf "%s \n" "##MAIN
+deb http://http.debian.net/debian jessie main
+deb-src http://http.debian.net/debian jessie main
+
+deb http://http.debian.net/debian jessie-updates main
+deb-src http://http.debian.net/debian jessie-updates main
+
+deb http://security.debian.org/ jessie/updates main
+deb-src http://security.debian.org/ jessie/updates main
+
+deb ftp://ftp.debian.org/debian stable main contrib non-free
+###BackPort
+deb http://http.debian.net/debian jessie-backports main
+deb http://ftp.debian.org/debian/ jessie-backports non-free contrib
+" >> /etc/apt/source.list.d/jessie.repo.list
+;;
 		ubuntu) true;;
 		linuxmint)true;;
 		*) 	printf '%s\n' "$line"; 
@@ -144,10 +159,9 @@ if [[ $EUID != 0 ]];then
 		printf '%s \n' "$msg_permission";sleep $Time
 	printf '%s\n' "$line"
 	exit 1
+
 else
-############################################################
-#TODO - need to add getops variables to make it with modular
-############################################################
+
 	printf '%s\n' "$line"
 		printf '%s\n' "$msg_start"
 	printf '%s\n' "$line"
