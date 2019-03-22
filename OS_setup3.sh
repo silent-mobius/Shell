@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+ << END
 #Author  : br0k3ngl255
 #Date    : 27.08.3017
 #Purpose : setup systems features on debian based systems.
@@ -259,3 +259,18 @@ else
 	printf "\nPlease get root privileges\n";exit;
 			
 fi
+
+END
+
+echo "
+
+root@mobiusdevteam:~# 
+     _                 _           _           _
+  __| | ___ _ __  _ __(_) ___ __ _| |_ ___  __| |
+ / _` |/ _ \ '_ \| '__| |/ __/ _` | __/ _ \/ _` |
+| (_| |  __/ |_) | |  | | (_| (_| | ||  __/ (_| |
+ \__,_|\___| .__/|_|  |_|\___\__,_|\__\___|\__,_|
+           |_|
+
+
+"
