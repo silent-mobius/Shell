@@ -104,13 +104,7 @@ case $cmd in
 					printf '%s\n' "$msg_installer_set";
 					printf '%s\n' "$line";
 							;;
- : ' debian|ubuntu|linuxmint) 
-					printf '%s\n' "$line";
-						installer="apt-get";
-					printf '%s\n' "$msg_installer_set";
-					printf '%s\n' "$line";
-							;;
-	'
+
   *) 	printf '%s\n' "$line"; 
 			printf '%s \n' "$msg_unsupported"
 		printf '%s\n' "$line";
