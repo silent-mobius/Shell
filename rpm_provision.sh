@@ -149,6 +149,7 @@ install_pkgs(){
 	IFS=","
 	for pkg in ${gui_pkg_arr[@]}
 		do
+			#ToDo replace installer choose with rpm - works faster
 			$installer install -y $pkg &>> $logf; sleep $Time
 		done
 	IFS=" "
