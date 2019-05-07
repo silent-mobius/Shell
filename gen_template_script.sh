@@ -33,9 +33,10 @@ Auth="Create by : "
 #Main - _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _
 ####
 
-if [ $script_name == "" ];then
+if [ "$script_name" == "" ];then
 	read -p "what shall we call the script? ==>>" script_name
 fi
+
 printf "%s \n" $line
 printf "%s \n" $msg_start
 printf "%s \n" $line
