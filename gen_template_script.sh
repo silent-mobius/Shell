@@ -5,7 +5,7 @@
 # purpose	 : create template generation that will read variables
 # from stdin and will generate script 
 # date		 : 25/12/2018
-# version	 : 0.2.10
+# version	 : 0.2.11
 ##############################################################################
 
 ##Vars :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -20,8 +20,9 @@ line="########################################################################"
 #conf vars
 Time=1
 shabang="/usr/bin/env"
+ENV=$2
 script_name=$1
-extension="sh"
+extension=$3
 comment="#"
 Date="Date: $(date +%d/%m/%y)"
 Ver="Version: 0.0.0"
@@ -34,7 +35,19 @@ Auth="Create by : "
 ####
 
 if [ "$script_name" == "" ];then
-	read -p "what shall we call the script? ==>>  " script_name
+	read -p "What shall we call the script? ==>>  " script_name
+fi
+
+if [ "$ENV" == "" ];then
+	echo "assuming bash type script"
+	ENV="bash"
+	sleep $Time
+fi
+
+if [ "$extension" == "" ];then
+	echo "assuming .sh extension"
+	extension=".sh"
+	sleep $Time
 fi
 
 echo $line
@@ -43,13 +56,13 @@ echo $line
 
 	sleep $Time
 
-printf "%s \n" $msg_create
-printf "%s \n" $shabang > "$script_name.$extension"
+echo $msg_create
+printf "%s " $shabang $ENV > "$script_name.$extension"
 printf "%s \n" $line >> "$script_name.$extension"
-printf "%s \n" "$comment $Date" >> "$script_name.$extension"
-printf "%s \n" "$comment $Purp" >> "$script_name.$extension"
-printf "%s \n" "$comment $Ver" >> "$script_name.$extension"
 printf "%s \n" "$comment $Auth" >> "$script_name.$extension"
+printf "%s \n" "$comment $Purp" >> "$script_name.$extension"
+printf "%s \n" "$comment $Date" >> "$script_name.$extension"
+printf "%s \n" "$comment $Ver" >> "$script_name.$extension"
 printf "%s \n" $line >> "$script_name.$extension"
 
 	sleep $Time
