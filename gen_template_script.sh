@@ -5,7 +5,7 @@
 # purpose	 : create template generation that will read variables
 # from stdin and will generate script 
 # date		 : 25/12/2018
-# version	 : 0.2.3
+# version	 : 0.2.10
 ##############################################################################
 
 ##Vars :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -34,12 +34,12 @@ Auth="Create by : "
 ####
 
 if [ "$script_name" == "" ];then
-	read -p "what shall we call the script? ==>>" script_name
+	read -p "what shall we call the script? ==>>  " script_name
 fi
 
-printf "%s \n" $line
-printf "%s \n" $msg_start
-printf "%s \n" $line
+echo $line
+echo $msg_start
+echo $line
 
 	sleep $Time
 
@@ -54,6 +54,6 @@ printf "%s \n" $line >> "$script_name.$extension"
 
 	sleep $Time
 
-printf "%s \n" $line
-printf "%s \n" $msg_end
-printf "%s \n" $line
+echo $line
+echo $msg_end
+echo $line
