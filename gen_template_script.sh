@@ -19,11 +19,12 @@ line="########################################################################"
 
 #conf vars
 Time=1
-shabang="/usr/bin/env"
+shabang="#!/usr/bin/env"
 ENV=$2
 script_name=$1
 extension=$3
 comment="#"
+debug="set -xe"
 Date="Date: $(date +%d/%m/%y)"
 Ver="Version: 0.0.0"
 Purp="Purpose: "
@@ -46,7 +47,7 @@ fi
 
 if [ "$extension" == "" ];then
 	echo "assuming .sh extension"
-	extension=".sh"
+	extension="sh"
 	sleep $Time
 fi
 
@@ -57,14 +58,16 @@ echo $line
 	sleep $Time
 
 echo $msg_create
-printf "%s " $shabang $ENV > "$script_name.$extension"
+echo ""
+printf "%s \n" "$shabang $ENV" > "$script_name.$extension"
+printf "%s \n" "$debug" >> "$script_name.$extension"
 printf "%s \n" $line >> "$script_name.$extension"
 printf "%s \n" "$comment $Auth" >> "$script_name.$extension"
 printf "%s \n" "$comment $Purp" >> "$script_name.$extension"
 printf "%s \n" "$comment $Date" >> "$script_name.$extension"
 printf "%s \n" "$comment $Ver" >> "$script_name.$extension"
 printf "%s \n" $line >> "$script_name.$extension"
-
+printf "%s \n"
 	sleep $Time
 
 echo $line
