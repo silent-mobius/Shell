@@ -7,6 +7,24 @@
 # version	 : 0.7.12
 ##############################################################################
 #set -x	
+: 'TODO
+
+#refactor all output with deco function
+#test the repository subsitution ----> need to unify the repository insertion
+#deploy function to insetall virtualbox/kvm/docker/slack repositories
+
+
+
+
+
+
+
+
+
+
+
+
+'
 ##vars ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #folders
 log_folder="/tmp"
