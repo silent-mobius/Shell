@@ -82,6 +82,12 @@ links=(\
 	   "https://releases.hashicorp.com/packer/1.3.3/packer_1.3.3_linux_amd64.zip"\
 	   )
 ##funcs /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+deco(){
+	pre="###############################################################"
+	post="###############################################################"
+	printf "$pre\n%s\n$post\n" "$*"
+	}
+
 choose_installer(){
 	cmd=$(cat /etc/*-release|grep ID|head -n1|awk -F= '{print $2}'|sed 's/\"//g')
 	cmd_ver=$(cat /etc/*-release|grep VERSION_ID|head -n1|awk -F= '{print $2}'|sed 's/\"//g')
@@ -218,42 +224,38 @@ else
 #TODO - need to add getops variables to make it with modular
 ############################################################
 clear
-	printf '%s\n' "$line"
-		printf '%s\n' "$msg_start"
-	printf '%s\n' "$line"
-			
 			sleep $Time
 
-	printf '%s\n' "$line"
-		printf '%s\n' "$msg_note"
-	printf '%s\n' "$line"
-clear
-			add_repo
-			sleep $Time
+		deco "$msg_start"
 
-	printf '%s\n' "$line"
-		printf '%s\n' "$msg_note: pkgs_arr install"
-	printf '%s\n' "$line"
+			sleep $Time
 clear
-			install_pkgs
+		deco "$msg_note"
+
+
+		#	add_repo
 			sleep $Time
-			
-	printf '%s\n' "$line"
-		printf '%s\n' "$msg_note: install_group_pkgs install"
-	printf '%s\n' "$line"
-clear	
-			install_group_pkgs
+clear
+		deco "$msg_note" ": pkgs_arr install"
+
+
+		#	install_pkgs
 			sleep $Time
-			
-	printf '%s\n' "$line"
-		printf '%s\n' "$msg_note: starting manual download"
-	printf '%s\n' "$line"
-clear	
-			manual_download 
+clear			
+		deco "$msg_note: install_group_pkgs install"
+
+	
+		#	install_group_pkgs
+			sleep $Time
+clear			
+		deco "$msg_note: starting manual download"
+	
+	
+			#manual_download 
 			sleep $Time	
-				
-	printf '%s\n' "$line"
-		printf '%s\n' "$msg_end"
-	printf '%s\n' "$line"
+clear	
+		deco "$msg_end"
+			
+			sleep $Time
 
 fi
