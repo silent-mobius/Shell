@@ -4,7 +4,7 @@
 # created by : br0k3ngl255
 # purpose	 : to provision rpm based laptops for development
 # date		 :  14/12/2018
-# version	 : 0.7.12
+# version	 : 0.8.5
 ##############################################################################
 #set -x	
 : 'TODO
@@ -12,16 +12,6 @@
 #refactor all output with deco function
 #test the repository subsitution ----> need to unify the repository insertion
 #deploy function to insetall virtualbox/kvm/docker/slack repositories
-
-
-
-
-
-
-
-
-
-
 
 
 '
@@ -88,6 +78,18 @@ deco(){
 	printf "$pre\n%s\n$post\n" "$*"
 	}
 
+
+waiT(){
+	chars="/-\|"
+
+		while :; do
+			  for (( i=0; i<${#chars}; i++ ));
+				   do
+					sleep 0.5
+					echo -en "${chars:$i:1}" "\r"
+				  done
+		done
+	}
 choose_installer(){
 	cmd=$(cat /etc/*-release|grep ID|head -n1|awk -F= '{print $2}'|sed 's/\"//g')
 	cmd_ver=$(cat /etc/*-release|grep VERSION_ID|head -n1|awk -F= '{print $2}'|sed 's/\"//g')
@@ -122,16 +124,13 @@ choose_installer(){
 	fi
 '
 case $cmd in
-  centos|redhat|fedora) 
-					printf '%s\n' "$line";
-						installer="yum";
-					printf '%s\n' "$msg_installer_set";
-					printf '%s\n' "$line";
-							;;
-
-  *) 	printf '%s\n' "$line"; 
-			printf '%s \n' "$msg_unsupported"
-		printf '%s\n' "$line";
+	centos|redhat) 
+					installer="yum";
+					deco "$msg_installer_set";	;;
+	fedora)		
+					installer="dnf";
+					deco "$msg_installer_set";	;;
+	*) 	deco "$msg_unsupported"
 			exit 1;
 			;;
 esac
@@ -227,7 +226,7 @@ else
 clear
 			sleep $Time
 
-		deco "$msg_start"
+		deco "$msg_start" ; waiT &
 
 			sleep $Time
 clear
@@ -255,4 +254,7 @@ clear
 			
 			sleep $Time
 clear
+
+exit 0
+
 fi
