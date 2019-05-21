@@ -215,10 +215,11 @@ manual_download(){
 
 if [[ $EUID != 0 ]];then
 clear
-	printf '%s\n' "$line"
-		printf '%s \n' "$msg_permission";sleep $Time
-	printf '%s\n' "$line"
+
+		deco "$msg_permission";sleep $Time; clear
+	
 	exit 1
+
 else
 ############################################################
 #TODO - need to add getops variables to make it with modular
@@ -232,24 +233,20 @@ clear
 clear
 		deco "$msg_note"
 
-
 		#	add_repo
 			sleep $Time
 clear
 		deco "$msg_note" ": pkgs_arr install"
 
-
 		#	install_pkgs
 			sleep $Time
 clear			
 		deco "$msg_note: install_group_pkgs install"
-
 	
 		#	install_group_pkgs
 			sleep $Time
 clear			
 		deco "$msg_note: starting manual download"
-	
 	
 			#manual_download 
 			sleep $Time	
@@ -257,5 +254,5 @@ clear
 		deco "$msg_end"
 			
 			sleep $Time
-
+clear
 fi
