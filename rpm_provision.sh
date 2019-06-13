@@ -6,7 +6,7 @@
 # date		 :  14/12/2018
 # version	 : 0.8.5
 ##############################################################################
-#set -x	
+#set -x
 : 'TODO
 
 #refactor all output with deco function
@@ -44,8 +44,8 @@ gui_pkg_arr=(gitg gitk geany guake plank \
 	     sqlitebrowser pgadmin3 \
 	     gnome-builder owncloud-client \
 	     terminator epel-release meld wget)
-	     
-	     
+
+
 group_pkg_arr=("Administration Tools" "Ansible node" \
 			   "Authoring and Publishing Books and Guides" \
 			   "C Development Tools and Libraries" \
@@ -60,7 +60,7 @@ f_external_repo_arr=("https://download1.rpmfusion.org/free/fedora/rpmfusion-free
 c_external_repo_arr=("https://download1.rpmfusion.org/free/el/rpmfusion-free-release-7.noarch.rpm" \
 		     "https://download1.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-7.noarch.rpm" )
 
-links=(\ 
+links=(\
 	   "http://kdl.cc.ksosoft.com/wps-community/download/6757/wps-office-10.1.0.6757-1.x86_64.rpm" \
 	   "https://atom.io/download/rpm",\
 	   "https://downloads.slack-edge.com/linux_releases/slack-3.3.3-0.1.fc21.x86_64.rpm",\
@@ -93,7 +93,7 @@ waiT(){
 choose_installer(){
 	cmd=$(cat /etc/*-release|grep ID|head -n1|awk -F= '{print $2}'|sed 's/\"//g')
 	cmd_ver=$(cat /etc/*-release|grep VERSION_ID|head -n1|awk -F= '{print $2}'|sed 's/\"//g')
-: '  if [ "$cmd" == "fedora" ];then
+  if [ "$cmd" == "fedora" ];then
 		if [ ! $cmd_ver -ge 22 ];then
 			printf '%s\n' "$line"
 				printf '%s \n' "$msg_unsupported"
@@ -122,19 +122,19 @@ choose_installer(){
 		fi
 		installer="yum"
 	fi
-'
-case $cmd in
-	centos|redhat) 
+
+: 'case $cmd in
+	centos|redhat)
 					installer="yum";
 					deco "$msg_installer_set";	;;
-	fedora)		
+	fedora)
 					installer="dnf";
 					deco "$msg_installer_set";	;;
 	*) 	deco "$msg_unsupported"
 			exit 1;
 			;;
 esac
-
+'
 
 	}
 
@@ -198,7 +198,7 @@ manual_download(){
 		printf '%s \n' "$msg_note"
 	printf '%s\n' "$line"
 	if [[ -x /usr/bin/wget ]];then
-	IFS="," 
+	IFS=","
 		for link in ${links[@]}
 			do
 				wget $link --backgraound -P /home/$USER/Downloads &>> $logf ;sleep 0.5
@@ -216,7 +216,7 @@ if [[ $EUID != 0 ]];then
 clear
 
 		deco "$msg_permission";sleep $Time; clear
-	
+
 	exit 1
 
 else
@@ -239,19 +239,19 @@ clear
 
 		#	install_pkgs
 			sleep $Time
-clear			
+clear
 		deco "$msg_note: install_group_pkgs install"
-	
+
 		#	install_group_pkgs
 			sleep $Time
-clear			
+clear
 		deco "$msg_note: starting manual download"
-	
-			#manual_download 
-			sleep $Time	
-clear	
+
+			#manual_download
+			sleep $Time
+clear
 		deco "$msg_end"
-			
+
 			sleep $Time
 clear
 
