@@ -1,4 +1,4 @@
-!#/usr/bin/env bash
+#!/usr/bin/env bash
 
 #creator : br0k3ngl255 
 #date    : 24.10.2017
