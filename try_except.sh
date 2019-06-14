@@ -28,3 +28,11 @@ throwErrors(){
 ignoreErrors(){
     set +e
 }
+
+#####
+#Main  --------------------------------------------------------------
+####
+
+try /usr/bin/tests
+
+except 1
