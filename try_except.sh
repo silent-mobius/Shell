@@ -3,7 +3,7 @@
 #creator : br0k3ngl255 
 #date    : 24.10.2017
 #purpose : implementing  try and except in bash script 
-#version : 0.0.1
+#version : 0.0.4
 # link : https://stackoverflow.com/questions/22009364/is-there-a-try-catch-command-in-bash
 
 try(){
