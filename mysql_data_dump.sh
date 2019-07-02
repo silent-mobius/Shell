@@ -15,14 +15,14 @@ BACK_UP_FOLDER="/opt/backup/mysql"
 BACKUP_LOG="sql.log"
 BACKUPMAIN="br0k3ngl255@vaiolabs.com"
 BACKUP=$BACK_UP_FOLDER/$BACKUP_LOG
-DATE=`date +"%Y-%m-%d %H:%M"`
+DATE=$(date +"%Y-%m-%d %H:%M")
 # bash script to backup mysql
 MYSQL_USER=root
 MYSQL_PASSWORD= $1
 
 
 #Funcs ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-help() { # explain how to use the script
+usage() { # explain how to use the script
   printf "!!!!!!ERROR!!!!!!\n"
   printf " To run the script user\n"
   printf " mysql_data_dump.sh MYSQL_PASSWORD\n"
@@ -30,12 +30,12 @@ help() { # explain how to use the script
   printf " NOTE: script is in debugging mode, comment out 'set -x' to make notmal"
 }
 
-dump_sql(){ #dumping sql database for backup 
+dump_sql(){ #dumping sql database for backup
     /usr/bin/mysqldump --user=$MYSQL_USER --password=$MYSQL_PASSWORD --all-databases --lock-all-tables \
-    --flush-logs --master-data=2 | bzip2 -c > $MYSQL_BACKUP_DIR/all-$($DATE).sql.bz2 &> $BACKUP  
+    --flush-logs --master-data=2 | bzip2 -c > $MYSQL_BACKUP_DIR/all-$($DATE).sql.bz2 &> $BACKUP
 }
 dump_backup() { # backup file system
-    rsync -avh --progress --delete /etc/postfix /srv/www \ 
+    rsync -avh --progress --delete /etc/postfix /srv/www \
     /home/naorhe/mysql naorhe@192.168.42.156:/Stls_MySql_Backup &> &BACKUP
 }
 old_sys_remove() { # remove old MySQL database backups
@@ -57,9 +57,9 @@ mailx -s "Micro: sql log:" $BACKUPMAIL <BACKUP
 if [ "$EUID" != "0" ];then
    printf " Please escalate the permissions level| get ROOT \n"
    help
-elif [ "$EUID" == "0" ];then 
+elif [ "$EUID" == "0" ];then
       if [ "$1" == "" ];then
-         help
+         usage
       fi
 else
     dump_sql; dump_backup; old_sys_remove ;notify;
