@@ -11,7 +11,11 @@
 
 
 #arrays:
-pkgs=()
+pkgs=(gitg gitk geany guake plank \
+	     remmina falkon gimp vlc \
+	     sqlitebrowser pgadmin3 \
+	     gnome-builder owncloud-client \
+	     terminator epel-release meld wget)
 repo_pkgs=()
 group_pkgs=()
 
