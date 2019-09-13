@@ -39,7 +39,7 @@ fi
 if [[ $EUID != 0 ]];then
   deco $msg_root
 else
-test_log_folder
+ test_log_folder
 while [[ $SECONDS < $_end ]]
   do
     deco cpu $_cpu mem $_mem  hdd $_disk >> $log_folder/stats.log
