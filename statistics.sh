@@ -3,7 +3,7 @@
 ###############################################################################
 #created by: pushtakio
 #purpose: provide stats for CPU,MEM,STRGE
-#date: 09/09/2019
+#date: 11/09/2019
 #ver: 1.1.14
 ###############################################################################
 #
@@ -16,7 +16,7 @@ _end=$((SECONDS+360))
 _cpu=$(top -bn1 | grep load | awk '{printf "%.2f%%\t\t\n", $(NF-2)}')
 _mem=$(free -m | awk 'NR==2{printf "%.2f%%\t\t", $3*100/$2 }')
 _disk=$(df -h | awk '$NF=="/"{printf "%s\t\t", $5}')
-log_folder="/home/prod/.pm2/logs/"
+log_folder="/var/log/stats"
 
 ####Functions    /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 
@@ -46,4 +46,3 @@ while [[ $SECONDS < $_end ]]
     sleep $_time
   done
 fi
-
