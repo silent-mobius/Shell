@@ -42,7 +42,7 @@ else
 test_log_folder
 while [[ $SECONDS < $_end ]]
   do
-    deco cpu $_cpu mem $_mem  hdd $_disk >> $log_folder/stat.log
+    deco cpu $_cpu mem $_mem  hdd $_disk >> $log_folder/stats.log
     sleep $_time
   done
 fi
