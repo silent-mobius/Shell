@@ -9,7 +9,7 @@
 #
 ####Variables   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 #msgs:
-msg_root="Please DO NOT run script as root"
+msg_root="Please run script as root"
 _time=5
 _date=$(date +%H:%M:%S_%d/%m/%Y)
 _end=$((SECONDS+360))
@@ -28,7 +28,7 @@ test_log_folder(){
   if [[ -d $log_folder ]];then
     true
   else
-    mkdir -p $log_folder
+    sudo mkdir -p $log_folder
 fi
 }
 
@@ -36,7 +36,7 @@ fi
 #Main - _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _
 #####
 
-if [[ $EUID == 0 ]];then
+if [[ $EUID != 0 ]];then
   deco $msg_root
 else
 test_log_folder
