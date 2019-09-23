@@ -24,8 +24,9 @@ deco(){
 }
 
 geb_junk(){
-  _size=$1
-  dd if=/dev/zero of=/tmp/junk_file.tmp -bs=$_size
+  _file=$1
+  _size=$2
+  dd if=/dev/zero of=$_file -bs=$_size count=1
 }
 
 #####
