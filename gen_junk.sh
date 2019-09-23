@@ -21,10 +21,12 @@ deco(){
   post=$line
 
   print "\n$pre\n#%s \n$post" "$@"
-- _
 }
 
-
+geb_junk(){
+  _size=$1
+  dd if=/dev/zero of=/tmp/junk_file.tmp -bs=$_size
+}
 
 #####
 #Main - _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _-
