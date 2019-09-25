@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+# set -xe
+############################################################
+#created by pushtaio
+#purpose: torun /opt application from shell
+#date: 
+#version
+###########################################################
+
+###vars ::::::::::::::::::::::::::::::::::::::::::::::::::
+
+_time=1
+msg_root="Please do NOT run this app with root"
+app_home="/opt/netbeans/bin"
+log_foder="/tmp"
+log_file="app_run_out_err.log"
+logFile="$log_folder/$log_file"
+line="###################################################"
+###Functions /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+deco(){
+	pre=$line
+	post=$line
+		printf "\n$pre\n$%s\n$post\n" "$@"
+
+}
+
+run_app(){
+APP_HOME=$1
+APP_NAME=$2
+if [[ "$APP_HOME" != "" ]] && [[ "$APP_NAME" != "" ]];then
+	$APP_HOME$APP_NAME &>> $logFile &
+else
+	deco "APP_HOME=$APP_HOME  APP_NAME=$APP_NAME -- something is missing"
+	exit 1
+fi
+}
+#####
+#Main - _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _- _
+####
+
+if [[ $EUID == 0 ]];then
+	deco  "$msg_root"
+	sleep $_time
+	exit 1
+else
+	run_app $@
+fi
+
