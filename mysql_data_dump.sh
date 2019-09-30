@@ -19,15 +19,19 @@ DATE=$(date +"%Y-%m-%d %H:%M")
 # bash script to backup mysql
 MYSQL_USER=root
 MYSQL_PASSWORD= $1
-
+TIME=4
 
 #Funcs ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 usage() { # explain how to use the script
+  clear
   printf "!!!!!!ERROR!!!!!!\n"
   printf " To run the script user\n"
   printf " mysql_data_dump.sh MYSQL_PASSWORD\n"
   printf " example: mysql_data_dump.sh this_is_my_password"
   printf " NOTE: script is in debugging mode, comment out 'set -x' to make notmal"
+  sleep $TIME
+  clear
+  exit 1
 }
 
 dump_sql(){ #dumping sql database for backup
