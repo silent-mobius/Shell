@@ -29,6 +29,7 @@ APP_HOME=$1
 APP_NAME=$2
 if [[ "$APP_HOME" != "" ]] && [[ "$APP_NAME" != "" ]];then
 	$APP_HOME$APP_NAME &>> $logFile &
+	pid=$!
 else
 	deco "APP_HOME=$APP_HOME  APP_NAME=$APP_NAME -- something is missing"
 	exit 1
@@ -44,5 +45,6 @@ if [[ $EUID == 0 ]];then
 	exit 1
 else
 	run_app $@
+	deco $pid
 fi
 
