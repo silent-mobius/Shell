@@ -11,6 +11,7 @@
 #messages
 msg_root="Please do not use ROOT User for this script"
 msg_permissions="You do not have sufficiant ppermissins to use this script in destination folder"
+msg_variables_missing="either _file or _size or both variables are missing"
 
 #misc
 _time=1.5
@@ -26,7 +27,20 @@ deco(){
 geb_junk(){
   _file=$1
   _size=$2
-  dd if=/dev/zero of=$_file -bs=$_size count=1
+  if [[ $_file == '' ]] && [[$_size == '' ]]
+    deco "$msg_variables_missing"
+    exit 1
+  fi
+
+  if [[ $_file == '' ]] || [[$_size == '' ]]
+   deco "$msg_variables_missing"
+    exit 1
+  fi
+
+  if [[ $_file != '' ]] && [[$_size != '' ]]
+      dd if=/dev/zero of=$_file -bs=$_size count=1
+
+  fi
 }
 
 #####
@@ -37,5 +51,5 @@ geb_junk(){
 if [[ $EUID == 0 ]];then
     deco $msg_root
 else
-  true
+  while geto
 fi
