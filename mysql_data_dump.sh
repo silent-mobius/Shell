@@ -13,7 +13,7 @@ set -x
 #Vars :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 BACK_UP_FOLDER="/opt/backup/mysql"
 BACKUP_LOG="sql.log"
-BACKUPMAIN="br0k3ngl255@vaiolabs.com"
+BACKUPMAIN="pushtakio@vaiolabs.com"
 BACKUP=$BACK_UP_FOLDER/$BACKUP_LOG
 DATE=$(date +"%Y-%m-%d %H:%M")
 # bash script to backup mysql
