@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#set -x
+#set -xe
 #################################################3333
 # Created by : Pushtakio
 # Purpose: just to run some shit in parallel
@@ -22,12 +22,31 @@ valid_parallel_process(){
 }
 
 valid_parallel_script_run(){
+: '    #TODO --> need a filelocking/ pid management function
     cmd=$(ps aux|grep -v grep|grep $0 > /dev/null;echo $?)
-    if [ $cmd == 0 ];then
-        echo "the script is already running"
-        sleep $random_seconds
+    amount=$(ps aux|grep -v grep|grep $0|wc -l)
+    if [[ $cmd == 0 ]];then
+        if [[ $amount == 1 ]];then  
+            echo "the script is already running . . ."
+            sleep 3
+            exit 1
+            clear
+        else
+            echo "lets run this . . ."
+        fi
+    fi
+    
+     if pidof -x "parallel_script.sh">/dev/null; then
+        echo "Process already running"
+    fi
+    '
+    if [ -f /tmp/$0 ];then
+        echo "the script is already running . . ."
+        sleep 3
         exit 1
         clear
+    else    
+        touch /tmp/$0
     fi
 }
 
@@ -42,6 +61,10 @@ var1=$1
 var2=$2
 echo "success: " $var1
 echo "fail: "    $var2
+
+ if [ -f /tmp/$0 ];then 
+     rm /tmp/$0
+    fi
 }
 ####
 # Main - _ -
@@ -50,7 +73,7 @@ if [ $EUID == 0 ];then
     echo "Please do not use user ROOT"
     exit 1
 else
-    #valid_parallel_script_run
+    valid_parallel_script_run
     valid_parallel_process
     while [ $process_num -lt $parallel_processes ];
         do  
