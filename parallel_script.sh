@@ -10,7 +10,7 @@
 ### Variables :::::::::::::::::::::::::::::::::::::::
 parallel_processes=$1
 process_num=0
-random_seconds=$(( ($RANDOM % 20) + 1 ))
+random_seconds=$(( ($RANDOM%20)+1 ))
 success=0
 fail=0
 ### Funcs ::::::::::::::::::::::::::::::::::::::::::::::
